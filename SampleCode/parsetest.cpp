@@ -46,18 +46,20 @@ int main(int argc, const char * argv[]) {
     vector<vector<string>> data;
     
     // Iterate until there are no more rows
-    while (in.read_row(r_i, lmu, lmd, id, m_name, p_domain, p_status, pa_id, p_type, area, s_date, role, p_rev, num_contri, author, jn_pi_bt, vol, issue, p_range, doi, web, num_cita, jif, inter, p_country, p_prov, p_city, pbsr, loc, is_pres, impact, open_a, p_remu, train, t_det, imsp, mscd, e_pub, o_det, auths, title, roc, isbn, frn)) {
+    while (in.read_row(r_i, lmu, lmd, id, m_name, p_domain, p_status, pa_id, p_type, area, s_date, role, p_rev, num_contri, author, \
+        jn_pi_bt, vol, issue, p_range, doi, web, num_cita, jif, inter, p_country, p_prov, p_city, pbsr, loc, is_pres, impact,       \
+         open_a, p_remu, train, t_det, imsp, mscd, e_pub, o_det, auths, title, roc, isbn, frn)) {
 
         // Store the values
         vm_name.push_back(m_name);
-        vp_domain.push_back(p_domain);//
-        vp_status.push_back(p_status);//
-        vp_type.push_back(p_type);//
-        vs_date.push_back(s_date);//
-        vrole.push_back(role);// 
-        vauthor.push_back(author);//
-        vjn_pi_bt.push_back(jn_pi_bt);//
-        vtitle.push_back(title);//
+        vp_domain.push_back(p_domain);
+        vp_status.push_back(p_status);
+        vp_type.push_back(p_type);
+        vs_date.push_back(s_date);
+        vrole.push_back(role);
+        vauthor.push_back(author);
+        vjn_pi_bt.push_back(jn_pi_bt);
+        vtitle.push_back(title);
         
     }
     
