@@ -4,16 +4,16 @@ LDFLAGS = -lpthread
 
 .PHONY : all test clean
 
-all : main.o main
+all : parsetest.o parsetest
 
-main.o : main.cpp
+parsetest.o : parsetest.cpp
 	$(CC) $(CFLAGS) -o $@ -c $<
 	
-main : main.o
+parsetest : parsetest.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	
-test: main
-	./main
+test: parsetest
+	./parsetest
 	
 clean:
-	rm -f *.o *~ main
+	rm -f *.o *~ parsetest
