@@ -12,10 +12,10 @@ private:
 	
 public:
 	
-	std::string DateFormat(std::string dateString);
+	DateFormat(std::string dateString);
 	std::string getYear();
 	int format();
 	
-}
+};
 
 #endif
