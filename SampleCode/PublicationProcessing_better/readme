@@ -1,0 +1,2 @@
+This set of scripts compiles in qt, but shouldn't require qt.
+You'll need to add the "Publications_sample.csv" file to run.
