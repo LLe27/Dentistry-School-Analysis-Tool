@@ -1,3 +1,5 @@
+//CS3307A - Team Pineapple
+
 #include "mainwindow.h"
 #include <QApplication>
 #include <QString>
