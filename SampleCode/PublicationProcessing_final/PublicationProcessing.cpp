@@ -38,7 +38,7 @@ vector<int> PublicationProcessing::getIndicesStatus(string status) {
 }
 
 vector<int> PublicationProcessing::getIndicesStatus(string status, vector<int> indToConsider) {
-    return getIndicesIntersect( getColumnMatch(CSVProcessing::COLUMN_STATUS,status) , indToConsider );
+    return getIndicesIntersect( getColumnMatch(COLUMN_STATUS,status) , indToConsider );
 }
 
 vector<int> PublicationProcessing::getIndicesType(string type) {
@@ -66,7 +66,7 @@ vector<int> PublicationProcessing::getIndicesType(string type, vector<int> indTo
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PublicationProcessing::populateTypes() {
-    pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(CSVProcessing::COLUMN_TYPE);
+    pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_TYPE);
     types = uniqueType.first;
     typesIndices = uniqueType.second;
 }
