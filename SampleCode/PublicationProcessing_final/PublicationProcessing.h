@@ -79,6 +79,10 @@ private:
      */
     void mergeSimilarTypes();
 
+
+    //temp
+    int format(string date);
+
     /*
      * Private Instance Variables
      *
