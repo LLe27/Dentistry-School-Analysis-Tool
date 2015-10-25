@@ -5,6 +5,7 @@
  */
 #ifndef PUBLICATIONPROCESSING_H
 #define PUBLICATIONPROCESSING_H
+#include "../mainwindow.h"
 
 #include "CSVProcessing.h"
 
@@ -77,6 +78,16 @@ public:
      * @return
      */
     vector<int> getIndicesType(string type, vector<int> indToConsider);
+
+    /**
+     * Draw graph onto windows canvas
+     *
+     * @param w
+     * @param yAxisData
+     * @param title
+     * @return
+     */
+    void makeGraph(MainWindow &w, QVector<double> yAxisData, QString title );
 
 private:
     /**

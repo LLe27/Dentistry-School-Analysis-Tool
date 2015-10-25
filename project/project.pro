@@ -17,14 +17,12 @@ INCLUDEPATH += ../lib
 SOURCES += ../src/main.cpp\
         ../src/mainwindow.cpp \
     ../lib/qcustomplot.cpp \
-    ../src/marcgraph.cpp \
     ../src/publicationprocessing/CSVProcessing.cpp \
     ../src/publicationprocessing/parsetestFTN.cpp \
     ../src/publicationprocessing/PublicationProcessing.cpp
 
 HEADERS  += ../src/mainwindow.h \
     ../lib/qcustomplot.h \
-    ../src/marcgraph.h \
     ../src/publicationprocessing/CSVProcessing.h \
     ../src/publicationprocessing/parsetestFTN.h \
     ../src/publicationprocessing/PublicationProcessing.h \
