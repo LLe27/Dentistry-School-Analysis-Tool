@@ -1,6 +1,7 @@
 //Necessaru Includes
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 
+
+
+
+    /*
     //Initialize First set combo boxes
     initDate_Month(ui->comboBox);
     initDate_Years(ui->comboBox_2);
@@ -19,11 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     initDate_Years(ui->comboBox_4);
 
     //Resize them to appropriate size
+
     ui->comboBox->resize(69,22);
     ui->comboBox_2->resize(69,22);
     ui->comboBox_3->resize(69,22);
     ui->comboBox_4->resize(69,22);
-
+    */
     //Setup TreeList, set it to have two columns
     ui->treeWidget->setColumnCount(2);
 
@@ -32,6 +38,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ColumnNames << " " << "Total";
     ui->treeWidget->setHeaderLabels(ColumnNames);
     ui->treeWidget->setColumnWidth(0,170);
+
+    ui->dateEdit->setMaximumDate(QDate::currentDate());
+    ui->dateEdit_2->setMaximumDate(QDate::currentDate());
+
+    ui->dateEdit_2->setDate(QDate::currentDate());
+
+
 
 
     //Create treewidget item asa root
@@ -63,7 +76,27 @@ MainWindow::MainWindow(QWidget *parent) :
     //Testing Function
     QTreeWidgetItem *treeBranch2 = new QTreeWidgetItem(ui->treeWidget);
     addTreeRoot(treeBranch2,"Yo","Works");
+    QTreeWidgetItem *CurrentParent;
+    CurrentParent = treeBranch2;
 
+    //WOW SUPER EASY
+    for(int i = 0; i < 10;i++){
+        if(i%2){
+            QTreeWidgetItem *treeTest = new QTreeWidgetItem(CurrentParent);
+            treeTest->setText(0,"Parent");
+            treeTest->setText(1,"Yeah");
+            CurrentParent = treeTest;
+        }
+        else{
+            QTreeWidgetItem *treeTest = new QTreeWidgetItem(CurrentParent);
+            treeTest->setText(0,"Child");
+            treeTest->setText(1,"Nah");
+        }
+
+    }
+
+    ui->treeWidget->sortByColumn(0,Qt::AscendingOrder);
+    ui->treeWidget->setSortingEnabled(true);
 
 
 
@@ -74,7 +107,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+/*
 void MainWindow::initDate_Month(QComboBox *months){
     months->addItem("Jan");
     months->addItem("Feb");
@@ -101,15 +134,7 @@ void MainWindow::initDate_Years(QComboBox *months){
     }
 
 }
-
-//On button click, do stuff
-void MainWindow::on_pushButton_clicked()
-{
-    ui->lblDateRange->setText(ui->comboBox->currentText() + "-" + ui->comboBox_2->currentText() + " " + ui->comboBox_3->currentText() + "-" + ui->comboBox_4->currentText());
-    QStringList ColumnNames;
-    ColumnNames << ui->comboBox->currentText() + "-" + ui->comboBox_2->currentText() + "\t" + ui->comboBox_3->currentText() + "-" + ui->comboBox_4->currentText() << "Total";
-    ui->treeWidget->setHeaderLabels(ColumnNames);
-}
+*/
 
 //Add root tot the tree
 void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description){
@@ -132,4 +157,33 @@ void MainWindow::addTreeChild(QTreeWidgetItem *parent,QString name,QString descr
 
     parent ->addChild(treeItem);
 
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    //Returns file name of sleected file in QFileDialog
+    QString filename= QFileDialog::getOpenFileName(this, tr("Open File"),"C://","CSV File (*.csv);;All files (*.*)");
+    ui->lblDateRange->setText(filename);
+
+    //Pass filename to open file function
+}
+
+void MainWindow::on_bntDisplayGraph_clicked()
+{
+    QPixmap pm("FILENAME GOES HERE");
+    ui->lblGraph->setPixmap(pm);
+}
+
+void MainWindow::on_btnDates_clicked()
+{
+    QDate date1 = (ui->dateEdit->date());
+    QDate date2 = (ui->dateEdit_2->date());
+    QString dateString1 = date1.toString("yyyy/MM/dd");
+    QString dateString2 = date2.toString("yyyy/MM/dd");
+    QString dateString3 = date1.toString("MMM/yyyy");
+    QString dateString4 = date2.toString("MMM/yyyy");
+    ui->lblDateRange->setText(dateString1 + " - " + dateString2);
+    QStringList ColumnNames;
+    ColumnNames << dateString3 + " " + dateString4;
+    ui->treeWidget->setHeaderLabels(ColumnNames);
 }
