@@ -84,11 +84,8 @@ private:
      *
      * These lists of strings and int indices are be maintained in the object to hasten queries.
      */
-    vector<int> allInd;
     vector<string> types;
     vector<vector<int>> typesIndices;
-    vector<string> memberNames; //will be moved to CSVProcessing
-    vector<vector<int>> memberNamesIndices; //will be moved to CSVProcessing
 };
 
 #endif // PUBLICATIONPROCESSING_H
