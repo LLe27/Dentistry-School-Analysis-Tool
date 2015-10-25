@@ -29,3 +29,5 @@ HEADERS  += ../src/mainwindow.h \
     ../src/publicationprocessing/csv.h
 
 FORMS    += ../forms/mainwindow.ui
+
+CONFIG += c++11
