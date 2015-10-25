@@ -74,6 +74,10 @@ public:
     /**
      * Returns vector<int> of indices within specified timeframe.
      *
+     * If the entry has no month, it will match all months within its year. If the entry has no day, it will match all days within its year/month.
+     *
+     * Currently, this function is not very efficient. If anyone has time, they could improve upon it.
+     *
      * @brief getIndicesDate
      * @param dayStart
      * @param monthStart
@@ -87,6 +91,8 @@ public:
 
     /**
      * Returns vector<int> of indices within specified timeframe. Considers only entries indexed by indToConsider.
+     *
+     * If the entry has no month, it will match all months within its year. If the entry has no day, it will match all days within its year/month.
      *
      * Currently, this function is not very efficient. If anyone has time, they could improve upon it.
      *
