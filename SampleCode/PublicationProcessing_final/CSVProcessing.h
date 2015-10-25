@@ -102,6 +102,15 @@ public:
      */
     vector<int> getIndicesDate(int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd, vector<int> indToConsider);
 
+    /**
+     * Test function which returns strings containing all data on entries in the format of "data.at(0)|data.at(1)..."
+     *
+     * @brief toStringTest
+     * @param indecies
+     * @return
+     */
+    vector<string> toStringTest(vector<int> indices);
+
 protected:
     /*
      * Vector of string vectors "data" structure.
