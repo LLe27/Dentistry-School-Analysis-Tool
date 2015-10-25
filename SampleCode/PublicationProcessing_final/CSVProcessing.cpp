@@ -45,6 +45,7 @@ vector<int> CSVProcessing::getIndicesDate(int dayStart, int monthStart, int year
     for (int i : indToConsider) {
         if (isWithinTimeframe(i,dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd)) result.push_back(i);
     }
+
     return result;
 }
 
@@ -156,10 +157,175 @@ void CSVProcessing::populateMemberNames() {
 }
 
 bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd) {
+    /*
+     *
+     * After demo1, we should determine the year/month/day of each entry once upon loading. Calling this script repeatedly
+     * during runtime is very inefficient.
+     *
+     * There is very little checking in this function at present. For example 1999-31-07 would produce year 1999, month 31, day 07.
+     *
+     * It would be better if day-less entries were include only when the entire month is included, and if month-less entires were
+     * included only when the entire month is included. Add this later?
+     *
+     */
+
+    //get date string
+    string date = data.at(COLUMN_DATE).at(ind);
+
+    //check for alphabetic month
+    string dateNonNumeric;
+    char c;
+    for (int i=0; i<date.size(); i++) {
+        c = date.at((i));
+        if (c!='-' && !isdigit(c)) dateNonNumeric += c;
+    }
+
+    //declare/init year, month, dat
+    int year, month, day;
+    year = month = day = -1;
+
+    //if date contains alphabetic month, set month
+    if (dateNonNumeric.length()>0) {
+        //consider lower case
+        transform(dateNonNumeric.begin(),dateNonNumeric.end(),dateNonNumeric.begin(),::tolower);
+        if (dateNonNumeric.find("jan") != string::npos) month = 1;
+        else if (dateNonNumeric.find("feb") != string::npos) month = 2;
+        else if (dateNonNumeric.find("mar") != string::npos) month = 3;
+        else if (dateNonNumeric.find("apr") != string::npos) month = 4;
+        else if (dateNonNumeric.find("may") != string::npos) month = 5;
+        else if (dateNonNumeric.find("jun") != string::npos) month = 6;
+        else if (dateNonNumeric.find("jul") != string::npos) month = 7;
+        else if (dateNonNumeric.find("aug") != string::npos) month = 8;
+        else if (dateNonNumeric.find("sep") != string::npos) month = 9;
+        else if (dateNonNumeric.find("oct") != string::npos) month = 10;
+        else if (dateNonNumeric.find("nov") != string::npos) month = 11;
+        else if (dateNonNumeric.find("dec") != string::npos) month = 12;
+    }
+
+    //note1: the year is always present
+    //note2: the year is always the first number
+    //note3: year may be 2-digit if after 2000?
+    //note4: always sets in the order of year -> month -> day
+
+    //parse
+    string str;
+    int strInt;
+    for (int i=0; i<date.size(); i++) {
+        c = date.at(i);
+        if (isdigit(c)) str += c;
+
+        if (str.length()==2 && ((i<(date.size()-1) && !isdigit(date.at(i+1))) || i==(date.size()-1))) {
+            strInt = atoi(str.c_str());
+
+            //2-ditit year, month, or day
+            if (year==-1) {
+                //set year (assume 2000 and beyond)
+                year = (strInt+2000);
+            }
+            else if (month==-1) {
+                //set month
+                month = strInt;
+            }
+            else if (day==-1) {
+                //set day
+                day = strInt;
+            }
+            else {
+                //shouldn't happen
+            }
+            //clear str
+            str = "";
+        }
+        else if(str.length()==4) {
+            //4-digit year
+            strInt = atoi(str.c_str());
+            year = strInt;
+            str = "";
+        }
+    }
 
     /*
-     * INCOMPLETE
+     * compare dates
      */
-    return true;
+    //year too early
+    if (year<yearStart) return false;
+    //year too late
+    if (year>yearEnd) return false;
+    //year within bounds (but not equal)
+    if (year>yearStart && year<yearEnd) return true;
+    else {
+        //either equal to start or end year
+        //have to check month...
 
+        //if no month, assume match
+        if (month==-1) return true;
+
+        //start and end within same year
+        if (yearStart==yearEnd) {
+            //month outside bounds
+            if (month<monthStart || month>monthEnd) return false;
+
+            //month within but not equal to bounds
+            if (month>monthStart && month<monthEnd) return true;
+
+            //if no day, assume match
+            if (day==-1) return true;
+
+            //during start month..
+            if (month==monthStart) {
+                if (day>=dayStart) return true;
+                else return false;
+            }
+            //during end month...
+            else {
+                if (day<=dayEnd) return true;
+                else return false;
+            }
+
+        }
+        else if (year==yearStart) {
+            //is during start year...
+
+            //month too soon
+            if (month<monthStart) return false;
+            //month after start
+            else if (month>monthStart) return true;
+            //same month, have to check day
+            else {
+                //if no day, assume match
+                if (day==-1) return true;
+
+                //day too soon
+                if (day<dayStart) return false;
+                else {
+                    //day is equal or great
+                    return true;
+                }
+            }
+
+        }
+        else {
+            //is during end year...
+
+            //month too late
+            if (month>monthEnd) return false;
+                //month before start
+            else if (month<monthEnd) return true;
+            //same month, have to check day
+            else {
+                //if no day, assume match
+                if (day==-1) return true;
+
+                //day too late
+                if (day>dayEnd) return false;
+                else {
+                    //day is equal or lesst
+                    return true;
+                }
+            }
+        }
+    }
+
+    //default to false
+    return false;
 }
