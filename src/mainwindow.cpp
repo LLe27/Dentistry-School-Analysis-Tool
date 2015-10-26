@@ -339,7 +339,7 @@ void MainWindow::processDates(){
                                 if (member.length()<1) member = "Unspecified"; //rename blank member
                                QTreeWidgetItem *treeChild = new QTreeWidgetItem();
                                treeItem->addChild(treeChild);
-                               treeChild->setText(0,QString::fromStdString(type));
+                               treeChild->setText(0,QString::fromStdString(member));
                                treeChild -> setText(1,QString::number(count));
 
                                 //cout << "\t\t" << member << "(" << count << ")" << endl;
