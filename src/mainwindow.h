@@ -2,19 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-namespace Ui
-{
-    class MainWindow;
-=======
-namespace Ui {
-class MainWindow;
->>>>>>> Demo1
-}
-
-=======
 #include <QComboBox>
 #include <QTreeWidget>
 #include <string>
@@ -30,31 +17,14 @@ class MainWindow;
 
 using namespace std;
 
->>>>>>> DEMO1_25102015
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public:
-        explicit MainWindow(QWidget *parent = 0);
-        ~MainWindow();
-
-    private:
-        Ui::MainWindow *ui;
-=======
-=======
->>>>>>> DEMO1_25102015
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-<<<<<<< HEAD
-private:
-    Ui::MainWindow *ui;
->>>>>>> Demo1
-=======
     /**
      * Draw graph onto windows canvas
      *
@@ -81,7 +51,6 @@ private:
     void addTreeRoot(QTreeWidgetItem *treeBranch,QString name, QString description);
     void addTreeChild(QTreeWidgetItem *parent, QString name, QString description);
     void processDates();
->>>>>>> DEMO1_25102015
 };
 
 #endif // MAINWINDOW_H

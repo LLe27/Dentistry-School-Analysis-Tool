@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
-<<<<<<< HEAD
-=======
-#if 0
->>>>>>> Demo1
-=======
 //Necessaru Includes
 #include "mainwindow.h"
 
@@ -16,20 +7,11 @@ QDate Enddate;
 PublicationProcessing* p;
 
 
->>>>>>> DEMO1_25102015
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-<<<<<<< HEAD
-<<<<<<< HEAD
-    setGeometry(100, 100, 1000, 400);
-=======
->>>>>>> Demo1
-}
-
-=======
 
     string filename = on_actionOpen_triggered().toStdString();
     myData CSVData;
@@ -120,17 +102,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 //Deletes UI after program stops
->>>>>>> DEMO1_25102015
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-#endif
->>>>>>> Demo1
-=======
 
 /*
 void MainWindow::initDate_Month(QComboBox *months){
@@ -378,4 +353,3 @@ void MainWindow::processDates(){
 
 
 }
->>>>>>> DEMO1_25102015

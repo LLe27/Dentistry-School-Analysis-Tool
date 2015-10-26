@@ -79,19 +79,6 @@ public:
      */
     vector<int> getIndicesType(string type, vector<int> indToConsider);
 
-<<<<<<< HEAD
-    /**
-     * Draw graph onto windows canvas
-     *
-     * @param w
-     * @param yAxisData
-     * @param title
-     * @return
-     */
-    void makeGraph(MainWindow &w, QVector<double> yAxisData, QString title );
-
-=======
->>>>>>> DEMO1_25102015
 private:
     /**
      * Populates types and typesIndices.
