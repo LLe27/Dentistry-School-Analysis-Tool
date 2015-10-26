@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //CS3307A - Team Pineapple
 
 #include "mainwindow.h"
@@ -141,5 +142,22 @@ int main(int argc, char *argv[])
 
     return a.exec();
 //    exit(EXIT_SUCCESS);
+=======
+#include "mainwindow.h"
+//#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+
+
+
+#if 0
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
+#endif
+>>>>>>> Demo1
 
 }

@@ -6,6 +6,7 @@
 
 QT       += core gui
 
+<<<<<<< HEAD
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++11
@@ -31,3 +32,17 @@ HEADERS  += ../src/mainwindow.h \
 FORMS    += ../forms/mainwindow.ui
 
 CONFIG += c++11
+=======
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = project
+TEMPLATE = app
+
+
+SOURCES += ../src/main.cpp\
+        ../src/mainwindow.cpp
+
+HEADERS  += ../src/mainwindow.h
+
+FORMS    += ../forms/mainwindow.ui
+>>>>>>> Demo1

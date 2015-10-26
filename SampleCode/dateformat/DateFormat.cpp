@@ -5,7 +5,11 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 DateFormat :: DateFormat(string dateString){
+=======
+void DateFormat::DateFormat(string dateString){
+>>>>>>> Demo1
 	date = dateString;
 	year = "30000";
 }
