@@ -1,6 +1,9 @@
 #include <vector>
 #include <string>
+<<<<<<< HEAD
 #include <string>
+=======
+>>>>>>> DEMO1_25102015
 #include <cctype>
 
 using namespace std;
@@ -12,13 +15,23 @@ class myData {
 
 private:
 	vector<vector<string>> *publications, *teaching, *funding, *presentations;
+<<<<<<< HEAD
 	vector<vector<string >> parsePublications(string filePath);
+=======
+>>>>>>> DEMO1_25102015
 	vector<vector<string >> parseTeaching(string filePath);
 	vector<vector<string >> parseFunding(string filePath);
 	vector<vector<string >> parsePresentations(string filePath);
 
 public:
+<<<<<<< HEAD
 	void myData();
+=======
+    myData();
+
+    vector<vector<string >> parsePublications(string filePath);
+
+>>>>>>> DEMO1_25102015
 
 	/* Read and create the CSV */
 	bool createParsePublications(string filePath);
@@ -33,6 +46,12 @@ public:
 	bool isPresentations();
 
 	/* Read Publications*/
+<<<<<<< HEAD
 	string * readPublications(publicationField, int entryNum);
+=======
+#if 0
+	string * readPublications(publicationField, int entryNum);
+#endif
+>>>>>>> DEMO1_25102015
 
 };

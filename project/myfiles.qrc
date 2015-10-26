@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>minus_sign_u2212_icon_256x256.png</file>
+        <file>down-arrow-circle-hi.png</file>
+        <file>black-plus-sign.png</file>
+    </qresource>
+</RCC>

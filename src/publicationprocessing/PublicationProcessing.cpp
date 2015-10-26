@@ -4,9 +4,12 @@
  * Author(s): Kevin Stubbs
  */
 #include "PublicationProcessing.h"
+<<<<<<< HEAD
 #include "parsetestFTN.h"
 #include "../mainwindow.h"
 #include "../lib/qcustomplot.h"
+=======
+>>>>>>> DEMO1_25102015
 
 using namespace std;
 
@@ -24,7 +27,11 @@ PublicationProcessing::PublicationProcessing(vector<vector<string>> data) : CSVP
     //we may or may not want to run this as it will merge:
     //FOR BETTER: "* Journal Article, Meta-Analysis, Review" into "Journal Article"
     //FOR WORSE?: "Books Edited" into "Books"
+<<<<<<< HEAD
     mergeSimilarTypes();
+=======
+    //mergeSimilarTypes();
+>>>>>>> DEMO1_25102015
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +71,7 @@ vector<int> PublicationProcessing::getIndicesType(string type, vector<int> indTo
 }
 
 
+<<<<<<< HEAD
 void PublicationProcessing::makeGraph(MainWindow &w, QVector<double> yAxisData, QString title ) {
     QCustomPlot *customPlot = w.findChild<QCustomPlot*>("myChart");
 
@@ -168,6 +176,8 @@ void PublicationProcessing::makeGraph(MainWindow &w, QVector<double> yAxisData, 
     customPlot->replot();
 
 }
+=======
+>>>>>>> DEMO1_25102015
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions

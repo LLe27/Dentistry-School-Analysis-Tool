@@ -12,6 +12,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+<<<<<<< HEAD
+=======
+#include "../CSV2Vector.hpp"
+
+>>>>>>> DEMO1_25102015
 
 using namespace std;
 

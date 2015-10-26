@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 //CS3307A - Team Pineapple
 
 #include "mainwindow.h"
@@ -152,12 +153,22 @@ int main(int argc, char *argv[])
 
 
 #if 0
+=======
+#include "mainwindow.h"
+
+
+int main(int argc, char *argv[])
+{
+>>>>>>> DEMO1_25102015
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
 
     return a.exec();
+<<<<<<< HEAD
 #endif
 >>>>>>> Demo1
 
+=======
+>>>>>>> DEMO1_25102015
 }

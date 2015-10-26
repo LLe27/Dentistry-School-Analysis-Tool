@@ -16,12 +16,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <string>
+<<<<<<< HEAD
+=======
+#include "CSV2Vector.hpp"
+>>>>>>> DEMO1_25102015
 #include "csv.h"
 using namespace std;
 
 #define DEBUG  0
 
+<<<<<<< HEAD
 void myData::myData()
+=======
+myData::myData()
+>>>>>>> DEMO1_25102015
 {
 	publications = NULL;
 	teaching = NULL;
@@ -53,17 +61,32 @@ bool myData::isPresentations()
 	return false;
 }
 
+<<<<<<< HEAD
 string * myData::readPublications(publicationField myField, int entryNum)
 {
 	if (!isPublications()) return NULL;
 	return publications[myField][entryNum];
 }
+=======
+#if 0
+::readPublications(publicationField myField, int entryNum)
+{
+	if (!isPublications()) return NULL;
+    return &publications->at(myField).at[entryNum);
+}
+#endif
+
+>>>>>>> DEMO1_25102015
 
 bool myData::createParsePublications(string filePath)
 {
 	publications = new vector<vector <string>> ();
 	if (publications == NULL) return false;
+<<<<<<< HEAD
 	publications = parsePublications(filePath);
+=======
+    *publications = parsePublications(filePath);
+>>>>>>> DEMO1_25102015
 	return true;
 }
 bool myData::createParseTeaching(string filePath)
@@ -106,7 +129,11 @@ vector<vector<string >> parsePresentations(string filePath)
 vector<vector<string >> myData::parsePublications(string filePath) {
 
     // If the file is in the same folder as your source code, then there is no need to include file path
+<<<<<<< HEAD
     io::CSVReader<44, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filename);
+=======
+    io::CSVReader<44, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filePath);
+>>>>>>> DEMO1_25102015
 	in.read_header(io::ignore_extra_column, "Record Info",\
 											"Last Modified User",\
 											"Last Modified Date",\
