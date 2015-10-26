@@ -19,9 +19,7 @@ public:
 
 private slots:
     void on_actionOpen_triggered();
-
     void on_bntDisplayGraph_clicked();
-
     void on_btnDates_clicked();
 
 private:
