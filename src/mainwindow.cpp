@@ -14,12 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     string filename = on_actionOpen_triggered().toStdString();
-    myData CSVData;
 
-    vector<vector<string>> data = CSVData.parsePublications(filename);
 
     //process data by constructing PublicationProcessing
-    p = new PublicationProcessing(data);
+    p = new PublicationProcessing(filename);
 
 
 

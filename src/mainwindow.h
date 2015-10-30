@@ -6,7 +6,7 @@
 #include <QTreeWidget>
 #include <string>
 #include <vector>
-#include "publicationprocessing/PublicationProcessing.h"
+#include "csvprocessing/PublicationProcessing.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include "../lib/qcustomplot.h"
