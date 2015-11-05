@@ -17,13 +17,12 @@ public:
 /*
      * "data" columns
      */
-    static const int COLUMN_DOMAIN = 1;
     static const int COLUMN_STATUS = 2;
     static const int COLUMN_TYPE = 3;
-    static const int COLUMN_ROLE = 5;
-    static const int COLUMN_AUTHORS = 6;
-    static const int COLUMN_JOURNAL_NAME = 7;
-    static const int COLUMN_TITLE = 8;
+    static const int COLUMN_ROLE = 4;
+    static const int COLUMN_AUTHORS = 5;
+    static const int COLUMN_JOURNAL_NAME = 6;
+    static const int COLUMN_TITLE = 7;
 
     /**
      * Constructor.
@@ -83,7 +82,7 @@ private:
     /**
      * Populates types and typesIndices.
      *
-     * @brief PublicationProcessing::populateTypes
+     * @brief populateTypes
      */
     void populateTypes();
 
@@ -96,10 +95,6 @@ private:
      * @brief mergeSimilarTypes
      */
     void mergeSimilarTypes();
-
-
-    //temp
-    int format(string date);
 
     /*
      * Private Instance Variables

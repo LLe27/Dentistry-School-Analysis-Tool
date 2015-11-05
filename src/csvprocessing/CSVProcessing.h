@@ -25,7 +25,7 @@ public:
      */
     //for all
     static const int COLUMN_MEMBER_NAME = 0;
-    static const int COLUMN_DATE = 4;
+    static const int COLUMN_DATE = 1;
 
     /**
      * Constructor.

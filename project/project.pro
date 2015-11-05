@@ -18,6 +18,9 @@ SOURCES +=\
     ../lib/qcustomplot.cpp \
     ../src/csvprocessing/CSVProcessing.cpp \
     ../src/csvprocessing/PublicationProcessing.cpp \
+	../src/csvprocessing/PresentationProcessing.cpp \
+	../src/csvprocessing/GrantProcessing.cpp \
+	../src/csvprocessing/TeachingProcessing.cpp \
     ../src/csvprocessing/CSV2Vector.cpp \
     ../src/mainwindow.cpp \
     ../src/main.cpp
@@ -26,8 +29,11 @@ HEADERS  += \
     ../lib/qcustomplot.h \
     ../src/csvprocessing/CSVProcessing.h \
     ../src/csvprocessing/PublicationProcessing.h \
-    ../src/csvprocessing/csv.h \
+	../src/csvprocessing/PresentationProcessing.h \
+	../src/csvprocessing/GrantProcessing.h \
+	../src/csvprocessing/TeachingProcessing.h \
     ../src/csvprocessing/CSV2Vector.hpp \
+	../src/csvprocessing/csv.h \
     ../src/csv.h \
     ../src/mainwindow.h
 

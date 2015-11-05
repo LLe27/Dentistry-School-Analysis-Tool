@@ -17,11 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //process data by constructing PublicationProcessing
+
     p = new PublicationProcessing(filename);
-
-
-
-
 
 
     /*
