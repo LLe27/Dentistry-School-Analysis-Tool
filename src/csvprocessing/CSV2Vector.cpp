@@ -298,8 +298,13 @@ vector<vector<string >> myData::parsePublications(string filePath) {
 		//vector_last_modified_date.push_back(last_modified_date);
 		//vector_id.push_back(id);
 		vector_member_name.push_back(member_name);
+<<<<<<< HEAD
         vector_status_date.push_back(status_date);
         vector_primary_domain.push_back(primary_domain);
+=======
+		vector_status_date.push_back(status_date);
+		vector_primary_domain.push_back(primary_domain);
+>>>>>>> origin/master
 		vector_publication_status.push_back(publication_status);
 		//vector_pubmed_article_id.push_back(pubmed_article_id);
 		vector_type.push_back(type);
