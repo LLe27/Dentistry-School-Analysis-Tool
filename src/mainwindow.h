@@ -34,11 +34,13 @@ public:
      * @return
      */
     void makeGraph(QVector<double> yAxisData, QString title , vector<string> barLabels);
+    void makePie(QVector<double> pieData, QString title, QVector<QString> pieLabels );
 
 private slots:
     QString on_actionOpen_triggered();
 
     void on_bntDisplayGraph_clicked();
+    void on_bntDisplayPie_clicked();
 
     QStringList on_btnDates_clicked();
 

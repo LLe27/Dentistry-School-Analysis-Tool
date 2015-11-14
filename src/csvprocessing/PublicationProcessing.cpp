@@ -37,6 +37,7 @@ vector<int> PublicationProcessing::getIndicesStatus(string status) {
 }
 
 vector<int> PublicationProcessing::getIndicesStatus(string status, vector<int> indToConsider) {
+    //                                 in correct category          in correct date range
     return getIndicesIntersect( getColumnMatch(COLUMN_STATUS,status) , indToConsider );
 }
 

@@ -1,5 +1,7 @@
 //Necessaru Includes
 #include "mainwindow.h"
+#include "../lib/nightcharts/nightcharts.h"
+#include "../lib/nightcharts/nightchartswidget.h"
 
 QDate Startdate;
 QDate Enddate;
@@ -12,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+//    ui->
 
     string filename = on_actionOpen_triggered().toStdString();
 
@@ -182,6 +185,7 @@ void MainWindow::on_bntDisplayGraph_clicked()
     QVector<double> numItems;
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
+    //return as vector all of the possible types.
     vector<string> types = p->getListOfTypes();
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
@@ -190,6 +194,51 @@ void MainWindow::on_bntDisplayGraph_clicked()
 
     makeGraph(numItems, title, types);
     //w.show();
+
+}
+
+void MainWindow::on_bntDisplayPie_clicked()
+{
+
+    QString title = "My Sample Pie";
+
+    QVector<QString> labels;
+    labels.append("Apple");
+    labels.append("Donut");
+    labels.append("Cherry");
+/*
+    labels.append("Apple");
+    labels.append("Donut");
+    labels.append("Cherry");
+    labels.append("Apple");
+    labels.append("Donut");
+    labels.append("Cherry");
+    labels.append("Apple");
+    labels.append("Donut");
+    labels.append("Cherry");
+    labels.append("Apple");
+    labels.append("Donut");
+    labels.append("Cherry");
+*/
+    QVector<double> data;
+    data.append(1);
+    data.append(2);
+    data.append(3);
+/*
+     data.append(1);
+    data.append(2);
+    data.append(3);
+    data.append(1);
+    data.append(2);
+    data.append(3);
+    data.append(1);
+    data.append(2);
+    data.append(3);
+    data.append(1);
+    data.append(2);
+    data.append(3);
+*/
+    makePie(data, title, labels);
 
 }
 
@@ -213,6 +262,50 @@ QStringList MainWindow::on_btnDates_clicked()
 
 }
 
+
+void MainWindow::makePie(QVector<double> pieData, QString title, QVector<QString> pieLabels ) {
+
+    // Compute minimum & maximum height to show all labels
+    int height=30*pieLabels.size();
+    if (height < 320) height = 320;
+    else if (height > 800) height = 800;
+
+    // Create window
+    QWidget * window = new QWidget();
+    window->resize(520, height);
+    window->show();
+    window->setWindowTitle("Pie Chart");  // Set the title of the window
+    window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
+
+    NightchartsWidget * PieChart = new NightchartsWidget(window);
+    PieChart->clear();
+    PieChart->setType(Nightcharts::Pie);//{Histogramm,Pie,DPie};
+    PieChart->resize(520, height);
+
+    // Compute sum of data - to convert values to %
+    double sum=0;
+    for (int i=0; i<pieData.size(); i++) sum += pieData.at(i);
+    if (sum == 0) sum=1;  // Prevent divide by 0 if pie slice data adds to 0
+
+    // Reset RGB values so cycle through the colors
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+
+    // Add data to pie (as %), and add label to pie, and compute unique color
+    for (int i=0; i<pieData.size(); i++) {
+        red = (red + 57) % 255;
+        green = (green + 97) % 255;
+        blue = (blue + 137) % 255;
+        PieChart->addItem(QString(pieLabels.at(i)),QColor(red,green,blue),static_cast<float>(pieData.at(i)*100/sum));
+    }
+
+    // Show the pie
+    PieChart->show();
+
+}
+
+
 void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<string> barLabels ) {
     QCustomPlot *customPlot = new QCustomPlot();//   ui->MainWindow::findChild<QCustomPlot*>("myChart");
     customPlot->show();
@@ -225,7 +318,6 @@ void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<stri
 
     QVector<double> xAxisPositions;
     QVector<QString> xAxisLabels;
-
 
     for (int i = 0; i < barLabels.size(); i++) {
         xAxisPositions << i;
@@ -279,8 +371,6 @@ void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<stri
     customPlot->yAxis->rescale();
     customPlot->replot();
 
-
-
 }
 
 
@@ -289,6 +379,7 @@ void MainWindow::processDates(){
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<string> members = p->getListOfMemberNames();
+        //get the subset of indices where the paper was published during the specified date range.
         vector<int> indDate = p->getIndicesDate(Startdate.day(),Startdate.month(),Startdate.year(),Enddate.day(),Enddate.month(),Enddate.year());
         vector<int> indOther = indDate;
         int count;
@@ -299,6 +390,7 @@ void MainWindow::processDates(){
         for (string status : statuses) {
 
             if (status == "Other") indStatus = indOther;
+            //get the subset of indices where the paper is of the status specified and is in the date range specified.
             else indStatus = p->getIndicesStatus(status,indDate);
             count = indStatus.size();
             //cout << status << "(" << count << ")" << endl;
@@ -307,6 +399,8 @@ void MainWindow::processDates(){
               addTreeRoot(treeBranch,QString::fromStdString(status),QString::number(count));
 
               //remove from other
+              //remove things from indOther so that indOther is the set of papers that are within the date range, but
+              //do NOT have the correct status.
               for (int iStat : indStatus) {
                   for (int i=indOther.size()-1; i>=0; i--) {
                       if (iStat==indOther.at(i)) {
