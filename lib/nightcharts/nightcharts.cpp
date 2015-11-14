@@ -114,6 +114,7 @@ int Nightcharts::setShadows(bool ok)
 
 int Nightcharts::draw(QPainter *painter)
 {
+    palpha = 0;
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setPen(Qt::NoPen);
     if (this->ctype==Nightcharts::Pie)
