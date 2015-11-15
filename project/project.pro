@@ -23,7 +23,9 @@ SOURCES +=\
 	../src/csvprocessing/TeachingProcessing.cpp \
     ../src/csvprocessing/CSV2Vector.cpp \
     ../src/mainwindow.cpp \
-    ../src/main.cpp
+    ../src/main.cpp \
+    ../lib/nightcharts/nightcharts.cpp \
+    ../lib/nightcharts/nightchartswidget.cpp
 
 HEADERS  += \
     ../lib/qcustomplot.h \
@@ -35,7 +37,9 @@ HEADERS  += \
     ../src/csvprocessing/CSV2Vector.hpp \
 	../src/csvprocessing/csv.h \
     ../src/csv.h \
-    ../src/mainwindow.h
+    ../src/mainwindow.h \
+    ../lib/nightcharts/nightcharts.h \
+    ../lib/nightcharts/nightchartswidget.h
 
 FORMS    += \
     ../src/mainwindow.ui
