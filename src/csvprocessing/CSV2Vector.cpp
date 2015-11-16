@@ -22,6 +22,9 @@ using namespace std;
 
 #define DEBUG  0
 
+
+
+
 myData::myData()
 {
 	publications = NULL;
@@ -32,6 +35,51 @@ myData::myData()
 }
 
 
+/*TODO: ONE PROBLEM, THIS BECOMES VERY VERY VERY VERY TIME CONSUMING WHEN EDITING FILE. */
+vector<vector<string>> myData::invertPublicationsVector()
+{
+    /* Currently, every vector is a field and users information are rows in each vector*/
+    /* Transition to every vector is a user, and each field in that vector are elements of fields */
+    vector<vector<string>> newVector;
+
+    for (int i = 0; i < publications->size(); i++)
+    {
+        vector<string> currUser;
+        for (in j = 0; j < publications->at(i).size(); j++)
+        {
+            currUser.push_back(publications->at(i).at(j));
+        }
+        newVector.push_back(currUser);
+    }
+
+    return newVector;
+}
+
+
+vector<vector<string >> myData::getErrorPublications()
+{
+    vector<vector<string>> userSubset, invertedVector;
+    invertedVector = invertPublicationsVector();
+
+
+    for (int i = 0; i < invertedVector.size(); i++)
+    {
+        for (int j = 0; j < invertedVector.at(i).size(); j++ )
+        {
+            /* If it's null add to the subset */
+            if (invertedVector.at(i).at(j).compare("") == 0){
+                userSubset.push_back(invertedVector.at(i));
+                break;
+            }
+        }
+    }
+
+}
+
+void myData::changePublicationField(publicationField myField, int userNumber, string newMsg)
+{
+    publications->at(userNumber).at(myField) = newMsg;
+}
 
 bool myData::isPublications()
 {
