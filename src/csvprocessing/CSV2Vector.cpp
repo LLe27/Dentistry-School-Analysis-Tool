@@ -68,9 +68,15 @@ vector<vector<string >> myData::getErrorPublications()
         {
             /* If it's null add to the subset */
             if (invertedVector.at(i).at(j).compare("") == 0){
-                userSubset.push_back(invertedVector.at(i));
+                /* The last field of the vector will be reason of error */
+                vector<string> currUser = invertedVector.at(i);
+                currUser.push_back("NULL String. Please Enter something!");
+                userSubset.push_back(currUser);
                 break;
             }
+
+            /* TODO: What other reasons are needed ??? */
+
         }
     }
 
