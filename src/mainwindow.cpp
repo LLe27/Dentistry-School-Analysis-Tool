@@ -242,6 +242,45 @@ void MainWindow::on_bntDisplayPie_clicked()
 
 }
 
+
+void MainWindow::on_bntDisplayScatter_clicked()
+{
+    //update dates
+    //on_btnDates_clicked();
+
+    // Make the graph
+    int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
+    dayStart = Startdate.day();
+    monthStart = Startdate.month();
+    yearStart = Startdate.year();
+    dayEnd = Enddate.day();
+    monthEnd = Enddate.month();
+    yearEnd = Enddate.year();
+
+    QVector<double> xData;
+    QVector<double> yData;
+    QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
+
+    //return as vector all of the possible types.
+    vector<string> types = p->getListOfTypes();
+    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+    xData.push_back(3.4);
+    xData.push_back(15.6);
+    xData.push_back(7.5);
+    xData.push_back(14);
+    xData.push_back(15.8);
+    xData.push_back(12);
+
+    yData.push_back(10.7);
+    yData.push_back(2.1);
+    yData.push_back(6.3);
+    yData.push_back(19.2);
+    yData.push_back(18.8);
+    yData.push_back(14.7);
+
+    makeScatter(xData, yData, title);
+}
+
 QStringList MainWindow::on_btnDates_clicked()
 {
     QDate date1 = (ui->dateEdit->date());
@@ -307,9 +346,13 @@ void MainWindow::makePie(QVector<double> pieData, QString title, QVector<QString
 
 
 void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<string> barLabels ) {
-    QCustomPlot *customPlot = new QCustomPlot();//   ui->MainWindow::findChild<QCustomPlot*>("myChart");
+    QRect rec = QApplication::desktop()->screenGeometry();
+     int height = rec.height();
+     int width = rec.width();
+
+    QCustomPlot *customPlot = new QCustomPlot();
     customPlot->show();
-    customPlot->setGeometry(100, 100, 1400, 800);
+    customPlot->setGeometry(100, 100, width-200, height-200);
 
     QCPBars *myBars = new QCPBars(customPlot->xAxis, customPlot->yAxis);
     customPlot->addPlottable(myBars);
@@ -369,6 +412,54 @@ void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<stri
     myBars->setData(xAxisPositions, yAxisData);
 
     customPlot->yAxis->rescale();
+    customPlot->replot();
+
+}
+
+
+// Create the scatter plot
+void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QString title ) {
+
+    QRect rec = QApplication::desktop()->screenGeometry();
+     int height = rec.height();
+     int width = rec.width();
+
+    QCustomPlot *customPlot = new QCustomPlot();
+    customPlot->show();
+    //set window size based on screen size
+    customPlot->setGeometry(100, 100, width-200, height-200);
+    // Tell QCustomPlot to show dots, but not lines
+    customPlot->addGraph();
+    customPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    customPlot->graph(0)->setPen(QPen(Qt::blue)); // line color blue for first graph
+
+    // add title
+    customPlot->plotLayout()->insertRow(0);
+    customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(customPlot, title));
+
+    //set the graph to a scatter plot
+    customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    customPlot->graph(0)->setName(title);
+
+    //find maximum x and y values.
+    int xMax = 0;
+    for(int xDataIndex=0; xDataIndex < xData.size(); xDataIndex++)
+        if(xData.at(xDataIndex) > xMax)
+            xMax = xData.at(xDataIndex);
+
+    int yMax = 0;
+    for(int yDataIndex=0; yDataIndex < yData.size(); yDataIndex++)
+        if(yData.at(yDataIndex) > yMax)
+            yMax = yData.at(yDataIndex);
+
+    // pass the data points to the scatter plot
+    customPlot->graph()->setData(xData, yData);
+
+    //set the x axis to be larger than the maximum x value
+    customPlot->xAxis->setRange(0, xMax + 2);
+    //set the y axis to be larger than the maximum y value
+    customPlot->yAxis->setRange(0, yMax + 2);
+    //draw scatter plot
     customPlot->replot();
 
 }

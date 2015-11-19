@@ -22,6 +22,9 @@ using namespace std;
 
 #define DEBUG  0
 
+
+
+
 myData::myData()
 {
 	publications = NULL;
@@ -32,6 +35,57 @@ myData::myData()
 }
 
 
+/*TODO: ONE PROBLEM, THIS BECOMES VERY VERY VERY VERY TIME CONSUMING WHEN EDITING FILE. */
+vector<vector<string>> myData::invertPublicationsVector()
+{
+    /* Currently, every vector is a field and users information are rows in each vector*/
+    /* Transition to every vector is a user, and each field in that vector are elements of fields */
+    vector<vector<string>> newVector;
+
+    for (int i = 0; i < publications->size(); i++)
+    {
+        vector<string> currUser;
+        for (int j = 0; j < publications->at(i).size(); j++)
+        {
+            currUser.push_back(publications->at(i).at(j));
+        }
+        newVector.push_back(currUser);
+    }
+
+    return newVector;
+}
+
+
+vector<vector<string >> myData::getErrorPublications()
+{
+    vector<vector<string>> userSubset, invertedVector;
+    invertedVector = invertPublicationsVector();
+
+
+    for (int i = 0; i < invertedVector.size(); i++)
+    {
+        for (int j = 0; j < invertedVector.at(i).size(); j++ )
+        {
+            /* If it's null add to the subset */
+            if (invertedVector.at(i).at(j).compare("") == 0){
+                /* The last field of the vector will be reason of error */
+                vector<string> currUser = invertedVector.at(i);
+                currUser.push_back("NULL String. Please Enter something!");
+                userSubset.push_back(currUser);
+                break;
+            }
+
+            /* TODO: What other reasons are needed ??? */
+
+        }
+    }
+
+}
+
+void myData::changePublicationField(publicationField myField, int userNumber, string newMsg)
+{
+    publications->at(userNumber).at(myField) = newMsg;
+}
 
 bool myData::isPublications()
 {
@@ -822,6 +876,265 @@ vector<vector<string >> myData::parsePublications(string filePath) {
     	cout << i << " : " << data.at(4).at(i) << "\n";
     }
 #endif
+
+#if 0
+    exit(EXIT_SUCCESS);
+#endif
+
+}
+
+vector<vector<string >> myData::parseFunding(string filepath){
+
+    // Read in CSV file, igoring specific special characters
+    io::CSVReader<38, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filepath);
+    in.read_header(io::ignore_extra_column, "Record Info",\
+                                            "Last Modified User",\
+                                            "Last Modified Date",\
+                                            "ID",\
+                                            "Member Name",\
+                                            "Primary Domain",\
+                                            "Start Date",\
+                                            "End Date",\
+                                            "Funding Type",\
+                                            "Status",\
+                                            "Peer Reviewed?",\
+                                            "Industry Grant?",\
+                                            "Role",\
+                                            "Short Title",\
+                                            "Title",\
+                                            "Application Summary",\
+                                            "Grant Purpose",\
+                                            "Area",\
+                                            "Principal Investigator",\
+                                            "Co-Investigators",\
+                                            "Grant and\or Account #",\
+                                            "Prorated Amount",\
+                                            "Administered By",\
+                                            "Funding Source",\
+                                            "Project",\
+                                            "Currency",\
+                                            "Received Amount",\
+                                            "Total Amount",\
+                                            "Member Share",\
+                                            "Monetary",\
+                                            "Rpt",\
+                                            "Hours Per Week",\
+                                            "Personnel Paid",\
+                                            "Rmw",\
+                                            "Education Grant",\
+                                            "Duplicate Reported",\
+                                            "Other Details (doesn't print)",\
+                                            "Year");
+
+    string 	record_info,\
+            last_modified_user,\
+            last_modified_date,\
+            id,\
+            member_name,\
+            primary_domain,\
+            start_date,\
+            end_date,\
+            funding_type,\
+            status,\
+            peer_reviewed,\
+            industry_grant,\
+            role,\
+            short_title,\
+            title,\
+            application_summary,\
+            grant_purpose,\
+            area,\
+            principal_inv,\
+            co_inv,\
+            grant_account,\
+            prorated_amount,\
+            administered,\
+            funding_source,\
+            project,\
+            currency,\
+            rec_amount,\
+            tot_amount,\
+            member_share,\
+            monetary,\
+            rpt,\
+            hours_per_week,\
+            personnel_paid,\
+            rmw,\
+            education_grant,\
+            duplicate_rep,\
+            other_details,\
+            year;
+
+    vector<string>
+            vector_record_info,\
+            vector_last_modified_user,\
+            vector_last_modified_date,\
+            vector_id,\
+            vector_member_name,\
+            vector_primary_domain,\
+            vector_start_date,\
+            vector_end_date,\
+            vector_funding_type,\
+            vector_status,\
+            vector_peer_reviewed,\
+            vector_industry_grant,\
+            vector_role,\
+            vector_short_title,\
+            vector_title,\
+            vector_application_summary,\
+            vector_grant_purpose,\
+            vector_area,\
+            vector_principal_inv,\
+            vector_co_inv,\
+            vector_grant_account,\
+            vector_prorated_amount,\
+            vector_administered,\
+            vector_funding_source,\
+            vector_project,\
+            vector_currency,\
+            vector_rec_amount,\
+            vector_tot_amount,\
+            vector_member_share,\
+            vector_monetary,\
+            vector_rpt,\
+            vector_hours_per_week,\
+            vector_personnel_paid,\
+            vector_rmw,\
+            vector_education_grant,\
+            vector_duplicate_rep,\
+            vector_other_details,\
+            vector_year;
+
+    vector<vector<string>> data;
+
+    while (in.read_row(	record_info,\
+                        last_modified_user,\
+                        last_modified_date,\
+                        id,\
+                        member_name,\
+                        primary_domain,\
+                        start_date,\
+                        end_date,\
+                        funding_type,\
+                        status,\
+                        peer_reviewed,\
+                        industry_grant,\
+                        role,\
+                        short_title,\
+                        title,\
+                        application_summary,\
+                        grant_purpose,\
+                        area,\
+                        principal_inv,\
+                        co_inv,\
+                        grant_account,\
+                        prorated_amount,\
+                        administered,\
+                        funding_source,\
+                        project,\
+                        currency,\
+                        rec_amount,\
+                        tot_amount,\
+                        member_share,\
+                        monetary,\
+                        rpt,\
+                        hours_per_week,\
+                        personnel_paid,\
+                        rmw,\
+                        education_grant,\
+                        duplicate_rep,\
+                        other_details,\
+                        year)){
+
+        //vector_record_info.push_back(record_info);
+        //vector_last_modified_user.push_back(last_modified_user);
+        //vector_last_modified_date.push_back(last_modified_user);
+        //vector_id.push_back(id);
+        vector_member_name.push_back(member_name);
+        vector_primary_domain.push_back(primary_domain);
+        vector_start_date.push_back(start_date);
+        vector_end_date.push_back(end_date);
+        vector_funding_type.push_back(funding_type);
+        vector_status.push_back(status);
+        vector_peer_reviewed.push_back(peer_reviewed);
+        vector_industry_grant.push_back(industry_grant);
+        vector_role.push_back(role);
+        //vector_short_title.push_back(short_title);
+        vector_title.push_back(title);
+        //vector_application_summary.push_back(application_summary);
+        //vector_grant_purpose.push_back(grant_purpose);
+        //vector_area.push_back(area);
+        vector_principal_inv.push_back(principal_inv);
+        vector_co_inv.push_back(co_inv);
+        //vector_grant_account.push_back(grant_account);
+        //vector_prorated_amount.push_back(prorated_amount);
+        //vector_administered.push_back(administered);
+        //vector_funding_source.push_back(funding_source);
+        //vector_project.push_back(project);
+        //vector_currency.push_back(currency);
+        //vector_rec_amount.push_back(rec_amount);
+        vector_tot_amount.push_back(tot_amount);
+        //vector_member_share.push_back(member_share);
+        //vector_monetary.push_back(monetary);
+        //vector_rpt.push_back(rpt);
+        //vector_hours_per_week.push_back(hours_per_week);
+        //vector_personnel_paid.push_back(personnel_paid);
+        //vector_rmw.push_back(rmw);
+        //vector_education_grant.push_back(education_grant);
+        //vector_duplicate_rep.push_back(duplicate_rep);
+        //vector_other_details.push_back(other_details);
+        //vector_year.push_back(year);
+    }
+
+    //data.push_back(vector_record_info);
+    //data.push_back(vector_last_modified_user);
+    //data.push_back(vector_last_modified_date);
+    //data.push_back(vector_id);
+    data.push_back(vector_member_name);
+    data.push_back(vector_primary_domain);
+    data.push_back(vector_start_date);
+    data.push_back(vector_end_date);
+    data.push_back(vector_funding_type);
+    data.push_back(vector_status);
+    data.push_back(vector_peer_reviewed);
+    data.push_back(vector_industry_grant);
+    data.push_back(vector_role);
+    //data.push_back(vector_short_title);
+    data.push_back(vector_title);
+    //data.push_back(vector_application_summary);
+    //data.push_back(vector_grant_purpose);
+    //data.push_back(vector_area);
+    data.push_back(vector_principal_inv);
+    data.push_back(vector_co_inv);
+    //data.push_back(vector_grant_account);
+    //data.push_back(vector_prorated_amount);
+    //data.push_back(vector_administered);
+    //data.push_back(vector_funding_source);
+    //data.push_back(vector_project);
+    //data.push_back(vector_currency);
+    data.push_back(vector_rec_amount);
+    //data.push_back(vector_tot_amount);
+    //data.push_back(vector_member_share);
+    //data.push_back(vector_monetary);
+    //data.push_back(vector_rpt);
+    //data.push_back(vector_hours_per_week);
+    //data.push_back(vector_personnel_paid);
+    //data.push_back(vector_rmw);
+    //data.push_back(vector_education_grant);
+    //data.push_back(vector_duplicate_rep);
+    //data.push_back(vector_other_details);
+    //data.push_back(vector_year);
+
+    return data;
+
+/*
+#if (DEBUG)
+    // Print the first 100 values of domain dates
+    for (int i = 0; i < 100; i++){
+        cout << i << " : " << data.at(4).at(i) << "\n";
+    }
+#endif
+*/
 
 #if 0
     exit(EXIT_SUCCESS);
