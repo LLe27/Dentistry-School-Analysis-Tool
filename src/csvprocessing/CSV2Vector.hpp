@@ -11,15 +11,14 @@ class myData {
 
 private:
 	vector<vector<string>> *publications, *teaching, *funding, *presentations;
-	vector<vector<string >> parseTeaching(string filePath);
-	vector<vector<string >> parseFunding(string filePath);
-	vector<vector<string >> parsePresentations(string filePath);
 
 public:
     myData();
 
     vector<vector<string >> parsePublications(string filePath);
-
+    vector<vector<string >> parseFunding(string filePath);
+    vector<vector<string >> parseTeaching(string filePath);
+    vector<vector<string >> parsePresentations(string filePath);
 
 	/* Read and create the CSV */
 	bool createParsePublications(string filePath);
