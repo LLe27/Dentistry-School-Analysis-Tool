@@ -17,6 +17,7 @@ class ErrorForm : public QWidget
 public:
     explicit ErrorForm(QWidget *parent = 0);
     ~ErrorForm();
+    void popTable(vector<vector<string>>*);
 
 private slots:
     void on_saveButton_clicked();
@@ -27,7 +28,7 @@ private slots:
 
 private:
     Ui::ErrorForm *ui;
-    void popTable(vector<vector<string>>*);
+    
 };
 
 #endif // ERRORFORM_H
