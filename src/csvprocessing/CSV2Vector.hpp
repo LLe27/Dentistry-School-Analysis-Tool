@@ -22,8 +22,15 @@ public:
     vector<vector<string >> parsePublications(string filePath);
 
     void changePublicationField(publicationField myField, int userNumber, string newField);
-    vector<vector<string >> getErrorPublications();
+
+    /* Invert the prased vector */
     vector<vector<string>> invertVector(vector<vector<string>> myVector);
+
+    /* Error subsets */
+    vector<vector<string >> getErrorTeaching();
+    vector<vector<string >> getErrorFunding();
+    vector<vector<string >> getErrorPresentations();
+    vector<vector<string >> getErrorPublications();
 
 	/* Read and create the CSV */
 	bool createParsePublications(string filePath);

@@ -72,6 +72,7 @@ vector<vector<string >> myData::getErrorPublications()
                 /* The last field of the vector will be reason of error */
                 vector<string> currUser = invertedVector.at(i);
                 currUser.push_back("NULL String. Please Enter something!");
+                currUser.push_back(to_string(i));
                 userSubset.push_back(currUser);
                 break;
             }
@@ -83,6 +84,85 @@ vector<vector<string >> myData::getErrorPublications()
 
 }
 
+vector<vector<string >> myData::getErrorTeaching()
+{
+    vector<vector<string>> userSubset, invertedVector;
+    if (teaching == NULL) * (new vector<vector<string>> ());
+    invertedVector = invertVector(*teaching);
+
+
+    for (int i = 0; i < invertedVector.size(); i++)
+    {
+        for (int j = 0; j < invertedVector.at(i).size(); j++ )
+        {
+            /* If it's null add to the subset */
+            if (invertedVector.at(i).at(j).compare("") == 0){
+                /* The last field of the vector will be reason of error */
+                vector<string> currUser = invertedVector.at(i);
+                currUser.push_back("NULL String. Please Enter something!");
+                currUser.push_back(to_string(i));
+                userSubset.push_back(currUser);
+                break;
+            }
+
+            /* TODO: What other reasons are needed ??? */
+
+        }
+    }
+}
+vector<vector<string >> myData::getErrorFunding()
+{
+    vector<vector<string>> userSubset, invertedVector;
+    if (funding == NULL) * (new vector<vector<string>> ());
+    invertedVector = invertVector(*funding);
+
+
+    for (int i = 0; i < invertedVector.size(); i++)
+    {
+        for (int j = 0; j < invertedVector.at(i).size(); j++ )
+        {
+            /* If it's null add to the subset */
+            if (invertedVector.at(i).at(j).compare("") == 0){
+                /* The last field of the vector will be reason of error */
+                vector<string> currUser = invertedVector.at(i);
+                currUser.push_back("NULL String. Please Enter something!");
+                currUser.push_back(to_string(i));
+                userSubset.push_back(currUser);
+                break;
+            }
+
+            /* TODO: What other reasons are needed ??? */
+
+        }
+    }
+}
+
+vector<vector<string >> myData::getErrorPresentations()
+{
+    vector<vector<string>> userSubset, invertedVector;
+    if (presentations == NULL) * (new vector<vector<string>> ());
+    invertedVector = invertVector(*presentations);
+
+
+    for (int i = 0; i < invertedVector.size(); i++)
+    {
+        for (int j = 0; j < invertedVector.at(i).size(); j++ )
+        {
+            /* If it's null add to the subset */
+            if (invertedVector.at(i).at(j).compare("") == 0){
+                /* The last field of the vector will be reason of error */
+                vector<string> currUser = invertedVector.at(i);
+                currUser.push_back("NULL String. Please Enter something!");
+                currUser.push_back(to_string(i));
+                userSubset.push_back(currUser);
+                break;
+            }
+
+            /* TODO: What other reasons are needed ??? */
+
+        }
+    }
+}
 void myData::changePublicationField(publicationField myField, int userNumber, string newMsg)
 {
     publications->at(userNumber).at(myField) = newMsg;
