@@ -200,26 +200,31 @@ void MainWindow::on_bntDisplayGraph_clicked()
 void MainWindow::on_bntDisplayPie_clicked()
 {
 
-    QString title = "My Sample Pie";
+    //QString title = "My Sample Pie";
 
     QVector<QString> labels;
     labels.append("Apple");
     labels.append("Donut");
     labels.append("Cherry");
-/*
-    labels.append("Apple");
-    labels.append("Donut");
-    labels.append("Cherry");
-    labels.append("Apple");
-    labels.append("Donut");
-    labels.append("Cherry");
-    labels.append("Apple");
-    labels.append("Donut");
-    labels.append("Cherry");
-    labels.append("Apple");
-    labels.append("Donut");
-    labels.append("Cherry");
-*/
+
+
+    int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
+    dayStart = Startdate.day();
+    monthStart = Startdate.month();
+    yearStart = Startdate.year();
+    dayEnd = Enddate.day();
+    monthEnd = Enddate.month();
+    yearEnd = Enddate.year();
+
+    QVector<double> numItems;
+    QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
+
+    //return as vector all of the possible types.
+    vector<string> types = p->getListOfTypes();
+    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+    for (int i=0; i<types.size(); i++) {
+        numItems << p->getIndicesType(types.at(i),indDate).size();
+    }
     QVector<double> data;
     data.append(1);
     data.append(2);
@@ -264,6 +269,20 @@ void MainWindow::on_bntDisplayScatter_clicked()
     //return as vector all of the possible types.
     vector<string> types = p->getListOfTypes();
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+
+
+    double yearTotal = 0;
+    for (int i = yearStart; i < yearEnd; i++)
+    {
+        // Get all Indeces for the current year
+        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+        xData << i;
+        for (int j = 0; j < types.size(); j++) {
+            yearTotal += p->getIndicesType(types.at(j),indDate).size();
+        }
+        yData << yearTotal;
+
+    }
     xData.push_back(3.4);
     xData.push_back(15.6);
     xData.push_back(7.5);
@@ -466,6 +485,8 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 
 
 void MainWindow::processDates(){
+
+
         vector<string> types = p->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
