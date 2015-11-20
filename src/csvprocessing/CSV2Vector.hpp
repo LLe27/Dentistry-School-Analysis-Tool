@@ -21,7 +21,11 @@ public:
     vector<vector<string >> parsePresentations(string filePath);
     vector<vector<string >> parsePublications(string filePath);
 
-    void changePublicationField(publicationField myField, int userNumber, string newField);
+    void changeTeachingField(int myField, int userNumber, string newMsg);
+    void changeFundingField(int myField, int userNumber, string newMsg);
+    void changePresentationsField(int myField, int userNumber, string newMsg);
+    void changePublicationField(int myField, int userNumber, string newMsg);
+
 
     /* Invert the prased vector */
     vector<vector<string>> invertVector(vector<vector<string>> myVector);

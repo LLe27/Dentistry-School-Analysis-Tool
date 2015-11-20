@@ -163,10 +163,30 @@ vector<vector<string >> myData::getErrorPresentations()
         }
     }
 }
-void myData::changePublicationField(publicationField myField, int userNumber, string newMsg)
+void myData::changePublicationField(int myField, int userNumber, string newMsg)
 {
+    if (publications == NULL) return;
     publications->at(userNumber).at(myField) = newMsg;
 }
+
+void myData::changeTeachingField(int  myField, int userNumber, string newMsg)
+{
+    if (teaching == NULL) return;
+    teaching->at(userNumber).at(myField) = newMsg;
+}
+
+void myData::changeFundingField(int myField, int userNumber, string newMsg)
+{
+    if (funding == NULL) return;
+    funding->at(userNumber).at(myField) = newMsg;
+}
+
+void myData::changePresentationsField(int myField, int userNumber, string newMsg)
+{
+    if (presentations == NULL) return;
+    presentations->at(userNumber).at(myField) = newMsg;
+}
+
 
 bool myData::isPublications()
 {
