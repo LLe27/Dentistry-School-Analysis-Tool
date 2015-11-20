@@ -215,40 +215,65 @@ QTreeView::branch:open:has-children:has-siblings  {
    <widget class="QPushButton" name="bntDisplayGraph">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>111</width>
-      <height>23</height>
+      <x>30</x>
+      <y>210</y>
+      <width>141</width>
+      <height>141</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/BarIcon.png);</string>
+    </property>
     <property name="text">
-     <string>DisplayGraph</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="bntDisplayPie">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>140</y>
-      <width>111</width>
-      <height>23</height>
+      <x>210</x>
+      <y>230</y>
+      <width>141</width>
+      <height>111</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/PieIcon.png);</string>
+    </property>
     <property name="text">
-     <string>DisplayPie</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="bntDisplayScatter">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>111</width>
-      <height>23</height>
+      <x>40</x>
+      <y>370</y>
+      <width>121</width>
+      <height>121</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/ScatterIcon.png);</string>
+    </property>
     <property name="text">
-     <string>DisplayScatter</string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>211</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 87 22pt &quot;Segoe UI Black&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Display Graph</string>
     </property>
    </widget>
   </widget>
@@ -258,7 +283,7 @@ QTreeView::branch:open:has-children:has-siblings  {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFIle">
