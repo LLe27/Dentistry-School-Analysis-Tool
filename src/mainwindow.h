@@ -7,6 +7,11 @@
 #include <string>
 #include <vector>
 #include "csvprocessing/PublicationProcessing.h"
+#include "csvprocessing/GrantProcessing.h"
+#include "csvprocessing/PresentationProcessing.h"
+#include "csvprocessing/TeachingProcessing.h"
+
+
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include "../lib/qcustomplot.h"
@@ -34,7 +39,7 @@ public:
      * @return
      */
     void makeGraph(QVector<double> yAxisData, QString title , vector<string> barLabels);
-    void makePie(QVector<double> pieData, QString title, QVector<QString> pieLabels );
+    void makePie(QVector<double> pieData, QString title, vector<string> pieLabels );
     void makeScatter(QVector<double> xData, QVector<double> yData, QString title );
 
 private slots:

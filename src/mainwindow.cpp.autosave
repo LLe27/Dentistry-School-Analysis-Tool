@@ -3,10 +3,12 @@
 #include "../lib/nightcharts/nightcharts.h"
 #include "../lib/nightcharts/nightchartswidget.h"
 
+
 QDate Startdate;
 QDate Enddate;
 
 PublicationProcessing* p;
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
