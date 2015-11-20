@@ -36,18 +36,18 @@ myData::myData()
 
 
 /*TODO: ONE PROBLEM, THIS BECOMES VERY VERY VERY VERY TIME CONSUMING WHEN EDITING FILE. */
-vector<vector<string>> myData::invertPublicationsVector()
+vector<vector<string>> myData::invertVector(vector<vector<string>> myVector)
 {
     /* Currently, every vector is a field and users information are rows in each vector*/
     /* Transition to every vector is a user, and each field in that vector are elements of fields */
     vector<vector<string>> newVector;
 
-    for (int i = 0; i < publications->size(); i++)
+    for (int i = 0; i < myVector.size(); i++)
     {
         vector<string> currUser;
-        for (int j = 0; j < publications->at(i).size(); j++)
+        for (int j = 0; j < myVector.at(i).size(); j++)
         {
-            currUser.push_back(publications->at(i).at(j));
+            currUser.push_back(myVector.at(i).at(j));
         }
         newVector.push_back(currUser);
     }
@@ -59,7 +59,8 @@ vector<vector<string>> myData::invertPublicationsVector()
 vector<vector<string >> myData::getErrorPublications()
 {
     vector<vector<string>> userSubset, invertedVector;
-    invertedVector = invertPublicationsVector();
+    if (publications == NULL) * (new vector<vector<string>> ());
+    invertedVector = invertVector(*publications);
 
 
     for (int i = 0; i < invertedVector.size(); i++)
@@ -160,6 +161,10 @@ vector<vector<string >> parsePresentations(string filePath)
 	vector<vector<string>> Data;
 	return Data;
 }
+
+enum presentations_members {RecordInfo, LastModifiedUser, LastModifiedDate, ID, MemberName, PrimaryDomain, Date, Type, Area, Role, ActivityType, GeographicalScope, Host, Country, Province, City, \
+                            NumberOfAttendees, MainAudience, Hours, TeachingEffectivenessScore, URL, Competitve, EducationPresentation, Remarks, FundingOrganization, Authorship, Title, RestOfCitation, \
+                           PersonalRemuneration, OtherInfo};
 
 vector<vector<string >> myData::parsePresentations(string filePath) {
 
@@ -380,7 +385,6 @@ exit(EXIT_SUCCESS);
 
 }
 
-
 vector<vector<string >> myData::parseTeaching(string filePath) {
 
     // If the file is in the same folder as your source code, then there is no need to include file path
@@ -588,7 +592,6 @@ for (int i = 0; i < 100; i++){
 exit(EXIT_SUCCESS);
 #endif
 }
-
 
 vector<vector<string >> myData::parsePublications(string filePath) {
 

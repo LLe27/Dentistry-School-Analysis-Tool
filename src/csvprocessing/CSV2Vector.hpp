@@ -23,7 +23,7 @@ public:
 
     void changePublicationField(publicationField myField, int userNumber, string newField);
     vector<vector<string >> getErrorPublications();
-    vector<vector<string>> invertPublicationsVector();
+    vector<vector<string>> invertVector(vector<vector<string>> myVector);
 
 	/* Read and create the CSV */
 	bool createParsePublications(string filePath);
