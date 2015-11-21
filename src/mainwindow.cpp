@@ -3,10 +3,12 @@
 #include "../lib/nightcharts/nightcharts.h"
 #include "../lib/nightcharts/nightchartswidget.h"
 
+
 QDate Startdate;
 QDate Enddate;
 
 PublicationProcessing* p;
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -218,7 +220,9 @@ void MainWindow::on_bntDisplayPie_clicked()
         numItems << p->getIndicesType(types.at(i),indDate).size();
     }
 
-    //QString title = "My Sample Pie";
+=======
+#if 0
+
 
     QVector<QString> labels;
     labels.append("Apple");
@@ -261,8 +265,8 @@ void MainWindow::on_bntDisplayPie_clicked()
     data.append(2);
     data.append(3);
 */
-    makePie(data, title, labels);
-
+#endif
+    makePie(numItems, title, types);
 }
 
 
@@ -286,27 +290,28 @@ void MainWindow::on_bntDisplayScatter_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = p->getListOfTypes();
-<<<<<<< HEAD
+
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
 
 
-=======
+
     //vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     
-    
->>>>>>> 29cc1bfbb5c0c60e90d1bc25791192eafbd0c774
+
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
         vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
-        xData << i;
+        xData.push_back(i);
+        yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
             yearTotal += p->getIndicesType(types.at(j),indDate).size();
         }
-        yData << yearTotal;
+        yData.push_back(yearTotal);
 
     }
+#if 0
     xData.push_back(3.4);
     xData.push_back(15.6);
     xData.push_back(7.5);
@@ -320,6 +325,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
     yData.push_back(19.2);
     yData.push_back(18.8);
     yData.push_back(14.7);
+#endif
 
     makeScatter(xData, yData, title);
 }
@@ -345,7 +351,15 @@ QStringList MainWindow::on_btnDates_clicked()
 }
 
 
-void MainWindow::makePie(QVector<double> pieData, QString title, QVector<QString> pieLabels ) {
+void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> Labels ) {
+
+
+    QVector<QString> pieLabels;
+
+    for (int i = 0; i < Labels.size(); i++) {
+        pieLabels << Labels.at(i).c_str();
+    }
+
 
     // Compute minimum & maximum height to show all labels
     int height=30*pieLabels.size();
@@ -486,10 +500,14 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 
     //find maximum x and y values.
     int xMax = 0;
-    for(int xDataIndex=0; xDataIndex < xData.size(); xDataIndex++)
+    int xMin = 2015;
+    for(int xDataIndex=0; xDataIndex < xData.size(); xDataIndex++) {
+
+        if (xData.at(xDataIndex) < xMin) xMin = xData.at(xDataIndex);
+
         if(xData.at(xDataIndex) > xMax)
             xMax = xData.at(xDataIndex);
-
+    }
     int yMax = 0;
     for(int yDataIndex=0; yDataIndex < yData.size(); yDataIndex++)
         if(yData.at(yDataIndex) > yMax)
@@ -499,7 +517,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     customPlot->graph()->setData(xData, yData);
 
     //set the x axis to be larger than the maximum x value
-    customPlot->xAxis->setRange(0, xMax + 2);
+    customPlot->xAxis->setRange(xMin, 2015);
     //set the y axis to be larger than the maximum y value
     customPlot->yAxis->setRange(0, yMax + 2);
     //draw scatter plot
