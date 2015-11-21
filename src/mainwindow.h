@@ -60,7 +60,7 @@ private:
     void initDate_Years(QComboBox *months);
     void addTreeRoot(QTreeWidgetItem *treeBranch,QString name, QString description);
     void addTreeChild(QTreeWidgetItem *parent, QString name, QString description);
-    void processDates();
+    void drawDashboard();
 
     QDate Startdate;
     QDate Enddate;

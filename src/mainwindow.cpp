@@ -219,8 +219,11 @@ QStringList MainWindow::on_btnDates_clicked()
     ui->treeWidget->setHeaderLabels(ColumnNames);
     Startdate = date1;
     Enddate = date2;
+    indDate = p->getIndicesDate(Startdate.day(),Startdate.month(),Startdate.year(),Enddate.day(),Enddate.month(),Enddate.year());
+
     ui->treeWidget->clear();
-    processDates();
+    drawDashboard();
+
     return ColumnNames;
 
 }
@@ -513,14 +516,12 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
 }
 
 
-void MainWindow::processDates(){
-
+void MainWindow::drawDashboard(){
         vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<string> members = p->getListOfMemberNames();
         //get the subset of indices where the paper was published during the specified date range.
-        indDate = p->getIndicesDate(Startdate.day(),Startdate.month(),Startdate.year(),Enddate.day(),Enddate.month(),Enddate.year());
         vector<int> indOther = indDate;
         int count;
 
