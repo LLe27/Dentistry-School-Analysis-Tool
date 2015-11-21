@@ -98,7 +98,7 @@ void MainWindow::on_bntDisplayGraph_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
@@ -124,7 +124,7 @@ void MainWindow::on_bntDisplayPie_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
@@ -156,7 +156,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
-        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
@@ -192,7 +192,7 @@ void MainWindow::on_bntDisplayLine_clicked()
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
-        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
@@ -520,7 +520,7 @@ void MainWindow::processDates(){
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<string> members = p->getListOfMemberNames();
         //get the subset of indices where the paper was published during the specified date range.
-        vector<int> indDate = p->getIndicesDate(Startdate.day(),Startdate.month(),Startdate.year(),Enddate.day(),Enddate.month(),Enddate.year());
+        indDate = p->getIndicesDate(Startdate.day(),Startdate.month(),Startdate.year(),Enddate.day(),Enddate.month(),Enddate.year());
         vector<int> indOther = indDate;
         int count;
 

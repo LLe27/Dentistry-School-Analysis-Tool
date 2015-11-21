@@ -65,6 +65,7 @@ private:
     QDate Startdate;
     QDate Enddate;
     CSVProcessing* p;
+    vector<int> indDate;
 };
 
 #endif // MAINWINDOW_H
