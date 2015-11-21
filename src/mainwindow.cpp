@@ -199,6 +199,24 @@ void MainWindow::on_bntDisplayGraph_clicked()
 
 void MainWindow::on_bntDisplayPie_clicked()
 {
+    
+    int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
+    dayStart = Startdate.day();
+    monthStart = Startdate.month();
+    yearStart = Startdate.year();
+    dayEnd = Enddate.day();
+    monthEnd = Enddate.month();
+    yearEnd = Enddate.year();
+
+    QVector<double> numItems;
+    QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
+
+    //return as vector all of the possible types.
+    vector<string> types = p->getListOfTypes();
+    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+    for (int i=0; i<types.size(); i++) {
+        numItems << p->getIndicesType(types.at(i),indDate).size();
+    }
 
     //QString title = "My Sample Pie";
 
@@ -268,9 +286,15 @@ void MainWindow::on_bntDisplayScatter_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = p->getListOfTypes();
+<<<<<<< HEAD
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
 
 
+=======
+    //vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+    
+    
+>>>>>>> 29cc1bfbb5c0c60e90d1bc25791192eafbd0c774
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
     {
