@@ -46,31 +46,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Add root tot the tree
+//Add root to the tree
 void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description){
-
-treeBranch ->setText(0, name);
-treeBranch ->setText(1, description);
-
-
-
-
+    treeBranch ->setText(0, name);
+    treeBranch ->setText(1, description);
 }
 
 //Add leaf to tree
 void MainWindow::addTreeChild(QTreeWidgetItem *parent,QString name,QString description){
-
     QTreeWidgetItem *treeItem = new QTreeWidgetItem();
     treeItem->setText(0,name);
     treeItem -> setText(1,description);
 
     parent ->addChild(treeItem);
-
 }
 
 QString MainWindow::on_actionOpen_triggered()
 {
-    //Returns file name of sleected file in QFileDialog
+    //Returns file name of selected file in QFileDialog
     QString filename= QFileDialog::getOpenFileName(this, tr("Open File"),"C://","CSV File (*.csv);;All files (*.*)");
     ui->lblDateRange->setText(filename);
 
@@ -79,7 +72,7 @@ QString MainWindow::on_actionOpen_triggered()
     //Pass filename to open file function
 }
 
-void MainWindow::on_bntDisplayGraph_clicked()
+void MainWindow::on_bntDisplayBar_clicked()
 {
     //update dates
     //on_btnDates_clicked();
@@ -103,7 +96,7 @@ void MainWindow::on_bntDisplayGraph_clicked()
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
 
-    makeGraph(numItems, title, types);
+    makeBarGraph(numItems, title, types);
     //w.show();
 
 }
@@ -205,7 +198,7 @@ void MainWindow::on_bntDisplayLine_clicked()
     makeLine(xData, yData, title);
 }
 
-QStringList MainWindow::on_btnDates_clicked()
+void MainWindow::on_btnDates_clicked()
 {
     QDate date1 = (ui->dateEdit->date());
     QDate date2 = (ui->dateEdit_2->date());
@@ -224,7 +217,7 @@ QStringList MainWindow::on_btnDates_clicked()
     ui->treeWidget->clear();
     drawDashboard();
 
-    return ColumnNames;
+    //return ColumnNames;
 
 }
 
@@ -280,7 +273,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 }
 
 
-void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<string> barLabels ) {
+void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<string> barLabels ) {
     QRect rec = QApplication::desktop()->screenGeometry();
      int height = rec.height();
      int width = rec.width();

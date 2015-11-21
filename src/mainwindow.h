@@ -27,41 +27,122 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    /**
+     * Constructor
+     *
+     * @param parent
+     */
     explicit MainWindow(QWidget *parent = 0);
+
+    /**
+     * Deconstructor
+     */
     ~MainWindow();
 
     /**
-     * Draw graph onto windows canvas
+     * Draw bar graph onto windows canvas
      *
      * @param w
      * @param yAxisData
      * @param title
      * @return
      */
-    void makeGraph(QVector<double> yAxisData, QString title , vector<string> barLabels);
+    void makeBarGraph(QVector<double> yAxisData, QString title , vector<string> barLabels);
+
+    /**
+     * Draw pie graph onto windows canvas
+     *
+     * @param pieData
+     * @param title
+     * @param pieLabels
+     */
     void makePie(QVector<double> pieData, QString title, vector<string> pieLabels );
+
+    /**
+     * Draw scatter graph onto windows canvas
+     *
+     * @param xData
+     * @param yData
+     * @param title
+     */
     void makeScatter(QVector<double> xData, QVector<double> yData, QString title );
+
+    /**
+     * Draw line graph onto windows canvas
+     *
+     * @param xData
+     * @param yData
+     * @param title
+     */
     void makeLine(QVector<double> xData, QVector<double> yData, QString title );
 
 private slots:
+    /**
+     * Returns file name of selected file in QFileDialog
+     *
+     * @return
+     */
     QString on_actionOpen_triggered();
 
-    void on_bntDisplayGraph_clicked();
+    /**
+     * Button response function. Calls plot function for current data.
+     */
+    void on_bntDisplayBar_clicked();
+
+    /**
+     * Button response function. Calls plot function for current data.
+     */
     void on_bntDisplayPie_clicked();
+
+    /**
+     * Button response function. Calls plot function for current data.
+     */
     void on_bntDisplayScatter_clicked();
+
+    /**
+     * Button response function. Calls plot function for current data.
+     */
     void on_bntDisplayLine_clicked();
 
-    QStringList on_btnDates_clicked();
+    /**
+     * Button response function. Updates date range and queries data for new range.
+     */
+    void on_btnDates_clicked();
 
 private:
-    Ui::MainWindow *ui;
+    /*
+     * Commented out unused functions
+     */
+//    void initDate_Month(QComboBox *months);
+//    void initDate_Years(QComboBox *months);
 
-    void initDate_Month(QComboBox *months);
-    void initDate_Years(QComboBox *months);
+    /**
+     * Adds root with specified name and description to specified branch.
+     *
+     * @param treeBranch
+     * @param name
+     * @param description
+     */
     void addTreeRoot(QTreeWidgetItem *treeBranch,QString name, QString description);
+
+    /**
+     * Adds child with specified name and description to specified root.
+     *
+     * @param parent
+     * @param name
+     * @param description
+     */
     void addTreeChild(QTreeWidgetItem *parent, QString name, QString description);
+
+    /**
+     * Draws dashboard with current date-range data.
+     */
     void drawDashboard();
 
+    /*
+     * Private Instance Variables
+     */
+    Ui::MainWindow *ui;
     QDate Startdate;
     QDate Enddate;
     CSVProcessing* p;

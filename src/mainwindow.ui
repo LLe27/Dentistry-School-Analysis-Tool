@@ -212,7 +212,7 @@ QTreeView::branch:open:has-children:has-siblings  {
      <string>Date 2</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="bntDisplayGraph">
+   <widget class="QPushButton" name="bntDisplayBar">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -220,6 +220,9 @@ QTreeView::branch:open:has-children:has-siblings  {
       <width>141</width>
       <height>141</height>
      </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">border-image: url(:/images/BarIcon.png);</string>
@@ -296,7 +299,7 @@ QTreeView::branch:open:has-children:has-siblings  {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFIle">

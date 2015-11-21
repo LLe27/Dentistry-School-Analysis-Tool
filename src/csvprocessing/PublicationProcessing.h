@@ -14,7 +14,7 @@ using namespace std;
 class PublicationProcessing : public CSVProcessing {
 
 public:
-/*
+    /*
      * "data" columns
      */
     static const int COLUMN_STATUS = 2;
