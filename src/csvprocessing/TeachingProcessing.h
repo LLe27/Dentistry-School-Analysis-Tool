@@ -98,6 +98,7 @@ private:
      */
     vector<string> types;
     vector<vector<int>> typesIndices;
+
 };
 
 #endif // TEACHINGPROCESSING_H

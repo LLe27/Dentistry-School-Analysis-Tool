@@ -172,6 +172,22 @@ protected:
      * @return
      */
     vector<int> getIndicesIntersect(vector<int> ind1, vector<int> ind2);
+
+    /**
+     * Accepts a string number and tests whether it is within bounds.
+     * If the string is empty or non-numeric, it is not within bounds.
+     * The string number that is equal to the min or max is within bounds
+     * (i.e., boudns are inclusive).
+     *
+     * Note that empty strings and non-numeric strings are treated as zero and
+     * are therefore within a range which includes zero.
+     *
+     * @brief numberWithinBounds
+     * @param numStr
+     * @param min
+     * @param max
+     */
+    bool numberWithinBounds(string numStr, double min, double max);
 private:
     /**
      * Populates memberNames and memberNamesIndicies.

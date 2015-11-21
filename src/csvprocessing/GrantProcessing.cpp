@@ -16,6 +16,9 @@ GrantProcessing::GrantProcessing(string filename) : CSVProcessing(filename) {
 
     //populate list of types and its indices
     populateTypes();
+
+    //populate list of roles and its indices
+    populateRoles();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +27,10 @@ GrantProcessing::GrantProcessing(string filename) : CSVProcessing(filename) {
 
 vector<string> GrantProcessing::getListOfTypes() {
     return types;
+}
+
+vector<string> GrantProcessing::getListOfRoles() {
+    return roles;
 }
 
 vector<int> GrantProcessing::getIndicesType(string type) {
@@ -55,53 +62,59 @@ vector<int> GrantProcessing::getIndicesStatus(string status, vector<int> indToCo
 }
 
 vector<int> GrantProcessing::getIndicesPeerReviewed() {
-    //TO DO
-    return {};
+    return getIndicesPeerReviewed(allInd);
 }
 
 vector<int> GrantProcessing::getIndicesPeerReviewed(vector<int> indToConsider) {
-    //TO DO
-    return {};
+    return getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"TRUE") , indToConsider );
 }
 
 vector<int> GrantProcessing::getIndicesIndustry() {
-    //TO DO
-    return {};
+    return getIndicesIndustry(allInd);
 }
 
 vector<int> GrantProcessing::getIndicesIndustry(vector<int> indToConsider) {
-    //TO DO
-    return {};
+    return getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"TRUE") , indToConsider );
 }
 
 vector<int> GrantProcessing::getIndicesRole(string role) {
-    //TO DO
-    return {};
+    return getIndicesRole(role,allInd);
 }
 
 vector<int> GrantProcessing::getIndicesRole(string role, vector<int> indToConsider) {
-    //TO DO
-    return {};
+    //get role ind or return empty vector
+    int indRole = -1;
+    for (int i=0; i<roles.size(); i++) {
+        if (roles.at(i)==role) {
+            indRole = i;
+            break;
+        }
+    }
+    if (indRole==-1) return {};
+
+    //retrurn intersect between known type indicies and indToConsider
+    return getIndicesIntersect( rolesIndices.at(indRole) , indToConsider );
 }
 
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount) {
-    //TO DO
-    return {};
+    return getIndicesAmount(minAmount,maxAmount,allInd);
 }
 
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount, vector<int> indToConsider) {
-    //TO DO
-    return {};
+    vector<int> result;
+    for (int i : indToConsider) {
+        if (numberWithinBounds(data.at(COLUMN_AMOUNT).at(i),minAmount,maxAmount)) result.push_back(i);
+    }
+    return result;
 }
 
 vector<int> GrantProcessing::getIndicesTitle(string title) {
-    //TO DO
-    return {};
+    return getIndicesTitle(title,allInd);
 }
 
 vector<int> GrantProcessing::getIndicesTitle(string title, vector<int> indToConsider) {
-    //TO DO
-    return {};
+    //NOTE: uses getColumnContains rather than getColumnMatch
+    return getIndicesIntersect( getColumnContains(COLUMN_TITLE,title) , indToConsider );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,4 +125,10 @@ void GrantProcessing::populateTypes() {
     pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_TYPE);
     types = uniqueType.first;
     typesIndices = uniqueType.second;
+}
+
+void GrantProcessing::populateRoles() {
+    pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_ROLE);
+    roles = uniqueType.first;
+    rolesIndices = uniqueType.second;
 }

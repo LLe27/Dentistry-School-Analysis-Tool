@@ -8,7 +8,9 @@ QDate Startdate;
 QDate Enddate;
 
 PublicationProcessing* p;
-
+TeachingProcessing* tp;
+PresentationProcessing* pp;
+GrantProcessing* gp;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -16,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    ui->
 
     string filename = on_actionOpen_triggered().toStdString();
 
@@ -25,23 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     p = new PublicationProcessing(filename);
 
-
-    /*
-    //Initialize First set combo boxes
-    initDate_Month(ui->comboBox);
-    initDate_Years(ui->comboBox_2);
-
-    //Initialize Second set combo boxes
-    initDate_Month(ui->comboBox_3);
-    initDate_Years(ui->comboBox_4);
-
-    //Resize them to appropriate size
-
-    ui->comboBox->resize(69,22);
-    ui->comboBox_2->resize(69,22);
-    ui->comboBox_3->resize(69,22);
-    ui->comboBox_4->resize(69,22);
-    */
     //Setup TreeList, set it to have two columns
     ui->treeWidget->setColumnCount(2);
 
@@ -56,43 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->dateEdit_2->setDate(QDate::currentDate());
 
-
-
-
-
-
     //Create treewidget item asa root
-
-
-
-
-    //Making abunch of filler items for the tree to test functions
-
-
-
-
-//    //Testing Function
-//    QTreeWidgetItem *treeBranch2 = new QTreeWidgetItem(ui->treeWidget);
-//    addTreeRoot(treeBranch2,"Yo","Works");
-//    QTreeWidgetItem *CurrentParent;
-//    CurrentParent = treeBranch2;
-
-//    //WOW SUPER EASY
-//    for(int i = 0; i < 10;i++){
-//        if(i%2){
-//            QTreeWidgetItem *treeTest = new QTreeWidgetItem(CurrentParent);
-//            treeTest->setText(0,"Parent");
-//            treeTest->setText(1,"Yeah");
-//            CurrentParent = treeTest;
-//        }
-//        else{
-//            QTreeWidgetItem *treeTest = new QTreeWidgetItem(CurrentParent);
-//            treeTest->setText(0,"Child");
-//            treeTest->setText(1,"Nah");
-//        }
-
-//    }
-
     ui->treeWidget->sortByColumn(0,Qt::AscendingOrder);
     ui->treeWidget->setSortingEnabled(true);
 
@@ -106,36 +54,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-/*
-void MainWindow::initDate_Month(QComboBox *months){
-    months->addItem("Jan");
-    months->addItem("Feb");
-    months->addItem("Mar");
-    months->addItem("Apr");
-    months->addItem("May");
-    months->addItem("June");
-    months->addItem("July");
-    months->addItem("Sept");
-    months->addItem("Oct");
-    months->addItem("Nov");
-    months->addItem("Dec");
-
-}
-
-void MainWindow::initDate_Years(QComboBox *months){
-
-    for(int i = 0; i < 116; i++){
-        int year = 2015;
-        year -= i;
-
-        months->addItem(QString::number(year));
-
-    }
-
-}
-*/
-
 
 //Add root tot the tree
 void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description){
@@ -220,6 +138,7 @@ void MainWindow::on_bntDisplayPie_clicked()
         numItems << p->getIndicesType(types.at(i),indDate).size();
     }
 
+<<<<<<< HEAD
 =======
 #if 0
 
@@ -266,14 +185,13 @@ void MainWindow::on_bntDisplayPie_clicked()
     data.append(3);
 */
 #endif
+
     makePie(numItems, title, types);
 }
 
 
 void MainWindow::on_bntDisplayScatter_clicked()
 {
-    //update dates
-    //on_btnDates_clicked();
 
     // Make the graph
     int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
@@ -290,6 +208,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = p->getListOfTypes();
+<<<<<<< HEAD
 
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
 
@@ -297,7 +216,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
 
     //vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     
-
+        
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
     {
@@ -311,21 +230,6 @@ void MainWindow::on_bntDisplayScatter_clicked()
         yData.push_back(yearTotal);
 
     }
-#if 0
-    xData.push_back(3.4);
-    xData.push_back(15.6);
-    xData.push_back(7.5);
-    xData.push_back(14);
-    xData.push_back(15.8);
-    xData.push_back(12);
-
-    yData.push_back(10.7);
-    yData.push_back(2.1);
-    yData.push_back(6.3);
-    yData.push_back(19.2);
-    yData.push_back(18.8);
-    yData.push_back(14.7);
-#endif
 
     makeScatter(xData, yData, title);
 }
@@ -448,16 +352,6 @@ void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<stri
 
 
     customPlot->legend->setVisible(false);
-    /*
-    customPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
-    customPlot->legend->setBrush(QColor(255, 255, 255, 200));
-    QPen legendPen;
-    legendPen.setColor(QColor(130, 130, 130, 200));
-    customPlot->legend->setBorderPen(legendPen);
-    QFont legendFont = QFont("sanserif", 30);
-    customPlot->legend->setFont(legendFont);
-    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-*/
 
     customPlot->yAxis->setPadding(25); // Add space to the left of the Y axis title
     customPlot->yAxis2->setPadding(25); // Add space to the left of the Y axis title
@@ -528,7 +422,10 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 
 void MainWindow::processDates(){
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 67f2147bfa2137407c508963f00e76985d2809c0
         vector<string> types = p->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
