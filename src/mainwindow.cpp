@@ -4,16 +4,6 @@
 #include "../lib/nightcharts/nightcharts.h"
 #include "../lib/nightcharts/nightchartswidget.h"
 
-
-QDate Startdate;
-QDate Enddate;
-
-PublicationProcessing* p;
-TeachingProcessing* tp;
-PresentationProcessing* pp;
-GrantProcessing* gp;
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -107,10 +97,10 @@ void MainWindow::on_bntDisplayGraph_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
-        numItems << p->getIndicesType(types.at(i),indDate).size();
+        numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
 
     makeGraph(numItems, title, types);
@@ -133,10 +123,10 @@ void MainWindow::on_bntDisplayPie_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
-        numItems << p->getIndicesType(types.at(i),indDate).size();
+        numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
 
     makePie(numItems, title, types);
@@ -160,7 +150,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
         
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
@@ -170,7 +160,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
-            yearTotal += p->getIndicesType(types.at(j),indDate).size();
+            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate).size();
         }
         yData.push_back(yearTotal);
 
@@ -196,7 +186,7 @@ void MainWindow::on_bntDisplayLine_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
 
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
@@ -206,7 +196,7 @@ void MainWindow::on_bntDisplayLine_clicked()
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
-            yearTotal += p->getIndicesType(types.at(j),indDate).size();
+            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate).size();
         }
         yData.push_back(yearTotal);
 
@@ -525,7 +515,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
 
 void MainWindow::processDates(){
 
-        vector<string> types = p->getListOfTypes();
+        vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<string> members = p->getListOfMemberNames();
@@ -541,7 +531,7 @@ void MainWindow::processDates(){
 
             if (status == "Other") indStatus = indOther;
             //get the subset of indices where the paper is of the status specified and is in the date range specified.
-            else indStatus = p->getIndicesStatus(status,indDate);
+            else indStatus = ((PublicationProcessing *)p)->getIndicesStatus(status,indDate);
             count = indStatus.size();
             //cout << status << "(" << count << ")" << endl;
             QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
@@ -561,7 +551,7 @@ void MainWindow::processDates(){
 
               if (count) {
                 for (string type : types) {
-                    indStatusType = p->getIndicesType(type,indStatus);
+                    indStatusType = ((PublicationProcessing *)p)->getIndicesType(type,indStatus);
                     if (type.length()<1) type = "Unspecified"; // rename the blank type
                     count = indStatusType.size();
                     if (count) {

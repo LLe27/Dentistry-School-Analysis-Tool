@@ -55,13 +55,16 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    //PublicationProcessing p;
 
     void initDate_Month(QComboBox *months);
     void initDate_Years(QComboBox *months);
     void addTreeRoot(QTreeWidgetItem *treeBranch,QString name, QString description);
     void addTreeChild(QTreeWidgetItem *parent, QString name, QString description);
     void processDates();
+
+    QDate Startdate;
+    QDate Enddate;
+    CSVProcessing* p;
 };
 
 #endif // MAINWINDOW_H
