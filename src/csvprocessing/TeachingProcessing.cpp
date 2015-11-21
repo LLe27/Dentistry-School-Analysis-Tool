@@ -28,23 +28,27 @@ vector<int> TeachingProcessing::getIndicesProgram(string program, vector<int> in
 }
 
 vector<int> TeachingProcessing::getIndicesHours(int minHours, int maxHours) {
-    //TO DO
-    return {};
+    return getIndicesHours(minHours,maxHours,allInd);
 }
 
 vector<int> TeachingProcessing::getIndicesHours(int minHours, int maxHours, vector<int> indToConsider) {
-    //TO DO
-    return {};
+    vector<int> result;
+    for (int i : indToConsider) {
+        if (numberWithinBounds(data.at(COLUMN_HOURS).at(i),minHours,maxHours)) result.push_back(i);
+    }
+    return result;
 }
 
 vector<int> TeachingProcessing::getIndicesStudents(int minNumStudents, int maxNumStudents) {
-    //TO DO
-    return {};
+    return getIndicesStudents(minNumStudents,maxNumStudents,allInd);
 }
 
 vector<int> TeachingProcessing::getIndicesStudents(int minNumStudents, int maxNumStudents, vector<int> indToConsider) {
-    //TO DO
-    return {};
+    vector<int> result;
+    for (int i : indToConsider) {
+        if (numberWithinBounds(data.at(COLUMN_NUMBER_STUDENTS).at(i),minNumStudents,maxNumStudents)) result.push_back(i);
+    }
+    return result;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

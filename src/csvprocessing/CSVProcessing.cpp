@@ -146,6 +146,15 @@ vector<int> CSVProcessing::getIndicesIntersect(vector<int> ind1, vector<int> ind
     return overlap;
 }
 
+bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
+    //convert from string to double
+    double numDouble = atof(numStr.c_str());
+
+    //test bounds
+    if (numDouble>=min && numDouble<=max) return true;
+        else return false;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

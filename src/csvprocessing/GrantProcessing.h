@@ -42,6 +42,14 @@ public:
     vector<string> getListOfTypes();
 
     /**
+     * Getter for grant role. Return a vector<string> of all UNIQUE values.
+     *
+     *  @brief getListOfRoles
+     * @return
+     */
+    vector<string> getListOfRoles();
+
+    /**
      * Getter/Refiner for type (e.g., Clinical Trials). Considers all indecies.
      *
      * @brief getIndicesType
@@ -183,6 +191,13 @@ private:
     void populateTypes();
 
     /**
+     * Populates roles and rolesIndices.
+     *
+     * @brief populateRoles
+     */
+    void populateRoles();
+
+    /**
      * Identifies and merges similar types (e.g., "Books" and "Book" would be merged).
      * The more commonly used type name is preserved.
      *
@@ -199,6 +214,8 @@ private:
      */
     vector<string> types;
     vector<vector<int>> typesIndices;
+    vector<string> roles;
+    vector<vector<int>> rolesIndices;
 };
 
 #endif // GRANTPROCESSING_H
