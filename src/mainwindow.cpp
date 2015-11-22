@@ -138,8 +138,6 @@ void MainWindow::on_bntDisplayPie_clicked()
         numItems << p->getIndicesType(types.at(i),indDate).size();
     }
 
-<<<<<<< HEAD
-=======
 #if 0
 
 
@@ -208,7 +206,6 @@ void MainWindow::on_bntDisplayScatter_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = p->getListOfTypes();
-<<<<<<< HEAD
 
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
 
@@ -422,10 +419,6 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 
 void MainWindow::processDates(){
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 67f2147bfa2137407c508963f00e76985d2809c0
         vector<string> types = p->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
