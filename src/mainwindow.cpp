@@ -1,17 +1,8 @@
 //Necessaru Includes
+#include <QDate>
 #include "mainwindow.h"
 #include "../lib/nightcharts/nightcharts.h"
 #include "../lib/nightcharts/nightchartswidget.h"
-
-
-QDate Startdate;
-QDate Enddate;
-
-PublicationProcessing* p;
-TeachingProcessing* tp;
-PresentationProcessing* pp;
-GrantProcessing* gp;
-
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -106,10 +97,10 @@ void MainWindow::on_bntDisplayGraph_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
-        numItems << p->getIndicesType(types.at(i),indDate).size();
+        numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
 
     makeGraph(numItems, title, types);
@@ -132,10 +123,10 @@ void MainWindow::on_bntDisplayPie_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
     vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
-        numItems << p->getIndicesType(types.at(i),indDate).size();
+        numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
 
 #if 0
@@ -205,14 +196,6 @@ void MainWindow::on_bntDisplayScatter_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
-
-    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
-
-
-
-    //vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
-    
         
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
@@ -222,13 +205,49 @@ void MainWindow::on_bntDisplayScatter_clicked()
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
-            yearTotal += p->getIndicesType(types.at(j),indDate).size();
+            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate).size();
         }
         yData.push_back(yearTotal);
 
     }
 
     makeScatter(xData, yData, title);
+}
+
+void MainWindow::on_bntDisplayLine_clicked()
+{
+
+    // Make the graph
+    int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
+    dayStart = Startdate.day();
+    monthStart = Startdate.month();
+    yearStart = Startdate.year();
+    dayEnd = Enddate.day();
+    monthEnd = Enddate.month();
+    yearEnd = Enddate.year();
+
+    QVector<double> xData;
+    QVector<double> yData;
+    QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
+
+    //return as vector all of the possible types.
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
+
+    double yearTotal = 0;
+    for (int i = yearStart; i < yearEnd; i++)
+    {
+        // Get all Indeces for the current year
+        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+        xData.push_back(i);
+        yearTotal = 0;
+        for (int j = 0; j < types.size(); j++) {
+            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate).size();
+        }
+        yData.push_back(yearTotal);
+
+    }
+
+    makeLine(xData, yData, title);
 }
 
 QStringList MainWindow::on_btnDates_clicked()
@@ -371,6 +390,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     QRect rec = QApplication::desktop()->screenGeometry();
      int height = rec.height();
      int width = rec.width();
+     double xRangeMinimum, yRangeMinimum, xRangeMaximum, yRangeMaximum;
 
     QCustomPlot *customPlot = new QCustomPlot();
     customPlot->show();
@@ -389,28 +409,149 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
     customPlot->graph(0)->setName(title);
 
-    //find maximum x and y values.
-    int xMax = 0;
-    int xMin = 2015;
+    //find minimum and maximum x values.
+    int xMax = xData.at(0);
+    int xMin = xData.at(0);
     for(int xDataIndex=0; xDataIndex < xData.size(); xDataIndex++) {
-
         if (xData.at(xDataIndex) < xMin) xMin = xData.at(xDataIndex);
-
-        if(xData.at(xDataIndex) > xMax)
-            xMax = xData.at(xDataIndex);
+        if(xData.at(xDataIndex) > xMax)  xMax = xData.at(xDataIndex);
     }
-    int yMax = 0;
-    for(int yDataIndex=0; yDataIndex < yData.size(); yDataIndex++)
-        if(yData.at(yDataIndex) > yMax)
-            yMax = yData.at(yDataIndex);
+
+    //find minimum and maximum y values.
+    int yMax = yData.at(0);
+    int yMin = yData.at(0);
+    for(int yDataIndex=0; yDataIndex < yData.size(); yDataIndex++) {
+        if (yData.at(yDataIndex) < yMin) yMin = yData.at(yDataIndex);
+        if (yData.at(yDataIndex) > yMax) yMax = yData.at(yDataIndex);
+    }
 
     // pass the data points to the scatter plot
     customPlot->graph()->setData(xData, yData);
 
-    //set the x axis to be larger than the maximum x value
-    customPlot->xAxis->setRange(xMin, 2015);
+    // Add up to 2 years gap to min of X range
+    if(xMin < 2) xRangeMinimum = 0;
+    else xRangeMinimum = xMin - 2;
+
+    // Add up to 2 years gap to max of X range (up to current year)
+    int currentYear = QDate::currentDate().year();
+    if(currentYear - xMax < 2)
+    {
+        if(currentYear - xMax == 1)
+            xRangeMaximum = currentYear;
+        else if(currentYear - xMax == 0)
+            xRangeMaximum = currentYear + 0.5;
+    }
+    else
+        xRangeMaximum = xMax + 2;
+
+    //set the x axis tick labels
+    customPlot->xAxis->setAutoTickStep(false);
+    customPlot->xAxis->setTickStep(2);
+
+    //set the x axis label
+    customPlot->xAxis->setLabel("Years");
+
+    //set the x axis range
+    customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
+
     //set the y axis to be larger than the maximum y value
-    customPlot->yAxis->setRange(0, yMax + 2);
+    if(yMin < 2) yRangeMinimum = 0;
+    else yRangeMinimum = yMin - 2;
+
+    yRangeMaximum = yMax + 2;
+
+    //set the y axis label
+    customPlot->yAxis->setLabel("number of papers");
+
+    //set the y axis range
+    customPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
+
+    //draw scatter plot
+    customPlot->replot();
+}
+
+// Create the line graph
+void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString title ) {
+
+    QRect rec = QApplication::desktop()->screenGeometry();
+     int height = rec.height();
+     int width = rec.width();
+     double xRangeMinimum, yRangeMinimum, xRangeMaximum, yRangeMaximum;
+
+    QCustomPlot *customPlot = new QCustomPlot();
+    customPlot->show();
+    //set window size based on screen size
+    customPlot->setGeometry(100, 100, width-200, height-200);
+    // Tell QCustomPlot to show dots, but not lines
+    customPlot->addGraph();
+    customPlot->graph(0)->setLineStyle(QCPGraph::lsLine);
+    customPlot->graph(0)->setPen(QPen(Qt::blue)); // line color blue for first graph
+
+    // add title
+    customPlot->plotLayout()->insertRow(0);
+    customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(customPlot, title));
+
+    //set the graph to a scatter plot
+    customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    customPlot->graph(0)->setName(title);
+
+    //find minimum and maximum x values.
+    int xMax = xData.at(0);
+    int xMin = xData.at(0);
+    for(int xDataIndex=0; xDataIndex < xData.size(); xDataIndex++) {
+        if (xData.at(xDataIndex) < xMin) xMin = xData.at(xDataIndex);
+        if(xData.at(xDataIndex) > xMax)  xMax = xData.at(xDataIndex);
+    }
+
+    //find minimum and maximum y values.
+    int yMax = yData.at(0);
+    int yMin = yData.at(0);
+    for(int yDataIndex=0; yDataIndex < yData.size(); yDataIndex++) {
+        if (yData.at(yDataIndex) < yMin) yMin = yData.at(yDataIndex);
+        if (yData.at(yDataIndex) > yMax) yMax = yData.at(yDataIndex);
+    }
+
+    // pass the data points to the scatter plot
+    customPlot->graph()->setData(xData, yData);
+
+    // Add up to 2 years gap to min of X range
+    if(xMin < 2) xRangeMinimum = 0;
+    else xRangeMinimum = xMin - 2;
+
+    // Add up to 2 years gap to max of X range (up to current year)
+    int currentYear = QDate::currentDate().year();
+    if(currentYear - xMax < 2)
+    {
+        if(currentYear - xMax == 1)
+            xRangeMaximum = currentYear;
+        else if(currentYear - xMax == 0)
+            xRangeMaximum = currentYear + 0.5;
+    }
+    else
+        xRangeMaximum = xMax + 2;
+
+    //set the x axis tick labels
+    customPlot->xAxis->setAutoTickStep(false);
+    customPlot->xAxis->setTickStep(2);
+
+    //set the x axis label
+    customPlot->xAxis->setLabel("Years");
+
+    //set the x axis range
+    customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
+
+    //set the y axis to be larger than the maximum y value
+    if(yMin < 2) yRangeMinimum = 0;
+    else yRangeMinimum = yMin - 2;
+
+    yRangeMaximum = yMax + 2;
+
+    //set the y axis label
+    customPlot->yAxis->setLabel("number of papers");
+
+    //set the y axis range
+    customPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
+
     //draw scatter plot
     customPlot->replot();
 
@@ -419,7 +560,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 
 void MainWindow::processDates(){
 
-        vector<string> types = p->getListOfTypes();
+        vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<string> members = p->getListOfMemberNames();
@@ -435,7 +576,7 @@ void MainWindow::processDates(){
 
             if (status == "Other") indStatus = indOther;
             //get the subset of indices where the paper is of the status specified and is in the date range specified.
-            else indStatus = p->getIndicesStatus(status,indDate);
+            else indStatus = ((PublicationProcessing *)p)->getIndicesStatus(status,indDate);
             count = indStatus.size();
             //cout << status << "(" << count << ")" << endl;
             QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
@@ -455,7 +596,7 @@ void MainWindow::processDates(){
 
               if (count) {
                 for (string type : types) {
-                    indStatusType = p->getIndicesType(type,indStatus);
+                    indStatusType = ((PublicationProcessing *)p)->getIndicesType(type,indStatus);
                     if (type.length()<1) type = "Unspecified"; // rename the blank type
                     count = indStatusType.size();
                     if (count) {
