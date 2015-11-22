@@ -6,5 +6,8 @@
         <file>BarIcon.png</file>
         <file>PieIcon.png</file>
         <file>ScatterIcon.png</file>
+        <file>LineChartIcon.png</file>
+        <file>LineIcon.png</file>
+        <file>LineIcon2.png</file>
     </qresource>
 </RCC>

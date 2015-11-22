@@ -42,7 +42,8 @@ HEADERS  += \
     ../lib/nightcharts/nightchartswidget.h
 
 FORMS    += \
-    ../src/mainwindow.ui
+    ../src/mainwindow.ui \
+    ../src/errorform.ui
 CONFIG	 += c++11
 
 RESOURCES += \

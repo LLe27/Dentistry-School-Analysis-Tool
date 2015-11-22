@@ -51,10 +51,15 @@ private slots:
     void on_bntDisplayScatter_clicked();
     void on_bntDisplayLine_clicked();
 
+    void helpContents();
+
     QStringList on_btnDates_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    void createActions();
+    void createMenus();
 
     void initDate_Month(QComboBox *months);
     void initDate_Years(QComboBox *months);
@@ -62,6 +67,8 @@ private:
     void addTreeChild(QTreeWidgetItem *parent, QString name, QString description);
     void processDates();
 
+    QMenu *HelpMenu;
+    QAction *HelpAction;
     QDate Startdate;
     QDate Enddate;
     CSVProcessing* p;

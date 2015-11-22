@@ -86,7 +86,7 @@ void MainWindow::createActions()
 
 void MainWindow::helpContents()
 {
-
+       
     QTreeWidget* tree = new QTreeWidget();
     tree->setWindowTitle("Help Menu");
     tree->setColumnCount(1);
@@ -95,7 +95,6 @@ void MainWindow::helpContents()
     headers << " ";
     tree->setHeaderLabels(headers);
     tree->clear();
-
 
     QTreeWidgetItem* item = new QTreeWidgetItem(tree);
     QTreeWidgetItem* item2 = new QTreeWidgetItem(tree);
