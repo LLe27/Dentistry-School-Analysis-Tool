@@ -49,23 +49,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Add root tot the tree
+//Add root to the tree
 void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description){
 
     treeBranch ->setText(0, name);
     treeBranch ->setText(1, description);
-
 }
 
 //Add leaf to tree
 void MainWindow::addTreeChild(QTreeWidgetItem *parent,QString name,QString description){
-
     QTreeWidgetItem *treeItem = new QTreeWidgetItem();
     treeItem->setText(0,name);
     treeItem -> setText(1,description);
 
     parent ->addChild(treeItem);
-
 }
 
 void MainWindow::createActions()
@@ -134,7 +131,7 @@ void MainWindow::helpContents()
 }
 QString MainWindow::on_actionOpen_triggered()
 {
-    //Returns file name of sleected file in QFileDialog
+    //Returns file name of selected file in QFileDialog
     QString filename= QFileDialog::getOpenFileName(this, tr("Open File"),"C://","CSV File (*.csv);;All files (*.*)");
     ui->lblDateRange->setText(filename);
     return filename;
@@ -142,7 +139,7 @@ QString MainWindow::on_actionOpen_triggered()
     //Pass filename to open file function
 }
 
-void MainWindow::on_bntDisplayGraph_clicked()
+void MainWindow::on_bntDisplayBar_clicked()
 {
     //update dates
     //on_btnDates_clicked();
@@ -161,12 +158,12 @@ void MainWindow::on_bntDisplayGraph_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
 
-    makeGraph(numItems, title, types);
+    makeBarGraph(numItems, title, types);
     //w.show();
 
 }
@@ -187,7 +184,7 @@ void MainWindow::on_bntDisplayPie_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
@@ -265,7 +262,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
-        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
@@ -301,7 +298,7 @@ void MainWindow::on_bntDisplayLine_clicked()
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
-        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
@@ -314,7 +311,7 @@ void MainWindow::on_bntDisplayLine_clicked()
     makeLine(xData, yData, title);
 }
 
-QStringList MainWindow::on_btnDates_clicked()
+void MainWindow::on_btnDates_clicked()
 {
     QDate date1 = (ui->dateEdit->date());
     QDate date2 = (ui->dateEdit_2->date());
@@ -328,9 +325,12 @@ QStringList MainWindow::on_btnDates_clicked()
     ui->treeWidget->setHeaderLabels(ColumnNames);
     Startdate = date1;
     Enddate = date2;
+    indDate = p->getIndicesDate(Startdate.day(),Startdate.month(),Startdate.year(),Enddate.day(),Enddate.month(),Enddate.year());
+
     ui->treeWidget->clear();
-    processDates();
-    return ColumnNames;
+    drawDashboard();
+
+    //return ColumnNames;
 
 }
 
@@ -386,7 +386,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 }
 
 
-void MainWindow::makeGraph(QVector<double> yAxisData, QString title, vector<string> barLabels ) {
+void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<string> barLabels ) {
     QRect rec = QApplication::desktop()->screenGeometry();
      int height = rec.height();
      int width = rec.width();
@@ -622,14 +622,12 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
 }
 
 
-void MainWindow::processDates(){
-
+void MainWindow::drawDashboard(){
         vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<string> members = p->getListOfMemberNames();
         //get the subset of indices where the paper was published during the specified date range.
-        vector<int> indDate = p->getIndicesDate(Startdate.day(),Startdate.month(),Startdate.year(),Enddate.day(),Enddate.month(),Enddate.year());
         vector<int> indOther = indDate;
         int count;
 
