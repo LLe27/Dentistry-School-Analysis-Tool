@@ -1,4 +1,4 @@
-//Necessaru Includes
+//Necessary Includes
 #include <QDate>
 #include "mainwindow.h"
 #include "../lib/nightcharts/nightcharts.h"
@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     string filename = on_actionOpen_triggered().toStdString();
 
     this->setWindowTitle("Dashboard");
-
 
     //process data by constructing PublicationProcessing
 
@@ -38,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeWidget->sortByColumn(0,Qt::AscendingOrder);
     ui->treeWidget->setSortingEnabled(true);
 
+    createHelpMenu();
     createActions();
 
     on_btnDates_clicked();
@@ -68,23 +68,18 @@ void MainWindow::addTreeChild(QTreeWidgetItem *parent,QString name,QString descr
 void MainWindow::createActions()
 {
 
-
-
-    ui->bntDisplayGraph->setStatusTip(tr("Bar Graph"));
+    ui->bntDisplayBar->setStatusTip(tr("Bar Graph"));
     ui->bntDisplayScatter->setStatusTip(tr("Scatter Plot"));
     ui->bntDisplayPie->setStatusTip(tr("Pie Chart"));
     ui->bntDisplayLine->setStatusTip(tr("Line Graph"));
 
-    //HelpAction->setShortcuts(QKeySequence::Help);
     ui->actionContents->setStatusTip(tr("Display help menu contents"));
     connect(ui->actionContents, SIGNAL(triggered()), this, SLOT(helpContents()));
     ui->menuHelp->addAction(ui->actionContents);
 }
-
-void MainWindow::helpContents()
+void MainWindow::createHelpMenu()
 {
-
-    QTreeWidget* tree = new QTreeWidget();
+    tree = new QTreeWidget();
     tree->setWindowTitle("Help Menu");
     tree->setColumnCount(1);
 
@@ -93,40 +88,54 @@ void MainWindow::helpContents()
     tree->setHeaderLabels(headers);
     tree->clear();
 
-
     QTreeWidgetItem* item = new QTreeWidgetItem(tree);
     QTreeWidgetItem* item2 = new QTreeWidgetItem(tree);
     QTreeWidgetItem* item3 = new QTreeWidgetItem(tree);
+    QTreeWidgetItem* item4 = new QTreeWidgetItem(tree);
 
-    item->setText(0, (QString)"Dashboard");
-    item2->setText(0, (QString)"Graphs");
-    item3->setText(0, (QString)"Printing");
+    item->setText(0, (QString)"Opening a CSV file");
+    item2->setText(0, (QString)"Navigating the Dashboard");
+    item3->setText(0, (QString)"Choosing a Graph");
+    item4->setText(0, (QString)"Printing");
 
-    QTreeWidgetItem* item4 = new QTreeWidgetItem(item);
     QTreeWidgetItem* item5 = new QTreeWidgetItem(item);
-    item4->setText(0, (QString)"Choosing a Date Range");
-    item5->setText(0, (QString)"Navigating the Dashboard");
-
-    QTreeWidgetItem* item6 = new QTreeWidgetItem(item2);
-    item6->setText(0, (QString)"Configuring the graph settings");
+    item5->setText(0, (QString)"Choosing a File");
+    QTreeWidgetItem* item6 = new QTreeWidgetItem(item);
+    item6->setText(0, (QString)"Fixing Errors");
 
     QTreeWidgetItem* item7 = new QTreeWidgetItem(item5);
-    item7->setText(0, (QString)"To navigate the dashboard, simply click on the +/- arrows\n"
-                   " to expand and collapse categories. To order the subcatgories\n"
-                   "of a particular category in alphabetical order, simply double click"
-                   "on the column you would like to order");
-    QTreeWidgetItem* item8 = new QTreeWidgetItem(item4);
-    item8->setText(0, (QString)"In order to view a particular CSV file on the dashboard"
-                   "you must enter in the date range for the records you like \n"
-                   "to see and then click 'Enter Dates'."
-                   "");
-    QTreeWidgetItem* item9 = new QTreeWidgetItem(item3);
-    item9->setText(0, (QString)"Printing the Dashboard");
-    QTreeWidgetItem* item10 = new QTreeWidgetItem(item3);
-    item10->setText(0, (QString)"Printing a Graph");
+    item7->setText(0, (QString)"First choose the type of CSV file you would like to\n"
+                               "open (Teachings, Publications, Grants, or Presentations).\n"
+                               "To open a CSV file, click on file->open\n"
+                               "from the menubar at the top of the window.");
+
+    QTreeWidgetItem* item8 = new QTreeWidgetItem(item6);
+    item8->setText(0, (QString)"If there are more than 10 errors in the CSV file, a separate\n"
+                               "window will pop up prompting you to fix those errors. After Fixing\n"
+                               "the appropriate errors, choose the display options and then you may\n"
+                               "save the changes and/or open it up in the dashboard.");
+
+    item5 = new QTreeWidgetItem(item2);
+    item5->setText(0, (QString)"To navigate through the dashboard, first "
+                               "select the date range for the records you\n"
+                               "would like to view and then click 'Enter Dates'.\n"
+                               "Click on the +/- buttons to expand and collapse categories.\n"
+                               "Click on a column to order the data according to that column.");
+
+    item6 = new QTreeWidgetItem(item3);
+    item6->setText(0, (QString)"To choose a graph, first click on the 'graph configuration'\n"
+                               "button to choose your graph settings. Then click on the icon\n"
+                               "for the graph you would like to view.");
+
+    item7 = new QTreeWidgetItem(item4);
+    item7->setText(0, (QString)"To print a graph simply click on the 'print graph' button \n"
+                               "in the bottom right corner of the graph window.");
 
 
-    tree->resize(500, 300);
+    tree->resize(600, 300);
+}
+void MainWindow::helpContents()
+{
     tree->show();
 }
 QString MainWindow::on_actionOpen_triggered()
@@ -158,7 +167,7 @@ void MainWindow::on_bntDisplayBar_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+   //    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
@@ -184,56 +193,10 @@ void MainWindow::on_bntDisplayPie_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+    //    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
-
-#if 0
-
-
-    QVector<QString> labels;
-    labels.append("Apple");
-    labels.append("Donut");
-    labels.append("Cherry");
-
-
-    int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
-    dayStart = Startdate.day();
-    monthStart = Startdate.month();
-    yearStart = Startdate.year();
-    dayEnd = Enddate.day();
-    monthEnd = Enddate.month();
-    yearEnd = Enddate.year();
-
-    QVector<double> numItems;
-    QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
-
-    //return as vector all of the possible types.
-    vector<string> types = p->getListOfTypes();
-    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
-    for (int i=0; i<types.size(); i++) {
-        numItems << p->getIndicesType(types.at(i),indDate).size();
-    }
-    QVector<double> data;
-    data.append(1);
-    data.append(2);
-    data.append(3);
-/*
-     data.append(1);
-    data.append(2);
-    data.append(3);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-    data.append(1);
-    data.append(2);
-    data.append(3);
-*/
-#endif
 
     makePie(numItems, title, types);
 }
@@ -344,6 +307,8 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
         pieLabels << Labels.at(i).c_str();
     }
 
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->addWidget(btnPrintPie);
 
     // Compute minimum & maximum height to show all labels
     int height=30*pieLabels.size();
@@ -354,8 +319,10 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     QWidget * window = new QWidget();
     window->resize(520, height);
     window->show();
-    window->setWindowTitle("Pie Chart");  // Set the title of the window
+    window->setWindowTitle(title);  // Set the title of the window
     window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
+    window->setLayout(layout);
+
 
     NightchartsWidget * PieChart = new NightchartsWidget(window);
     PieChart->clear();

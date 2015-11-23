@@ -113,7 +113,7 @@ private slots:
      * Button response function. Updates date range and queries data for new range.
      */
     void on_btnDates_clicked();
-
+    
 
 private:
     /*
@@ -123,8 +123,6 @@ private:
 //    void initDate_Years(QComboBox *months);
 
 
-    void createActions();
-    void createMenus();
 
     void initDate_Month(QComboBox *months);
     void initDate_Years(QComboBox *months);
@@ -148,8 +146,15 @@ private:
      */
     void addTreeChild(QTreeWidgetItem *parent, QString name, QString description);
 
+    /**
+     * Initializes the Help Menu 
+     */
     void createHelpMenu();
-
+   
+    /**
+     * Creates actions for the menu Bar
+     */
+    void createActions();
 
 
     /**
