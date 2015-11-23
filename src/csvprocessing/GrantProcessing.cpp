@@ -117,6 +117,11 @@ vector<int> GrantProcessing::getIndicesTitle(string title, vector<int> indToCons
     return getIndicesIntersect( getColumnContains(COLUMN_TITLE,title) , indToConsider );
 }
 
+double GrantProcessing::getAmount(int index) {
+   string str = data.at(COLUMN_AMOUNT).at(index);
+   return atof(str.c_str());
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
