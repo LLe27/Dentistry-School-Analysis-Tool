@@ -30,7 +30,7 @@ public:
      * @brief PublicationProcessing
      * @param filename
      */
-    PublicationProcessing(string filename);
+    PublicationProcessing(string filename, int csvtype);
 
     /**
      * Getter for publication type. Return a vector<string> of all UNIQUE values.

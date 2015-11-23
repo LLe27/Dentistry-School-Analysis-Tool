@@ -1,0 +1,17 @@
+INPUT(
+./debug\qcustomplot.o
+./debug\CSVProcessing.o
+./debug\PublicationProcessing.o
+./debug\PresentationProcessing.o
+./debug\GrantProcessing.o
+./debug\TeachingProcessing.o
+./debug\CSV2Vector.o
+./debug\mainwindow.o
+./debug\main.o
+./debug\nightcharts.o
+./debug\nightchartswidget.o
+./debug\qrc_myfiles.o
+./debug\moc_qcustomplot.o
+./debug\moc_mainwindow.o
+./debug\moc_nightchartswidget.o
+);

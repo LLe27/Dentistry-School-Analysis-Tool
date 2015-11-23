@@ -11,7 +11,7 @@ using namespace std;
 /// Constructor(s)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-GrantProcessing::GrantProcessing(string filename) : CSVProcessing(filename) {
+GrantProcessing::GrantProcessing(string filename, int csvtype) : CSVProcessing(filename, csvtype) {
     //note that data, memberNames, and memberNamesIndices are assigned in the super-constructor
 
     //populate list of types and its indices

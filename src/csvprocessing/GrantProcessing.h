@@ -31,7 +31,7 @@ public:
      * @brief GrantProcessing
      * @param filename
      */
-    GrantProcessing(string filename);
+    GrantProcessing(string filename, int csvtype);
 
     /**
      * Getter for grant type. Return a vector<string> of all UNIQUE values.

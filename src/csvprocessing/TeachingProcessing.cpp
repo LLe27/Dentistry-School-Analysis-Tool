@@ -11,7 +11,7 @@ using namespace std;
 /// Constructor(s)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TeachingProcessing::TeachingProcessing(string filename) : CSVProcessing(filename) {
+TeachingProcessing::TeachingProcessing(string filename, int csvtype) : CSVProcessing(filename, csvtype) {
     //note that data, memberNames, and memberNamesIndices are assigned in the super-constructor
 }
 

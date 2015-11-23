@@ -26,7 +26,7 @@ public:
      * @brief PresentationProcessing
      * @param filename
      */
-    PresentationProcessing(string filename);
+    PresentationProcessing(string filename,int csvtype);
 
     /**
      * Getter for presentation type. Return a vector<string> of all UNIQUE values.

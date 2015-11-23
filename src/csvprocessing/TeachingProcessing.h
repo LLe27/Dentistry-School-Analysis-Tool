@@ -27,7 +27,7 @@ public:
      * @brief TeachingProcessing
      * @param filename
      */
-    TeachingProcessing(string filename);
+    TeachingProcessing(string filename, int csvtype);
 
     /**
      * Getter/Refiner for status (e.g., Postgraduate Medical Education). Considers all indecies.

@@ -32,8 +32,11 @@ public:
      *
      * @brief CSVProcessing
      * @param filename
+     * @param csvtype
      */
-    CSVProcessing(string filename);
+    CSVProcessing(string filename, int csvtype);
+
+    //CSVProcessing(string filename);
 
     /**
      * Returns a vector<string> of all UNIQUE member names.

@@ -9,9 +9,24 @@
 /// Constructor(s)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CSVProcessing::CSVProcessing(string filename)
+CSVProcessing::CSVProcessing(string filename, int csvtype)
 {
-    this->data = csvData.parsePublications(filename);
+    switch(csvtype){
+    case(1):
+        this->data = csvData.parsePublications(filename);
+        break;
+    case(2):
+        this->data = csvData.parseTeaching(filename);
+        break;
+    case(3):
+        this->data = csvData.parsePresentations(filename);
+        break;
+    case(4):
+        this->data = csvData.parseFunding(filename);
+        break;
+
+    }
+
 
     //populate default index of all entries
     for (int i=0; i<data.at(0).size(); i++) allInd.push_back(i);
@@ -19,6 +34,8 @@ CSVProcessing::CSVProcessing(string filename)
     //populate member names
     populateMemberNames();
 }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Public Functions

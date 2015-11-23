@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     splash.show();
     a.processEvents();
     MainWindow w;
+
     w.show();
     splash.finish(&w);
 

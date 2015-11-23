@@ -14,19 +14,46 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->setWindowTitle("Dashboard");
 
-    //process data by constructing PublicationProcessing
+    //Hardcoded value for csv type int, have to finish main window/check csv type
+    csvtype = 2;
 
-    p = new PublicationProcessing(filename);
+    //List to store the text of the colun headers for the treeWidget
+    QStringList ColumnNames;
 
-    //Setup TreeList, set it to have two columns
-    ui->treeWidget->setColumnCount(2);
+    switch(csvtype){
+        //Publications
+        case(1):
+            p = new PublicationProcessing(filename,csvtype);
+            ui->treeWidget->setColumnCount(2);
+            ColumnNames << " " << "Total";
+            break;
+        //Teaching
+        case(2):
+            p = new TeachingProcessing(filename, csvtype);
+            ui->treeWidget->setColumnCount(3);
+            ColumnNames << " " << "Hours" << "Students";
+            break;
+        //Presentations
+        case(3):
+            p = new PresentationProcessing(filename,csvtype);
+            ui->treeWidget->setColumnCount(3);
+            ColumnNames << " " << "Faculty" << "#of \npresentations" ;
+            break;
+        //Grants
+        case(4):
+            p = new GrantProcessing(filename, csvtype);
+            ui->treeWidget->setColumnCount(3);
+            ColumnNames << " " << "Total#" << "Total$" ;
+            break;
+        default:
+            ui->treeWidget->setColumnCount(3);
+            //CSV is not of the four types
+        }
 
 
     //Read in list of Column Names to set the column Names
-    QStringList ColumnNames;
-    ColumnNames << " " << "Total";
     ui->treeWidget->setHeaderLabels(ColumnNames);
-    ui->treeWidget->setColumnWidth(0,170);
+    ui->treeWidget->setColumnWidth(0,150);
 
     ui->dateEdit->setMaximumDate(QDate::currentDate());
     ui->dateEdit_2->setMaximumDate(QDate::currentDate());
@@ -55,6 +82,13 @@ void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString 
     treeBranch ->setText(0, name);
     treeBranch ->setText(1, description);
 }
+
+void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description, QString count){
+treeBranch ->setText(0, name);
+treeBranch ->setText(1, description);
+treeBranch ->setText(2,count);
+}
+
 
 //Add leaf to tree
 void MainWindow::addTreeChild(QTreeWidgetItem *parent,QString name,QString description){
@@ -308,7 +342,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     }
 
     QVBoxLayout* layout = new QVBoxLayout;
-    layout->addWidget(btnPrintPie);
+    layout->addWidget(ui->bntDisplayPie);
 
     // Compute minimum & maximum height to show all labels
     int height=30*pieLabels.size();
@@ -590,14 +624,17 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
 
 
 void MainWindow::drawDashboard(){
+
+
+
+    switch(csvtype){
+        case(1):{
         vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
-        vector<string> members = p->getListOfMemberNames();
-        //get the subset of indices where the paper was published during the specified date range.
         vector<int> indOther = indDate;
+        vector<string> members = p->getListOfMemberNames();
         int count;
-
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
         addTreeRoot(treeRoot,"Publications", QString::number(indDate.size()));
 
@@ -653,6 +690,100 @@ void MainWindow::drawDashboard(){
             }
 
         }
+
+    }break;
+    case(2):{
+        vector<string> members = p->getListOfMemberNames();
+        vector<int> indOther = indDate;
+        int count_hours;
+        int count_students;
+        string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
+        vector<int> indProgram,indProgramMember;
+
+        QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
+        addTreeRoot(treeRoot,"Teaching",QString::number(indDate.size()));
+
+        for(string program : programs){
+            if (program == "Other") indProgram = indOther;
+            //get the subset of indices where the paper is of the status specified and is in the date range specified.
+            else indProgram = ((TeachingProcessing *)p)->getIndicesProgram(program,indDate);
+
+
+
+        }
+
+
+
+
+    }
+
+            break;
+    case(3):{
+        vector<string> types = ((PresentationProcessing *)p)->getListOfTypes();
+        string roles[] = {"Presenter","Visiting Professor","Keynote Speaker","Invited Lecturer","Other"};
+        vector<int> indRole, indRoleType, indRoleTypeMember;
+        vector<string> members = p->getListOfMemberNames();
+        vector<int> indOther = indDate;
+        int count;
+
+        QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
+        addTreeRoot(treeRoot,"Presentations", QString::number(indDate.size()));
+
+        for(string role: roles ){
+            if (role == "Other"){indRole = indOther;}
+            else{ indRole = ((PresentationProcessing *)p)->getIndicesRole(role,indDate);}
+            count = indRole.size();
+
+            QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
+            treeRoot->addChild(treeBranch);
+            addTreeRoot(treeBranch,"",QString::fromStdString(role),QString::number(count));
+
+            for(int iRole: indRole){
+                for(int i =indOther.size()-1; i>=0;i--){
+                    if(iRole==indOther.at(i)){
+                        indOther.erase(indOther.begin()+i);
+                    }
+                }
+            }
+
+            if(count){
+                for(string type : types){
+                    indRoleType = ((PresentationProcessing *)p)->getIndicesType(type,indRole);
+                    if(type.length()<1) type = "Unspecified";
+                    count = indRoleType.size();
+                    if(count){
+                        QTreeWidgetItem *treeItem = new QTreeWidgetItem();
+                        treeBranch->addChild(treeItem);
+                        addTreeRoot(treeItem,"",QString::fromStdString(type),QString::number(count));
+
+                        for(string member : members){
+                            indRoleTypeMember = p->getIndicesMemberName(member, indRoleType);
+                            count = indRoleTypeMember.size();
+                            if(count){
+                                 if(member.length()<1) member = "Unspecified";
+                                QTreeWidgetItem *treeChild = new QTreeWidgetItem();
+                                treeItem->addChild(treeChild);
+                                treeChild->setText(0," ");
+                                treeChild->setText(1,QString::fromStdString(member));
+                                treeChild->setText(2,QString::number(count));
+                            }
+
+                        }
+
+                    }
+                }
+            }
+
+        }}
+            break;
+    case(4):{
+
+    }
+            break;
+    default:{}
+
+    }//End Switch
+
 
 
 }

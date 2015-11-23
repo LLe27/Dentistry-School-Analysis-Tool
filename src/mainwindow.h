@@ -126,6 +126,8 @@ private:
     void createActions();
     void createMenus();
 
+    void addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description, QString count);
+
     void initDate_Month(QComboBox *months);
     void initDate_Years(QComboBox *months);
 
@@ -168,6 +170,7 @@ private:
     QDate Enddate;
     CSVProcessing* p;
     vector<int> indDate;
+    int csvtype;
 };
 
 #endif // MAINWINDOW_H
