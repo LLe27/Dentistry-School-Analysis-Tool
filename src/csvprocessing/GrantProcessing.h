@@ -182,6 +182,15 @@ public:
      */
     vector<int> getIndicesTitle(string title, vector<int> indToConsider);
 
+    /**
+     * Return the value (double) of specified grant.
+     * If value is empty, 0.0 is returned.
+     *
+     * @param index
+     * @return
+     */
+    double getAmount(int index);
+
 private:
     /**
      * Populates types and typesIndices.
