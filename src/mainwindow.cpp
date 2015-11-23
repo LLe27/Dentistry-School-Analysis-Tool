@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("Dashboard");
 
     //Hardcoded value for csv type int, have to finish main window/check csv type
-    csvtype = 2;
+    csvtype = 1;
 
     //List to store the text of the colun headers for the treeWidget
     QStringList ColumnNames;
@@ -259,7 +259,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
-//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+        vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
@@ -342,7 +342,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     }
 
     QVBoxLayout* layout = new QVBoxLayout;
-    layout->addWidget(ui->bntDisplayPie);
+//    layout->addWidget(ui->bntDisplayPie);
 
     // Compute minimum & maximum height to show all labels
     int height=30*pieLabels.size();
@@ -351,7 +351,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 
     // Create window
     QWidget * window = new QWidget();
-    window->resize(520, height);
+//    window->resize(520, height);
     window->show();
     window->setWindowTitle(title);  // Set the title of the window
     window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
@@ -512,12 +512,25 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     //set the x axis tick labels
     customPlot->xAxis->setAutoTickStep(false);
     customPlot->xAxis->setTickStep(2);
+    customPlot->xAxis->setTickLengthIn(5);
+    customPlot->xAxis->setAutoSubTicks(false);
+    customPlot->xAxis->setSubTickCount(1);
+    customPlot->xAxis->setSubTickLengthIn(5);
+
 
     //set the x axis label
     customPlot->xAxis->setLabel("Years");
 
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
+
+    //set the y axis tick labels
+    customPlot->yAxis->setAutoTickStep(false);
+    customPlot->yAxis->setTickStep(5);
+    customPlot->yAxis->setTickLengthIn(5);
+    customPlot->yAxis->setAutoSubTicks(false);
+    customPlot->yAxis->setSubTickCount(4);
+    customPlot->yAxis->setSubTickLengthIn(5);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2) yRangeMinimum = 0;
@@ -598,12 +611,25 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
     //set the x axis tick labels
     customPlot->xAxis->setAutoTickStep(false);
     customPlot->xAxis->setTickStep(2);
+    customPlot->xAxis->setTickLengthIn(5);
+    customPlot->xAxis->setAutoSubTicks(false);
+    customPlot->xAxis->setSubTickCount(1);
+    customPlot->xAxis->setSubTickLengthIn(5);
+
 
     //set the x axis label
     customPlot->xAxis->setLabel("Years");
 
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
+
+    //set the y axis tick labels
+    customPlot->yAxis->setAutoTickStep(false);
+    customPlot->yAxis->setTickStep(5);
+    customPlot->yAxis->setTickLengthIn(5);
+    customPlot->yAxis->setAutoSubTicks(false);
+    customPlot->yAxis->setSubTickCount(4);
+    customPlot->yAxis->setSubTickLengthIn(5);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2) yRangeMinimum = 0;
