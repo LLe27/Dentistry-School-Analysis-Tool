@@ -66,7 +66,7 @@ vector<int> GrantProcessing::getIndicesPeerReviewed() {
 }
 
 vector<int> GrantProcessing::getIndicesPeerReviewed(vector<int> indToConsider) {
-    return getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"TRUE") , indToConsider );
+    return getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"True") , indToConsider );
 }
 
 vector<int> GrantProcessing::getIndicesIndustry() {
@@ -74,7 +74,7 @@ vector<int> GrantProcessing::getIndicesIndustry() {
 }
 
 vector<int> GrantProcessing::getIndicesIndustry(vector<int> indToConsider) {
-    return getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"TRUE") , indToConsider );
+    return getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"True") , indToConsider );
 }
 
 vector<int> GrantProcessing::getIndicesRole(string role) {
@@ -115,11 +115,6 @@ vector<int> GrantProcessing::getIndicesTitle(string title) {
 vector<int> GrantProcessing::getIndicesTitle(string title, vector<int> indToConsider) {
     //NOTE: uses getColumnContains rather than getColumnMatch
     return getIndicesIntersect( getColumnContains(COLUMN_TITLE,title) , indToConsider );
-}
-
-double GrantProcessing::getAmount(int index) {
-   string str = data.at(COLUMN_AMOUNT).at(index);
-   return atof(str.c_str());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
