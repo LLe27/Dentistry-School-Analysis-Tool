@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("Dashboard");
 
     //Hardcoded value for csv type int, have to finish main window/check csv type
-    csvtype = 4;
+    csvtype = 1;
 
     //List to store the text of the colun headers for the treeWidget
     QStringList ColumnNames;
@@ -255,21 +255,21 @@ void MainWindow::on_bntDisplayScatter_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
+     vector<int> indDate2;
 
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
-//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+        indDate2 = p->getIndicesDate(1,1,i,31,12,i);
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
-            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate).size();
+            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
         }
         yData.push_back(yearTotal);
 
     }
-
     makeScatter(xData, yData, title);
 }
 
