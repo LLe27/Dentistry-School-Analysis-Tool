@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "../lib/nightcharts/nightcharts.h"
 #include "../lib/nightcharts/nightchartswidget.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -286,26 +287,44 @@ void MainWindow::on_bntDisplayLine_clicked()
 
     QVector<double> xData;
     QVector<double> yData;
+    QVector<double> yDataA;
+    QVector<double> yDataO;
+    QVector<double> yDataP;
+    QVector<double> yDataS;
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
 
     double yearTotal = 0;
+    double yearTotalA = 0;
+    double yearTotalO = 0;
+    double yearTotalP = 0;
+    double yearTotalS = 0;
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
 //        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
         xData.push_back(i);
-        yearTotal = 0;
-        for (int j = 0; j < types.size(); j++) {
-            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate).size();
-        }
-        yData.push_back(yearTotal);
+
+        yearTotalA = ((PublicationProcessing *)p)->getIndicesType(types.at(0),indDate).size();
+        yearTotalO = ((PublicationProcessing *)p)->getIndicesType(types.at(1),indDate).size();
+        yearTotalP = ((PublicationProcessing *)p)->getIndicesType(types.at(2),indDate).size();
+        yearTotalS = ((PublicationProcessing *)p)->getIndicesType(types.at(3),indDate).size();
+
+        yData.push_back(yearTotalA);
+        yData.push_back(yearTotalO);
+        yData.push_back(yearTotalP);
+        yData.push_back(yearTotalS);
+
+        yDataA.push_back(yearTotalA);
+        yDataO.push_back(yearTotalO);
+        yDataP.push_back(yearTotalP);
+        yDataS.push_back(yearTotalS);
 
     }
 
-    makeLine(xData, yData, title);
+    makeLine(xData, yData, yDataA, yDataO, yDataP, yDataS, title);
 }
 
 void MainWindow::on_btnDates_clicked()
@@ -549,12 +568,16 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 }
 
 // Create the line graph
-void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString title ) {
+void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
+                          QVector<double> yDataA, QVector<double> yDataO,
+                          QVector<double> yDataP, QVector<double> yDataS,
+                          QString title ) {
 
     QRect rec = QApplication::desktop()->screenGeometry();
-     int height = rec.height();
-     int width = rec.width();
-     double xRangeMinimum, yRangeMinimum, xRangeMaximum, yRangeMaximum;
+    int height = rec.height();
+    int width = rec.width();
+    double xRangeMinimum, yRangeMinimum, xRangeMaximum, yRangeMaximum;
+    QPen pen;
 
     QCustomPlot *customPlot = new QCustomPlot();
     customPlot->show();
@@ -563,7 +586,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
     // Tell QCustomPlot to show dots, but not lines
     customPlot->addGraph();
     customPlot->graph(0)->setLineStyle(QCPGraph::lsLine);
-    customPlot->graph(0)->setPen(QPen(Qt::blue)); // line color blue for first graph
+
 
     // add title
     customPlot->plotLayout()->insertRow(0);
@@ -578,7 +601,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
     int xMin = xData.at(0);
     for(int xDataIndex=0; xDataIndex < xData.size(); xDataIndex++) {
         if (xData.at(xDataIndex) < xMin) xMin = xData.at(xDataIndex);
-        if(xData.at(xDataIndex) > xMax)  xMax = xData.at(xDataIndex);
+        if (xData.at(xDataIndex) > xMax)  xMax = xData.at(xDataIndex);
     }
 
     //find minimum and maximum y values.
@@ -590,7 +613,27 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
     }
 
     // pass the data points to the scatter plot
-    customPlot->graph()->setData(xData, yData);
+
+    customPlot->addGraph();
+    pen.setColor(QColor(Qt::darkYellow));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setData(xData, yDataA);
+
+    customPlot->addGraph();
+    pen.setColor(QColor(Qt::magenta));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setData(xData, yDataO);
+
+    customPlot->addGraph();
+    pen.setColor(QColor(Qt::green));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setData(xData, yDataP);
+
+    customPlot->addGraph();
+    pen.setColor(QColor(Qt::red));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setData(xData, yDataS);
+
 
     // Add up to 2 years gap to min of X range
     if(xMin < 2) xRangeMinimum = 0;
@@ -624,6 +667,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
 
     //set the y axis tick labels
+
     customPlot->yAxis->setAutoTickStep(false);
     customPlot->yAxis->setTickStep(5);
     customPlot->yAxis->setTickLengthIn(5);
