@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("Dashboard");
 
     //Hardcoded value for csv type int, have to finish main window/check csv type
-    csvtype = 1;
+    csvtype = 4;
 
     //List to store the text of the colun headers for the treeWidget
     QStringList ColumnNames;
@@ -36,8 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
         //Presentations
         case(3):
             p = new PresentationProcessing(filename,csvtype);
-            ui->treeWidget->setColumnCount(3);
-            ColumnNames << " " << "Faculty" << "#of \npresentations" ;
+            ui->treeWidget->setColumnCount(2);
+            ColumnNames << " " << "#of \npresentations" ;
             break;
         //Grants
         case(4):
@@ -201,7 +201,7 @@ void MainWindow::on_bntDisplayBar_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-   //    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
     for (int i=0; i<types.size(); i++) {
         numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
     }
@@ -213,7 +213,7 @@ void MainWindow::on_bntDisplayBar_clicked()
 
 void MainWindow::on_bntDisplayPie_clicked()
 {
-    
+
     int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
     dayStart = Startdate.day();
     monthStart = Startdate.month();
@@ -254,12 +254,12 @@ void MainWindow::on_bntDisplayScatter_clicked()
 
     //return as vector all of the possible types.
     vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-        
+
     double yearTotal = 0;
     for (int i = yearStart; i < yearEnd; i++)
     {
         // Get all Indeces for the current year
-        vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
+//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
         xData.push_back(i);
         yearTotal = 0;
         for (int j = 0; j < types.size(); j++) {
@@ -342,7 +342,8 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     }
 
     QVBoxLayout* layout = new QVBoxLayout;
-//    layout->addWidget(ui->bntDisplayPie);
+
+
 
     // Compute minimum & maximum height to show all labels
     int height=30*pieLabels.size();
@@ -351,7 +352,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 
     // Create window
     QWidget * window = new QWidget();
-//    window->resize(520, height);
+    window->resize(520, height);
     window->show();
     window->setWindowTitle(title);  // Set the title of the window
     window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
@@ -512,25 +513,12 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     //set the x axis tick labels
     customPlot->xAxis->setAutoTickStep(false);
     customPlot->xAxis->setTickStep(2);
-    customPlot->xAxis->setTickLengthIn(5);
-    customPlot->xAxis->setAutoSubTicks(false);
-    customPlot->xAxis->setSubTickCount(1);
-    customPlot->xAxis->setSubTickLengthIn(5);
-
 
     //set the x axis label
     customPlot->xAxis->setLabel("Years");
 
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
-
-    //set the y axis tick labels
-    customPlot->yAxis->setAutoTickStep(false);
-    customPlot->yAxis->setTickStep(5);
-    customPlot->yAxis->setTickLengthIn(5);
-    customPlot->yAxis->setAutoSubTicks(false);
-    customPlot->yAxis->setSubTickCount(4);
-    customPlot->yAxis->setSubTickLengthIn(5);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2) yRangeMinimum = 0;
@@ -611,25 +599,12 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData, QString 
     //set the x axis tick labels
     customPlot->xAxis->setAutoTickStep(false);
     customPlot->xAxis->setTickStep(2);
-    customPlot->xAxis->setTickLengthIn(5);
-    customPlot->xAxis->setAutoSubTicks(false);
-    customPlot->xAxis->setSubTickCount(1);
-    customPlot->xAxis->setSubTickLengthIn(5);
-
 
     //set the x axis label
     customPlot->xAxis->setLabel("Years");
 
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
-
-    //set the y axis tick labels
-    customPlot->yAxis->setAutoTickStep(false);
-    customPlot->yAxis->setTickStep(5);
-    customPlot->yAxis->setTickLengthIn(5);
-    customPlot->yAxis->setAutoSubTicks(false);
-    customPlot->yAxis->setSubTickCount(4);
-    customPlot->yAxis->setSubTickLengthIn(5);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2) yRangeMinimum = 0;
@@ -659,7 +634,9 @@ void MainWindow::drawDashboard(){
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<int> indOther = indDate;
+        cout << "Date: " << indOther.size() << endl;
         vector<string> members = p->getListOfMemberNames();
+
         int count;
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
         addTreeRoot(treeRoot,"Publications", QString::number(indDate.size()));
@@ -746,56 +723,48 @@ void MainWindow::drawDashboard(){
             break;
     case(3):{
         vector<string> types = ((PresentationProcessing *)p)->getListOfTypes();
-        string roles[] = {"Presenter","Visiting Professor","Keynote Speaker","Invited Lecturer","Other"};
-        vector<int> indRole, indRoleType, indRoleTypeMember;
+        for(string type : types){
+            cout << "Types: " << type << endl;
+        }
+        vector<int> indType, indTypeMember;
         vector<string> members = p->getListOfMemberNames();
         vector<int> indOther = indDate;
+        cout << "Date: " << indOther.size() << endl;
         int count;
 
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
         addTreeRoot(treeRoot,"Presentations", QString::number(indDate.size()));
 
-        for(string role: roles ){
-            if (role == "Other"){indRole = indOther;}
-            else{ indRole = ((PresentationProcessing *)p)->getIndicesRole(role,indDate);}
-            count = indRole.size();
+        for(string type: types ){
+            if (type == "Other"){indType = indOther;}
+            else{ indType = ((PresentationProcessing *)p)->getIndicesType(type,indDate);}
+            count = indType.size();
+            cout << "Count: " << count <<endl;
 
             QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
+            addTreeRoot(treeBranch,QString::fromStdString(type),QString::number(count));
             treeRoot->addChild(treeBranch);
-            addTreeRoot(treeBranch,"",QString::fromStdString(role),QString::number(count));
 
-            for(int iRole: indRole){
-                for(int i =indOther.size()-1; i>=0;i--){
-                    if(iRole==indOther.at(i)){
-                        indOther.erase(indOther.begin()+i);
-                    }
-                }
-            }
+//            for(int i: indRole){
+//                for(int i =indOther.size()-1; i>=0;i--){
+//                    if(iRole==indOther.at(i)){
+//                        indOther.erase(indOther.begin()+i);
+//                    }
+//                }
+//            }
 
             if(count){
-                for(string type : types){
-                    indRoleType = ((PresentationProcessing *)p)->getIndicesType(type,indRole);
-                    if(type.length()<1) type = "Unspecified";
-                    count = indRoleType.size();
+                for(string member : members){
+                    indTypeMember = p->getIndicesMemberName(member,indType);
+                    if(member.length()<1) type = "Unspecified";
+                    count = indTypeMember.size();
+                    cout << "Count: " << count <<endl;
+
                     if(count){
                         QTreeWidgetItem *treeItem = new QTreeWidgetItem();
+                        treeItem->setText(0,QString::fromStdString(member));
+                        treeItem->setText(1,QString::number(count));
                         treeBranch->addChild(treeItem);
-                        addTreeRoot(treeItem,"",QString::fromStdString(type),QString::number(count));
-
-                        for(string member : members){
-                            indRoleTypeMember = p->getIndicesMemberName(member, indRoleType);
-                            count = indRoleTypeMember.size();
-                            if(count){
-                                 if(member.length()<1) member = "Unspecified";
-                                QTreeWidgetItem *treeChild = new QTreeWidgetItem();
-                                treeItem->addChild(treeChild);
-                                treeChild->setText(0," ");
-                                treeChild->setText(1,QString::fromStdString(member));
-                                treeChild->setText(2,QString::number(count));
-                            }
-
-                        }
-
                     }
                 }
             }
@@ -803,6 +772,70 @@ void MainWindow::drawDashboard(){
         }}
             break;
     case(4):{
+        vector<string> types = ((GrantProcessing *)p)->getListOfTypes();
+        vector<int> indType, indAmount, indPeer, indInd, indPMember, indIMember;
+        vector<string> members = p->getListOfMemberNames();
+        int count;
+        int amount = 1;
+
+        //Gets the indices of that type and date
+        for(string type : types){
+
+            indType = ((GrantProcessing *)p)->getIndicesType(type,indDate);
+            count = indType.size();
+
+            indAmount = ((GrantProcessing*) p)->getIndicesAmount(0,10000000000,indDate);
+//            for(int i : indAmount){
+//
+//                amount += indAmount.at(i);
+//            }
+
+            QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
+            addTreeRoot(treeRoot,QString::fromStdString(type),QString::number(count),QString::number(amount));
+
+            //Gets the indicies for all peer review
+            indPeer = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
+            count = indPeer.size();
+            //cout << "Peer Review Count: " << count <<endl;
+            QTreeWidgetItem *treePeer =new QTreeWidgetItem();
+            addTreeRoot(treePeer,"Peer Reviewed",QString::number(count),QString::number(amount));
+            treeRoot->addChild(treePeer);
+
+            //Getthe indicies for all Industry
+            indInd = ((GrantProcessing *)p)->getIndicesIndustry(indType);
+            count = indInd.size();
+            //cout << "Industry Sponsor Count: " << count <<endl;
+            QTreeWidgetItem *treeInd =new QTreeWidgetItem();
+            addTreeRoot(treeInd,"Industry Sponsored",QString::number(count),QString::number(amount));
+            treeRoot->addChild(treeInd);
+
+            for(string member: members){
+
+               indPMember = p->getIndicesMemberName(member,indPeer);
+               count = indPMember.size();
+               //amount claculation
+               QTreeWidgetItem *treePeerMember =new QTreeWidgetItem();
+               treePeerMember->setText(0,QString::fromStdString(member));
+               treePeerMember->setText(1,QString::number(count));
+               treePeerMember->setText(2,QString::number(amount));
+               treePeer->addChild(treePeerMember);
+
+               indIMember = p->getIndicesMemberName(member,indInd);
+               count = indIMember.size();
+               //amount calculation
+               QTreeWidgetItem *treeIndMember =new QTreeWidgetItem();
+               treeIndMember->setText(0,QString::fromStdString(member));
+               treeIndMember->setText(1,QString::number(count));
+               treeIndMember->setText(2,QString::number(amount));
+               treeInd->addChild(treeIndMember);
+
+            }
+
+
+
+        }
+
+
 
     }
             break;
