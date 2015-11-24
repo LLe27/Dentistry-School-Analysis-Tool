@@ -294,7 +294,6 @@ void MainWindow::on_bntDisplayLine_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
 
     double yearTotal = 0;
     double yearTotalA = 0;
@@ -307,10 +306,10 @@ void MainWindow::on_bntDisplayLine_clicked()
 //        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
         xData.push_back(i);
 
-        yearTotalA = ((PublicationProcessing *)p)->getIndicesType(types.at(0),indDate).size();
-        yearTotalO = ((PublicationProcessing *)p)->getIndicesType(types.at(1),indDate).size();
-        yearTotalP = ((PublicationProcessing *)p)->getIndicesType(types.at(2),indDate).size();
-        yearTotalS = ((PublicationProcessing *)p)->getIndicesType(types.at(3),indDate).size();
+        yearTotalA = ((PublicationProcessing *)p)->getIndicesStatus("Published",indDate).size();
+        yearTotalO = ((PublicationProcessing *)p)->getIndicesStatus("Accepted / In Press",indDate).size();
+        yearTotalP = ((PublicationProcessing *)p)->getIndicesStatus("Submitted",indDate).size();
+        yearTotalS = ((PublicationProcessing *)p)->getIndicesStatus("Other",indDate).size();
 
         yData.push_back(yearTotalA);
         yData.push_back(yearTotalO);
