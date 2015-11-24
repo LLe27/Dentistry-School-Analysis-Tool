@@ -25,7 +25,8 @@ SOURCES +=\
     ../src/mainwindow.cpp \
     ../src/main.cpp \
     ../lib/nightcharts/nightcharts.cpp \
-    ../lib/nightcharts/nightchartswidget.cpp
+    ../lib/nightcharts/nightchartswidget.cpp \
+    startup.cpp
 
 HEADERS  += \
     ../lib/qcustomplot.h \
@@ -39,11 +40,13 @@ HEADERS  += \
     ../src/csv.h \
     ../src/mainwindow.h \
     ../lib/nightcharts/nightcharts.h \
-    ../lib/nightcharts/nightchartswidget.h
+    ../lib/nightcharts/nightchartswidget.h \
+    startup.h
 
 FORMS    += \
     ../src/mainwindow.ui \
-    ../src/errorform.ui
+    ../src/errorform.ui \
+    startup.ui
 CONFIG	 += c++11
 
 RESOURCES += \

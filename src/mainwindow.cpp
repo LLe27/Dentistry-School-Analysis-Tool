@@ -11,12 +11,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    initialize();
+
     string filename = on_actionOpen_triggered().toStdString();
 
     this->setWindowTitle("Dashboard");
 
     //Hardcoded value for csv type int, have to finish main window/check csv type
-    csvtype = 1;
+
 
     //List to store the text of the colun headers for the treeWidget
     QStringList ColumnNames;
@@ -33,6 +35,30 @@ MainWindow::MainWindow(QWidget *parent) :
             p = new TeachingProcessing(filename, csvtype);
             ui->treeWidget->setColumnCount(3);
             ColumnNames << " " << "Hours" << "Students";
+
+            //Min text box
+            ui->minText_1->setVisible(true);
+            ui->minText_2->setVisible(true);
+
+            //Hypens
+            ui->labelHyp_1->setVisible(true);
+            ui->labelHyp_2->setVisible(true);
+
+            //Max text box
+            ui->maxText_1->setVisible(true);
+            ui->maxText_2->setVisible(true);
+
+            //Min label
+            ui->lblMin_1->setVisible(true);
+            ui->lblMin_2->setVisible(true);
+
+            //Max label
+            ui->lblMax_1->setVisible(true);
+            ui->lblMax_2->setVisible(true);
+
+
+
+
             break;
         //Presentations
         case(3):
@@ -45,6 +71,12 @@ MainWindow::MainWindow(QWidget *parent) :
             p = new GrantProcessing(filename, csvtype);
             ui->treeWidget->setColumnCount(3);
             ColumnNames << " " << "Total#" << "Total$" ;
+
+            ui->minText_1->setVisible(true);
+            ui->maxText_1->setVisible(true);
+            ui->labelHyp_1->setVisible(true);
+            ui->lblMin_1->setVisible(true);
+            ui->lblMax_1->setVisible(true);
             break;
         default:
             ui->treeWidget->setColumnCount(3);
@@ -714,6 +746,36 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
 
 }
 
+void MainWindow::initialize(){
+    s = new StartUp(this);
+    s->show();
+    if(s->exec() == QDialog::Accepted){
+        csvtype = s->getCsvType();
+    }
+    //These will only be for CSV's that reuire additional input for indicie queries
+
+    //Min text box
+    ui->minText_1->setVisible(false);
+    ui->minText_2->setVisible(false);
+
+    //Hypens
+    ui->labelHyp_1->setVisible(false);
+    ui->labelHyp_2->setVisible(false);
+
+    //Max text box
+    ui->maxText_1->setVisible(false);
+    ui->maxText_2->setVisible(false);
+
+    //Min label
+    ui->lblMin_1->setVisible(false);
+    ui->lblMin_2->setVisible(false);
+
+    //Max label
+    ui->lblMax_1->setVisible(false);
+    ui->lblMax_2->setVisible(false);
+
+}
+
 
 void MainWindow::drawDashboard(){
 
@@ -815,12 +877,12 @@ void MainWindow::drawDashboard(){
     case(3):{
         vector<string> types = ((PresentationProcessing *)p)->getListOfTypes();
         for(string type : types){
-            cout << "Types: " << type << endl;
+//            cout << "Types: " << type << endl;
         }
         vector<int> indType, indTypeMember;
         vector<string> members = p->getListOfMemberNames();
         vector<int> indOther = indDate;
-        cout << "Date: " << indOther.size() << endl;
+//        cout << "Date: " << indOther.size() << endl;
         int count;
 
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
@@ -830,7 +892,7 @@ void MainWindow::drawDashboard(){
             if (type == "Other"){indType = indOther;}
             else{ indType = ((PresentationProcessing *)p)->getIndicesType(type,indDate);}
             count = indType.size();
-            cout << "Count: " << count <<endl;
+//            cout << "Count: " << count <<endl;
 
             QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
             addTreeRoot(treeBranch,QString::fromStdString(type),QString::number(count));
@@ -849,7 +911,7 @@ void MainWindow::drawDashboard(){
                     indTypeMember = p->getIndicesMemberName(member,indType);
                     if(member.length()<1) type = "Unspecified";
                     count = indTypeMember.size();
-                    cout << "Count: " << count <<endl;
+//                    cout << "Count: " << count <<endl;
 
                     if(count){
                         QTreeWidgetItem *treeItem = new QTreeWidgetItem();

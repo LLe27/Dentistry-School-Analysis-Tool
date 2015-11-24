@@ -17,6 +17,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -61,6 +62,16 @@ public:
     QPushButton *bntDisplayScatter;
     QLabel *label_3;
     QPushButton *bntDisplayLine;
+    QLineEdit *minText_1;
+    QLineEdit *minText_2;
+    QLineEdit *maxText_1;
+    QLineEdit *maxText_2;
+    QLabel *labelHyp_1;
+    QLabel *labelHyp_2;
+    QLabel *lblMin_1;
+    QLabel *lblMin_2;
+    QLabel *lblMax_1;
+    QLabel *lblMax_2;
     QMenuBar *menuBar;
     QMenu *menuFIle;
     QMenu *menuOptions;
@@ -275,6 +286,52 @@ public:
         bntDisplayLine->setObjectName(QStringLiteral("bntDisplayLine"));
         bntDisplayLine->setGeometry(QRect(210, 370, 151, 121));
         bntDisplayLine->setStyleSheet(QStringLiteral("border-image: url(:/images/LineIcon2.png);"));
+        minText_1 = new QLineEdit(centralWidget);
+        minText_1->setObjectName(QStringLiteral("minText_1"));
+        minText_1->setEnabled(true);
+        minText_1->setGeometry(QRect(280, 50, 41, 20));
+        minText_2 = new QLineEdit(centralWidget);
+        minText_2->setObjectName(QStringLiteral("minText_2"));
+        minText_2->setEnabled(true);
+        minText_2->setGeometry(QRect(280, 100, 41, 20));
+        maxText_1 = new QLineEdit(centralWidget);
+        maxText_1->setObjectName(QStringLiteral("maxText_1"));
+        maxText_1->setEnabled(true);
+        maxText_1->setGeometry(QRect(350, 50, 41, 20));
+        maxText_2 = new QLineEdit(centralWidget);
+        maxText_2->setObjectName(QStringLiteral("maxText_2"));
+        maxText_2->setEnabled(true);
+        maxText_2->setGeometry(QRect(350, 100, 41, 20));
+        labelHyp_1 = new QLabel(centralWidget);
+        labelHyp_1->setObjectName(QStringLiteral("labelHyp_1"));
+        labelHyp_1->setEnabled(true);
+        labelHyp_1->setGeometry(QRect(320, 50, 30, 15));
+        QFont font2;
+        font2.setPointSize(23);
+        labelHyp_1->setFont(font2);
+        labelHyp_1->setAlignment(Qt::AlignCenter);
+        labelHyp_2 = new QLabel(centralWidget);
+        labelHyp_2->setObjectName(QStringLiteral("labelHyp_2"));
+        labelHyp_2->setEnabled(true);
+        labelHyp_2->setGeometry(QRect(320, 100, 30, 15));
+        labelHyp_2->setFont(font2);
+        labelHyp_2->setAlignment(Qt::AlignCenter);
+        lblMin_1 = new QLabel(centralWidget);
+        lblMin_1->setObjectName(QStringLiteral("lblMin_1"));
+        lblMin_1->setEnabled(true);
+        lblMin_1->setGeometry(QRect(280, 30, 47, 13));
+        lblMin_2 = new QLabel(centralWidget);
+        lblMin_2->setObjectName(QStringLiteral("lblMin_2"));
+        lblMin_2->setEnabled(true);
+        lblMin_2->setGeometry(QRect(280, 80, 47, 13));
+        lblMax_1 = new QLabel(centralWidget);
+        lblMax_1->setObjectName(QStringLiteral("lblMax_1"));
+        lblMax_1->setEnabled(true);
+        lblMax_1->setGeometry(QRect(350, 30, 47, 13));
+        lblMax_2 = new QLabel(centralWidget);
+        lblMax_2->setObjectName(QStringLiteral("lblMax_2"));
+        lblMax_2->setEnabled(true);
+        lblMax_2->setGeometry(QRect(350, 80, 47, 13));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -342,6 +399,12 @@ public:
         bntDisplayScatter->setText(QString());
         label_3->setText(QApplication::translate("MainWindow", "Display Graph", 0));
         bntDisplayLine->setText(QString());
+        labelHyp_1->setText(QApplication::translate("MainWindow", "-", 0));
+        labelHyp_2->setText(QApplication::translate("MainWindow", "-", 0));
+        lblMin_1->setText(QApplication::translate("MainWindow", "Min", 0));
+        lblMin_2->setText(QApplication::translate("MainWindow", "Min", 0));
+        lblMax_1->setText(QApplication::translate("MainWindow", "Max", 0));
+        lblMax_2->setText(QApplication::translate("MainWindow", "Max", 0));
         menuFIle->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuOptions->setTitle(QApplication::translate("MainWindow", "Options", 0));
         menuWindow->setTitle(QApplication::translate("MainWindow", "Window", 0));

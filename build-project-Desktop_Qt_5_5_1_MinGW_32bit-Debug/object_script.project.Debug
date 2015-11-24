@@ -10,8 +10,10 @@ INPUT(
 ./debug\main.o
 ./debug\nightcharts.o
 ./debug\nightchartswidget.o
+./debug\startup.o
 ./debug\qrc_myfiles.o
 ./debug\moc_qcustomplot.o
 ./debug\moc_mainwindow.o
 ./debug\moc_nightchartswidget.o
+./debug\moc_startup.o
 );

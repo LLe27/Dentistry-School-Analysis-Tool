@@ -10,6 +10,7 @@
 #include "csvprocessing/GrantProcessing.h"
 #include "csvprocessing/PresentationProcessing.h"
 #include "csvprocessing/TeachingProcessing.h"
+#include "startup.h"
 
 
 #include "ui_mainwindow.h"
@@ -125,7 +126,7 @@ private:
 //    void initDate_Month(QComboBox *months);
 //    void initDate_Years(QComboBox *months);
 
-
+    void initialize();
     void createActions();
     void createMenus();
 
@@ -174,6 +175,7 @@ private:
     CSVProcessing* p;
     vector<int> indDate;
     int csvtype;
+    StartUp *s;
 };
 
 #endif // MAINWINDOW_H
