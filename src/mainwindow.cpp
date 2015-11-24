@@ -620,15 +620,9 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
 
     customPlot->legend->setVisible(true);
 
-
     // add title
     customPlot->plotLayout()->insertRow(0);
     customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(customPlot, title));
-
-
-
-    customPlot->addGraph();
-    customPlot->graph()->setName(title);
 
     //find minimum and maximum x values.
     int xMax = xData.at(0);
