@@ -552,8 +552,15 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     customPlot->yAxis->setSubTickLengthIn(5);
 
     //set the y axis to be larger than the maximum y value
-    if(yMin < 2) yRangeMinimum = 0;
-    else yRangeMinimum = yMin - 2;
+    if(yMin < 2)
+    {
+        if(yMin == 1)
+            yRangeMinimum = 0;
+        else if (yMin == 0)
+            yRangeMinimum = -1;
+    }
+    else
+        yRangeMinimum = yMin - 2;
 
     yRangeMaximum = yMax + 2;
 
