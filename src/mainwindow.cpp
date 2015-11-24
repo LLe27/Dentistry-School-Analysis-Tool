@@ -580,21 +580,55 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
     QPen pen;
 
     QCustomPlot *customPlot = new QCustomPlot();
+
     customPlot->show();
     //set window size based on screen size
     customPlot->setGeometry(100, 100, width-200, height-200);
     // Tell QCustomPlot to show dots, but not lines
+
+
+//    customPlot->addGraph();
+
+    // pass the data points to the scatter plot
     customPlot->addGraph();
-    customPlot->graph(0)->setLineStyle(QCPGraph::lsLine);
+    customPlot->graph()->setName("Accepted / In Press");
+    pen.setColor(QColor(Qt::darkYellow));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    customPlot->graph()->setData(xData, yDataA);
+
+    customPlot->addGraph();
+    customPlot->graph()->setName("Other");
+    pen.setColor(QColor(Qt::magenta));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    customPlot->graph()->setData(xData, yDataO);
+
+    customPlot->addGraph();
+    customPlot->graph()->setName("Published");
+    pen.setColor(QColor(Qt::green));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    customPlot->graph()->setData(xData, yDataP);
+
+    customPlot->addGraph();
+    customPlot->graph()->setName("Submitted");
+    pen.setColor(QColor(Qt::red));
+    customPlot->graph()->setPen(pen);
+    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    customPlot->graph()->setData(xData, yDataS);
+
+    customPlot->legend->setVisible(true);
 
 
     // add title
     customPlot->plotLayout()->insertRow(0);
     customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(customPlot, title));
 
-    //set the graph to a scatter plot
-    customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-    customPlot->graph(0)->setName(title);
+
+
+    customPlot->addGraph();
+    customPlot->graph()->setName(title);
 
     //find minimum and maximum x values.
     int xMax = xData.at(0);
@@ -612,27 +646,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
         if (yData.at(yDataIndex) > yMax) yMax = yData.at(yDataIndex);
     }
 
-    // pass the data points to the scatter plot
 
-    customPlot->addGraph();
-    pen.setColor(QColor(Qt::darkYellow));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setData(xData, yDataA);
-
-    customPlot->addGraph();
-    pen.setColor(QColor(Qt::magenta));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setData(xData, yDataO);
-
-    customPlot->addGraph();
-    pen.setColor(QColor(Qt::green));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setData(xData, yDataP);
-
-    customPlot->addGraph();
-    pen.setColor(QColor(Qt::red));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setData(xData, yDataS);
 
 
     // Add up to 2 years gap to min of X range
@@ -676,8 +690,15 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
     customPlot->yAxis->setSubTickLengthIn(5);
 
     //set the y axis to be larger than the maximum y value
-    if(yMin < 2) yRangeMinimum = 0;
-    else yRangeMinimum = yMin - 2;
+    if(yMin < 2)
+    {
+        if(yMin == 1)
+            yRangeMinimum = 0;
+        else if (yMin == 0)
+            yRangeMinimum = -1;
+    }
+    else
+        yRangeMinimum = yMin - 2;
 
     yRangeMaximum = yMax + 2;
 
