@@ -17,9 +17,9 @@ public:
 /*
      * "data" columns
      */
-    static const int COLUMN_PROGRAM = 1;
-    static const int COLUMN_HOURS = 2;
-    static const int COLUMN_NUMBER_STUDENTS = 3;
+    static const int COLUMN_PROGRAM = 2;
+    static const int COLUMN_HOURS = 3;
+    static const int COLUMN_NUMBER_STUDENTS = 4;
 
     /**
      * Constructor.

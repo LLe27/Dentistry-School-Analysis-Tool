@@ -513,7 +513,7 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
                                             "Location",\
                                             "Hours per Teaching Session or Week",\
                                             "Number of Teaching Sessions or Weeks",\
-                                            "Faculty Member Additional Comments ",\
+                                            "Faculty Member Additional Comments",\
                                             "Number Of Trainees",\
                                             "Student Name(s)",\
                                             "Initial Lecture",\
@@ -620,34 +620,35 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
                         total_hours)){
 
 
-                            vector_record_info.push_back(record_info);
-                            vector_last_modified_user.push_back(last_modified_user);
-                            vector_last_modified_date.push_back(last_modified_date);
-                            vector_id.push_back(id);
+//                            vector_record_info.push_back(record_info);
+//                            vector_last_modified_user.push_back(last_modified_user);
+//                            vector_last_modified_date.push_back(last_modified_date);
+//                            vector_id.push_back(id);
                             vector_member_name.push_back(member_name);
-                            vector_primary_domain.push_back(primary_domain);
+//                            vector_primary_domain.push_back(primary_domain);
                             vector_start_date.push_back(start_date);
-                            vector_end_date.push_back(end_date);
+//                            vector_end_date.push_back(end_date);
                             vector_program.push_back(program);
-                            vector_type_course_activity.push_back(type_course_activity);
-                            vector_course_activity.push_back(course_activity);
-                            vector_geographical_scope.push_back(geographical_scope);
-                            vector_institution_organization.push_back(institution_organization);
-                            vector_faculty.push_back(faculty);
-                            vector_department.push_back(department);
-                            vector_division.push_back(division);
-                            vector_location.push_back(location);
-                            vector_hours_teaching_ses.push_back(hours_teaching_ses);
-                            vector_nums_teaching_ses.push_back(nums_teaching_ses);
-                            vector_faculty_member_add.push_back(faculty_member_add);
-                            vector_number_of_rainees.push_back(number_of_rainees);
-                            vector_student_name.push_back(student_name);
-                            vector_initial_lecture.push_back(initial_lecture);
-                            vector_faculty_development.push_back(faculty_development);
-                            vector_stipend_received.push_back(stipend_received);
-                            vector_comment.push_back(comment);
-                            vector_other_details.push_back(other_details);
                             vector_total_hours.push_back(total_hours);
+//                            vector_type_course_activity.push_back(type_course_activity);
+//                            vector_course_activity.push_back(course_activity);
+//                            vector_geographical_scope.push_back(geographical_scope);
+//                            vector_institution_organization.push_back(institution_organization);
+//                            vector_faculty.push_back(faculty);
+//                            vector_department.push_back(department);
+//                            vector_division.push_back(division);
+//                            vector_location.push_back(location);
+//                            vector_hours_teaching_ses.push_back(hours_teaching_ses);
+                            vector_nums_teaching_ses.push_back(nums_teaching_ses);
+//                            vector_faculty_member_add.push_back(faculty_member_add);
+//                            vector_number_of_rainees.push_back(number_of_rainees);
+//                            vector_student_name.push_back(student_name);
+//                            vector_initial_lecture.push_back(initial_lecture);
+//                            vector_faculty_development.push_back(faculty_development);
+//                            vector_stipend_received.push_back(stipend_received);
+//                            vector_comment.push_back(comment);
+//                            vector_other_details.push_back(other_details);
+
     }
 
 
@@ -656,19 +657,20 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
 //                        data.push_back(vector_last_modified_date);
 //                        data.push_back(vector_id);
                         data.push_back(vector_member_name);
-                        data.push_back(vector_primary_domain);
+                       // data.push_back(vector_primary_domain);
                         data.push_back(vector_start_date);
-                        data.push_back(vector_end_date);
+                       //data.push_back(vector_end_date);
                         data.push_back(vector_program);
-                        data.push_back(vector_type_course_activity);
+                       // data.push_back(vector_type_course_activity);
 //                        data.push_back(vector_course_activity);
-                        data.push_back(vector_geographical_scope);
+                        //data.push_back(vector_geographical_scope);
 //                        data.push_back(vector_institution_organization);
 //                        data.push_back(vector_faculty);
 //                        data.push_back(vector_department);
 //                        data.push_back(vector_division);
 //                        data.push_back(vector_location);
-                        data.push_back(vector_hours_teaching_ses) ;
+                         data.push_back(vector_total_hours);
+                         //data.push_back(vector_hours_teaching_ses) ;
                         data.push_back(vector_nums_teaching_ses) ;
 //                        data.push_back(vector_faculty_member_add);
 //                        data.push_back(vector_number_of_rainees);
@@ -678,7 +680,7 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
 //                        data.push_back(vector_stipend_received);
 //                        data.push_back(vector_comment);
 //                        data.push_back(vector_other_details);
-                        data.push_back(vector_total_hours);
+
 
 
 
