@@ -675,7 +675,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
     // Tell QCustomPlot to show dots, but not lines
 
 
-//    customPlot->addGraph();
+
 
     // pass the data points to the scatter plot
     customPlot->addGraph();
