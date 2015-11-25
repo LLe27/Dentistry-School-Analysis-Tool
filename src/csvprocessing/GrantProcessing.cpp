@@ -96,6 +96,21 @@ vector<int> GrantProcessing::getIndicesRole(string role, vector<int> indToConsid
     return getIndicesIntersect( rolesIndices.at(indRole) , indToConsider );
 }
 
+double GrantProcessing::getAmount(int index)
+{
+    string toReturn;
+
+    if (index > data.at(COLUMN_AMOUNT).size()) return 0;
+
+    toReturn = data.at(COLUMN_AMOUNT).at(index);
+    toReturn.erase(toReturn.begin() + 0);
+
+    return stod(toReturn);
+
+
+
+}
+
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount) {
     return getIndicesAmount(minAmount,maxAmount,allInd);
 }
@@ -103,7 +118,7 @@ vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount) {
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount, vector<int> indToConsider) {
     vector<int> result;
     for (int i : indToConsider) {
-        if (numberWithinBounds(data.at(COLUMN_AMOUNT).at(i),minAmount,maxAmount)) result.push_back(i);
+        if (grantsNumberWithinBounds(data.at(COLUMN_AMOUNT).at(i),minAmount,maxAmount)) result.push_back(i);
     }
     return result;
 }
