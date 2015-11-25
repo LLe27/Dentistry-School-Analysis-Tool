@@ -325,29 +325,64 @@ void MainWindow::on_bntDisplayLine_clicked()
     QVector<double> yDataS;
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
-    //return as vector all of the possible types.
+
+    string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
+    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
+    vector<int> indDate2, indStatus, indStatusType;
+    vector<int> indOther;
+
+
 
     double yearTotal = 0;
     double yearTotalA = 0;
     double yearTotalO = 0;
     double yearTotalP = 0;
     double yearTotalS = 0;
-    for (int i = yearStart; i < yearEnd; i++)
+
+    for (int i = yearStart; i <= yearEnd; i++)
     {
-        // Get all Indeces for the current year
-//        vector<int> indDate = p->getIndicesDate(1,1,yearStart,31,12,yearStart);
+
         xData.push_back(i);
+        // Get all Indeces for the current year
 
-        yearTotalA = ((PublicationProcessing *)p)->getIndicesStatus("Published",indDate).size();
-        yearTotalO = ((PublicationProcessing *)p)->getIndicesStatus("Accepted / In Press",indDate).size();
-        yearTotalP = ((PublicationProcessing *)p)->getIndicesStatus("Submitted",indDate).size();
-        yearTotalS = ((PublicationProcessing *)p)->getIndicesStatus("Other",indDate).size();
+        indDate2 = ((PublicationProcessing *)p)->getIndicesDate(1,1,i,31,12,i);
+        indOther = indDate2;
 
-        yData.push_back(yearTotalA);
-        yData.push_back(yearTotalO);
-        yData.push_back(yearTotalP);
-        yData.push_back(yearTotalS);
+        /*
+        // Get all the indices for "Published" status
+        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Published",indDate2);
+        for(string type: types)
+        {
+            // Sum the total number of articles for each type
+            yearTotalP += ((PublicationProcessing *)p)->getIndicesType(type, indStatus).size();
+        }
+        yDataP.push_back(yearTotalP);*/
 
+
+
+
+        // For each year, Get the total number of articles
+        // for each year Status and calculate the max
+
+        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Accepted / In Press",indDate2);
+        yearTotalA = indStatus.size();
+        indOther = remove_from_other(indOther, indStatus);
+        double maxY = yearTotalA;
+
+        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Submitted",indDate2);
+        yearTotalS = indStatus.size();
+        indOther = remove_from_other(indOther, indStatus);
+        if(yearTotalS > maxY) maxY = yearTotalS;
+
+        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Published",indDate2);
+        yearTotalP = indStatus.size();
+        indOther = remove_from_other(indOther, indStatus);
+        if(yearTotalP > maxY) maxY = yearTotalP;
+
+        yearTotalO = indOther.size();
+        if(yearTotalO > maxY) maxY = yearTotalO;
+
+        yData.push_back(maxY);
         yDataA.push_back(yearTotalA);
         yDataO.push_back(yearTotalO);
         yDataP.push_back(yearTotalP);
@@ -356,6 +391,20 @@ void MainWindow::on_bntDisplayLine_clicked()
     }
 
     makeLine(xData, yData, yDataA, yDataO, yDataP, yDataS, title);
+}
+vector<int> MainWindow::remove_from_other(vector<int> indOther, vector<int> indStatus)
+{
+    //remove from other
+    //remove things from indOther so that indOther is the set of papers that are within the date range, but
+    //do NOT have the correct status.
+    for (int iStat : indStatus) {
+        for (int i=indOther.size()-1; i>=0; i--) {
+            if (iStat==indOther.at(i)) {
+                indOther.erase(indOther.begin()+i);
+            }
+        }
+    }
+    return indOther;
 }
 
 void MainWindow::on_btnDates_clicked()
@@ -805,9 +854,7 @@ void MainWindow::drawDashboard(){
             treeRoot->addChild(treeBranch);
               addTreeRoot(treeBranch,QString::fromStdString(status),QString::number(count));
 
-              //remove from other
-              //remove things from indOther so that indOther is the set of papers that are within the date range, but
-              //do NOT have the correct status.
+
               for (int iStat : indStatus) {
                   for (int i=indOther.size()-1; i>=0; i--) {
                       if (iStat==indOther.at(i)) {
