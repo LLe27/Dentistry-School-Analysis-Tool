@@ -172,6 +172,18 @@ bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
         else return false;
 }
 
+bool CSVProcessing::grantsNumberWithinBounds(string numStr, double min, double max) {
+    //convert from string to double
+    numStr.erase(numStr.begin() + 0);
+    double numDouble = atof(numStr.c_str());
+
+    //test bounds
+    if (numDouble>=min && numDouble<=max) return true;
+        else return false;
+}
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

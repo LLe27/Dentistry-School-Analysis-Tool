@@ -193,7 +193,6 @@ protected:
     bool numberWithinBounds(string numStr, double min, double max);
 
     bool grantsNumberWithinBounds(string numStr, double min, double max);
-
 private:
     /**
      * Populates memberNames and memberNamesIndicies.

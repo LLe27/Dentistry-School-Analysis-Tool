@@ -85,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->lblMax_1->setVisible(true);
 
             ui->minText_1->setText(QString::number(0));
-            ui->maxText_1->setText(QString::number(100));
+            ui->maxText_1->setText(QString::number(10));
             break;
         default:
             ui->treeWidget->setColumnCount(3);
@@ -806,6 +806,12 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
 
 void MainWindow::initialize(){
     s = new StartUp(this);
+//    s->setStyleSheet("background-color:rgb(68,50,102);");
+    QPalette Pal(palette());
+    QColor color(195,195,229,255);
+    Pal.setColor(QPalette::Background, color);
+    s->setAutoFillBackground(true);
+    s->setPalette(Pal);
     s->show();
     if(s->exec() == QDialog::Accepted){
         csvtype = s->getCsvType();
@@ -910,27 +916,32 @@ void MainWindow::drawDashboard(){
         vector<string> members = p->getListOfMemberNames();
         vector<int> indProgram,indHours, indStudents, indProgramMember;
         vector<int> indOther = indDate;
-        int hours;
+        int hoursTotal,hoursProg,hoursMember;
         int students;
         string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
 
 
 
         indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
-        hours = indHours.size(); // Testing to see if populates
+        for(int i =0;i < indHours.size(); i++){
+            hoursTotal += ((TeachingProcessing *)p)->getHours(indHours.at(i));
+        } // Testing to see if populates
         indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indDate);
         students = indStudents.size();
 
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
-        addTreeRoot(treeRoot,"Teaching",QString::number(hours), QString::number(students));
+        addTreeRoot(treeRoot,"Teaching",QString::number(hoursTotal), QString::number(students));
 
         for(string program : programs){
+            hoursProg = 0;
             if (program == "Other") indProgram = indOther;
             //get the subset of indices where the paper is of the status specified and is in the date range specified.
             else indProgram = ((TeachingProcessing *)p)->getIndicesProgram(program,indDate);
 
             indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgram);
-            hours = indHours.size(); // Testing to see if populates
+            for(int i =0;i < indHours.size(); i++){
+                hoursProg += ((TeachingProcessing *)p)->getHours(indHours.at(i));
+            } // Testing to see if populates
             indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgram);
             students = indStudents.size();
 
@@ -946,21 +957,24 @@ void MainWindow::drawDashboard(){
             }
 
             QTreeWidgetItem *treeProgram = new QTreeWidgetItem();
-            addTreeRoot(treeProgram, QString::fromStdString(program), QString::number(hours), QString::number(students));
+            addTreeRoot(treeProgram, QString::fromStdString(program), QString::number(hoursProg), QString::number(students));
             treeRoot->addChild(treeProgram);
 
             for(string member: members){
+                hoursMember = 0;
                 indProgramMember = p->getIndicesMemberName(member,indProgram);
 
                 indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgramMember);
-                hours = indHours.size(); // Testing to see if populates
+                for(int i =0;i < indHours.size(); i++){
+                    hoursMember += ((TeachingProcessing *)p)->getHours(indHours.at(i));
+                } // Testing to see if populates
                 indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgramMember);
                 students = indStudents.size();
-                if(hours){
+                if(hoursMember){
                      if (member.length()<1) member = "Unspecified"; //rename blank member
                      QTreeWidgetItem *treeProgramMember = new QTreeWidgetItem();
                      treeProgramMember->setText(0,QString::fromStdString(member));
-                     treeProgramMember->setText(1,QString::number(hours));
+                     treeProgramMember->setText(1,QString::number(hoursMember));
                      treeProgramMember->setText(2,QString::number(students));
                      treeProgram->addChild(treeProgramMember);
 
@@ -1042,11 +1056,11 @@ void MainWindow::drawDashboard(){
             //Calculate amount
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indType);
             for(int i = 0; i <  indAmount.size(); i++){
-                amountType += indAmount.at(i);
+                amountType += ((GrantProcessing*)p)->getAmount((indAmount.at(i)));
             }
 
             QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
-            addTreeRoot(treeRoot,QString::fromStdString(type),QString::number(count),QString::number(amountType));
+            addTreeRoot(treeRoot,QString::fromStdString(type),QString::number(count),"$" + QString::number(amountType));
 
             //Gets the indicies for all peer review
             indPeer = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
@@ -1054,10 +1068,10 @@ void MainWindow::drawDashboard(){
             //cout << "Peer Review Count: " << count <<endl;
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPeer);
             for(int i = 0; i <  indAmount.size(); i++){
-                amountTypePeer += indAmount.at(i);
+                amountTypePeer += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
             }
             QTreeWidgetItem *treePeer =new QTreeWidgetItem();
-            addTreeRoot(treePeer,"Peer Reviewed",QString::number(count),QString::number(amountTypePeer));
+            addTreeRoot(treePeer,"Peer Reviewed",QString::number(count),"$" + QString::number(amountTypePeer));
 
             treeRoot->addChild(treePeer);
 
@@ -1067,7 +1081,7 @@ void MainWindow::drawDashboard(){
             //cout << "Industry Sponsor Count: " << count <<endl;
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indInd);
             for(int i = 0; i <  indAmount.size(); i++){
-                amountTypeInd += indAmount.at(i);
+                amountTypeInd += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
             }
             QTreeWidgetItem *treeInd =new QTreeWidgetItem();
             addTreeRoot(treeInd,"Industry Sponsored",QString::number(count),("$" + QString::number(amountTypeInd)));
@@ -1083,13 +1097,13 @@ void MainWindow::drawDashboard(){
                //amount claculation
                indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPMember);
                for(int i = 0; i <  indAmount.size(); i++){
-                   amountPeerMember += indAmount.at(i);
+                   amountPeerMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
                }
              if(count){
                    QTreeWidgetItem *treePeerMember =new QTreeWidgetItem();
                    treePeerMember->setText(0,QString::fromStdString(member));
                    treePeerMember->setText(1,QString::number(count));
-                   treePeerMember->setText(2,QString::number(amountPeerMember));
+                   treePeerMember->setText(2,"$" + QString::number(amountPeerMember));
                    treePeer->addChild(treePeerMember);
             }
 
@@ -1098,13 +1112,13 @@ void MainWindow::drawDashboard(){
                    //amount calculation
                    indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indIMember);
                    for(int i = 0; i <  indAmount.size(); i++){
-                       amountIndMember += indAmount.at(i);
+                       amountIndMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
                    }
                if(count){
                    QTreeWidgetItem *treeIndMember =new QTreeWidgetItem();
                    treeIndMember->setText(0,QString::fromStdString(member));
                    treeIndMember->setText(1,QString::number(count));
-                   treeIndMember->setText(2,QString::number(amountIndMember));
+                   treeIndMember->setText(2,"$" + QString::number(amountIndMember));
                    treeInd->addChild(treeIndMember);
                 }
             }

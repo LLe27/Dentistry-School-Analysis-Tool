@@ -96,23 +96,26 @@ vector<int> GrantProcessing::getIndicesRole(string role, vector<int> indToConsid
     return getIndicesIntersect( rolesIndices.at(indRole) , indToConsider );
 }
 
-double GrantProcessing::getAmount(int index)
-{
-    string toReturn;
-
-    if (index > data.at(COLUMN_AMOUNT).size()) return 0;
-
-    toReturn = data.at(COLUMN_AMOUNT).at(index);
-    toReturn.erase(toReturn.begin() + 0);
-
-    return stod(toReturn);
-
-
-
-}
-
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount) {
     return getIndicesAmount(minAmount,maxAmount,allInd);
+}
+
+double GrantProcessing::getAmount(int index) {
+    int Str_index = 0;
+   string str = data.at(COLUMN_AMOUNT).at(index);
+   str.erase(str.begin() + 0);
+
+   for(char& c: str ){
+        if(c == ','){
+            str.erase(str.begin() + Str_index);
+        }
+        Str_index++;
+   }
+
+   cout << "Total: " <<str << endl;
+   cout << "A Total" <<atof(str.c_str()) << endl;
+
+   return atof(str.c_str());
 }
 
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount, vector<int> indToConsider) {
