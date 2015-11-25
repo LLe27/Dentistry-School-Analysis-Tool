@@ -40,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->minText_1->setVisible(true);
             ui->minText_2->setVisible(true);
 
+            ui->minText_1->setText(QString::number(0));
+            ui->minText_2->setText(QString::number(0));
+
             //Hypens
             ui->labelHyp_1->setVisible(true);
             ui->labelHyp_2->setVisible(true);
@@ -47,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
             //Max text box
             ui->maxText_1->setVisible(true);
             ui->maxText_2->setVisible(true);
+
+            ui->maxText_1->setText(QString::number(100));
+            ui->maxText_2->setText(QString::number(100));
 
             //Min label
             ui->lblMin_1->setVisible(true);
@@ -77,6 +83,9 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->labelHyp_1->setVisible(true);
             ui->lblMin_1->setVisible(true);
             ui->lblMax_1->setVisible(true);
+
+            ui->minText_1->setText(QString::number(0));
+            ui->maxText_1->setText(QString::number(100));
             break;
         default:
             ui->treeWidget->setColumnCount(3);
@@ -907,9 +916,9 @@ void MainWindow::drawDashboard(){
 
 
 
-        indHours = ((TeachingProcessing *)p)->getIndicesHours(0,1000,indDate);
+        indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
         hours = indHours.size(); // Testing to see if populates
-        indStudents = ((TeachingProcessing *)p)->getIndicesStudents(0,1000,indDate);
+        indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indDate);
         students = indStudents.size();
 
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
@@ -920,9 +929,9 @@ void MainWindow::drawDashboard(){
             //get the subset of indices where the paper is of the status specified and is in the date range specified.
             else indProgram = ((TeachingProcessing *)p)->getIndicesProgram(program,indDate);
 
-            indHours = ((TeachingProcessing *)p)->getIndicesHours(0,1000,indProgram);
+            indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgram);
             hours = indHours.size(); // Testing to see if populates
-            indStudents = ((TeachingProcessing *)p)->getIndicesStudents(0,1000,indProgram);
+            indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgram);
             students = indStudents.size();
 
             //remove from other
@@ -943,9 +952,9 @@ void MainWindow::drawDashboard(){
             for(string member: members){
                 indProgramMember = p->getIndicesMemberName(member,indProgram);
 
-                indHours = ((TeachingProcessing *)p)->getIndicesHours(0,1000,indProgramMember);
+                indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgramMember);
                 hours = indHours.size(); // Testing to see if populates
-                indStudents = ((TeachingProcessing *)p)->getIndicesStudents(0,1000,indProgramMember);
+                indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgramMember);
                 students = indStudents.size();
                 if(hours){
                      if (member.length()<1) member = "Unspecified"; //rename blank member
@@ -1031,7 +1040,7 @@ void MainWindow::drawDashboard(){
             count = indType.size();
 
             //Calculate amount
-            indAmount = ((GrantProcessing*) p)->getIndicesAmount(0,1000,indType);
+            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indType);
             for(int i = 0; i <  indAmount.size(); i++){
                 amountType += indAmount.at(i);
             }
@@ -1043,7 +1052,7 @@ void MainWindow::drawDashboard(){
             indPeer = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
             count = indPeer.size();
             //cout << "Peer Review Count: " << count <<endl;
-            indAmount = ((GrantProcessing*) p)->getIndicesAmount(0,1000,indPeer);
+            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPeer);
             for(int i = 0; i <  indAmount.size(); i++){
                 amountTypePeer += indAmount.at(i);
             }
@@ -1056,7 +1065,7 @@ void MainWindow::drawDashboard(){
             indInd = ((GrantProcessing *)p)->getIndicesIndustry(indType);
             count = indInd.size();
             //cout << "Industry Sponsor Count: " << count <<endl;
-            indAmount = ((GrantProcessing*) p)->getIndicesAmount(0,1000,indInd);
+            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indInd);
             for(int i = 0; i <  indAmount.size(); i++){
                 amountTypeInd += indAmount.at(i);
             }
@@ -1072,7 +1081,7 @@ void MainWindow::drawDashboard(){
                indPMember = p->getIndicesMemberName(member,indPeer);
                count = indPMember.size();
                //amount claculation
-               indAmount = ((GrantProcessing*) p)->getIndicesAmount(0,1000,indPMember);
+               indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPMember);
                for(int i = 0; i <  indAmount.size(); i++){
                    amountPeerMember += indAmount.at(i);
                }
@@ -1087,7 +1096,7 @@ void MainWindow::drawDashboard(){
                    indIMember = p->getIndicesMemberName(member,indInd);
                    count = indIMember.size();
                    //amount calculation
-                   indAmount = ((GrantProcessing*) p)->getIndicesAmount(0,1000,indIMember);
+                   indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indIMember);
                    for(int i = 0; i <  indAmount.size(); i++){
                        amountIndMember += indAmount.at(i);
                    }
