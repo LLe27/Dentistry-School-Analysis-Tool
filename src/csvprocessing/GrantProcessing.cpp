@@ -100,10 +100,28 @@ vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount) {
     return getIndicesAmount(minAmount,maxAmount,allInd);
 }
 
+double GrantProcessing::getAmount(int index) {
+    int Str_index = 0;
+   string str = data.at(COLUMN_AMOUNT).at(index);
+   str.erase(str.begin() + 0);
+
+   for(char& c: str ){
+        if(c == ','){
+            str.erase(str.begin() + Str_index);
+        }
+        Str_index++;
+   }
+
+   cout << "Total: " <<str << endl;
+   cout << "A Total" <<atof(str.c_str()) << endl;
+
+   return atof(str.c_str());
+}
+
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount, vector<int> indToConsider) {
     vector<int> result;
     for (int i : indToConsider) {
-        if (numberWithinBounds(data.at(COLUMN_AMOUNT).at(i),minAmount,maxAmount)) result.push_back(i);
+        if (grantsNumberWithinBounds(data.at(COLUMN_AMOUNT).at(i),minAmount,maxAmount)) result.push_back(i);
     }
     return result;
 }

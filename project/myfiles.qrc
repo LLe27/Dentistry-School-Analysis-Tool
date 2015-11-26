@@ -9,5 +9,31 @@
         <file>LineChartIcon.png</file>
         <file>LineIcon.png</file>
         <file>LineIcon2.png</file>
+        <file>Grants_Button.png</file>
+        <file>Grants_Button_Checked.png</file>
+        <file>Grants_Button_Checked_Clicked.png</file>
+        <file>Grants_Button_Checked_Hover.png</file>
+        <file>Grants_Button_Unchecked_Clicked.png</file>
+        <file>Grants_Button_Unchecked_Hover.png</file>
+        <file>Presentation_Button.png</file>
+        <file>Presentation_Button_Checked.png</file>
+        <file>Presentation_Button_Checked_Clicked.png</file>
+        <file>Presentation_Button_Checked_Hover.png</file>
+        <file>Presentation_Button_Unchecked_Clicked.png</file>
+        <file>Presentation_Button_Unchecked_Hover.png</file>
+        <file>Publications_Button.png</file>
+        <file>Publications_Button_Checked.png</file>
+        <file>Publications_Button_Checked_Clicked.png</file>
+        <file>Publications_Button_Checked_Hover.png</file>
+        <file>Publications_Button_Unchecked_Clicked.png</file>
+        <file>Publications_Button_Unchecked_Hover.png</file>
+        <file>schulich-school-of-medicine-dentistry.gif</file>
+        <file>small-5978-9276397.png</file>
+        <file>Teachings_Button.png</file>
+        <file>Teachings_Button_Checked.png</file>
+        <file>Teachings_Button_Checked_Clicked.png</file>
+        <file>Teachings_Button_Checked_Hover.png</file>
+        <file>Teachings_Button_Unchecked_Clicked.png</file>
+        <file>Teachings_Button_Unchecked_Hover.png</file>
     </qresource>
 </RCC>

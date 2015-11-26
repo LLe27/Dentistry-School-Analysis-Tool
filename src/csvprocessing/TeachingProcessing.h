@@ -90,6 +90,8 @@ public:
      */
     vector<int> getIndicesStudents(int minNumStudents, int maxNumStudents, vector<int> indToConsider);
 
+    double getHours(int index);
+
 private:
     /*
      * Private Instance Variables

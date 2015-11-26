@@ -29,7 +29,7 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
 
 
     //populate default index of all entries
-    for (int i=0; i<data.at(0).size(); i++) allInd.push_back(i);
+    for (int i=0; i<(int)data.at(0).size(); i++) allInd.push_back(i);
 
     //populate member names
     populateMemberNames();
@@ -71,9 +71,9 @@ vector<string> CSVProcessing::toStringTest(vector<int> indices) {
     string tostr;
     for (int i : indices) {
         tostr = "";
-        for (int j=0; j<data.size(); j++) {
+        for (int j=0; j<(int)data.size(); j++) {
             tostr += data.at(j).at(i);
-            if (j<(data.size()-1)) tostr += "|";
+            if (j<(int)(data.size()-1)) tostr += "|";
         }
         result.push_back(tostr);
     }
@@ -89,10 +89,10 @@ pair<vector<string>,vector<vector<int>>> CSVProcessing::getUniqueInColumn(int co
     vector<vector<int>> uniqueNum;
     string item;
     bool found;
-    for (int i=0; i<data.at(column).size(); i++) {
+    for (int i=0; i<(int)data.at(column).size(); i++) {
         item = data.at(column).at(i);
         found = false;
-        for (int j=0; j<unique.size(); j++) {
+        for (int j=0; j<(int)unique.size(); j++) {
             if (item==unique.at(j)) {
                 found = true;
                 uniqueNum.at(j).push_back(i);
@@ -120,7 +120,7 @@ vector<string> CSVProcessing::getColumnIndices(int column, vector<int> indices) 
 
 vector<int> CSVProcessing::getColumnMatch(int column, string target) {
     vector<int> indices;
-    for (int i=0; i<data.at(column).size(); i++) {
+    for (int i=0; i<(int)data.at(column).size(); i++) {
         if (data.at(column).at(i) == target) {
             indices.push_back(i);
         }
@@ -132,7 +132,7 @@ vector<int> CSVProcessing::getColumnMatch(int column, string target) {
 vector<int> CSVProcessing::getColumnContains(int column, string target) {
     vector<int> indices;
     string str;
-    for (int i=0; i<data.at(column).size(); i++) {
+    for (int i=0; i<(int)data.at(column).size(); i++) {
         if (data.at(column).at(i).find(target) != string::npos) {
             indices.push_back(i);
         }
@@ -172,6 +172,18 @@ bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
         else return false;
 }
 
+bool CSVProcessing::grantsNumberWithinBounds(string numStr, double min, double max) {
+    //convert from string to double
+    numStr.erase(numStr.begin() + 0);
+    double numDouble = atof(numStr.c_str());
+
+    //test bounds
+    if (numDouble>=min && numDouble<=max) return true;
+        else return false;
+}
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,7 +213,7 @@ bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int
     //check for alphabetic month
     string dateNonNumeric;
     char c;
-    for (int i=0; i<date.size(); i++) {
+    for (int i=0; i<(int)date.size(); i++) {
         c = date.at((i));
         if (c!='-' && !isdigit(c)) dateNonNumeric += c;
     }
@@ -236,11 +248,11 @@ bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int
     //parse
     string str;
     int strInt;
-    for (int i=0; i<date.size(); i++) {
+    for (int i=0; i<(int)date.size(); i++) {
         c = date.at(i);
         if (isdigit(c)) str += c;
 
-        if (str.length()==2 && ((i<(date.size()-1) && !isdigit(date.at(i+1))) || i==(date.size()-1))) {
+        if (str.length()==2 && ((i<(int)(date.size()-1) && !isdigit(date.at(i+1))) || i==(int)(date.size()-1))) {
             strInt = atoi(str.c_str());
 
             //2-ditit year, month, or day
