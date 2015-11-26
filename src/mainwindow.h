@@ -75,10 +75,8 @@ public:
      * @param yData
      * @param title
      */
-    void makeLine(QVector<double> xData, QVector<double> yData,
-                  QVector<double> yDataA, QVector<double> yDataO,
-                  QVector<double> yDataP, QVector<double> yDataS,
-                  QString title );
+    void makeLine(QVector<double> xData, QVector<double> yDataMax,
+                  QVector<QVector<double>>, QVector<QString> names, QString title );
 
 private slots:
     /**

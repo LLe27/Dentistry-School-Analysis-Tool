@@ -242,11 +242,46 @@ void MainWindow::on_bntDisplayBar_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-//    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
-    for (int i=0; i<types.size(); i++) {
-        numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
-    }
+    vector<string> types;
+    vector<int> indOther, indStatus;
+
+    switch(csvtype)
+    {
+        case 1:
+        {
+        types = ((PublicationProcessing* )p)->getListOfTypes();
+        for (string type: types) {
+            numItems << ((PublicationProcessing *)p)->getIndicesType(type,indDate).size();
+        }break;}
+
+        case 2:
+        {
+        types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
+        indOther = indDate;
+        for (string type: types) {
+            if(type != "Other")
+                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indDate);
+
+            // Remove indices from other that are assigned to one of the other categories
+            indOther = remove_from_other(indOther, indStatus);
+            if(type == "Other") numItems << indOther.size();
+            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type,indDate).size();
+        }break;}
+
+        case 3:
+        {
+        types = ((PresentationProcessing*)p)->getListOfTypes();
+        for (string type: types) {
+            numItems << ((PresentationProcessing *)p)->getIndicesType(type,indDate).size();
+        }break;}
+
+        case 4:
+        {
+        types = ((GrantProcessing*)p)->getListOfTypes();
+        for (string type: types) {
+            numItems << ((GrantProcessing *)p)->getIndicesType(type,indDate).size();
+        }break;}
+     }
 
     makeBarGraph(numItems, title, types);
     //w.show();
@@ -265,14 +300,50 @@ void MainWindow::on_bntDisplayPie_clicked()
     yearEnd = Enddate.year();
 
     QVector<double> numItems;
+    vector<string> types;
+    vector<int> indStatus, indOther;
+
+
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
-    //return as vector all of the possible types.
-    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-    //    vector<int> indDate = p->getIndicesDate(dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd);
-    for (int i=0; i<types.size(); i++) {
-        numItems << ((PublicationProcessing *)p)->getIndicesType(types.at(i),indDate).size();
-    }
+    switch(csvtype)
+    {
+        case 1:
+        {
+        types = ((PublicationProcessing* )p)->getListOfTypes();
+        for (string type: types) {
+            numItems << ((PublicationProcessing *)p)->getIndicesType(type,indDate).size();
+        }break;}
+
+        case 2:
+        {
+        types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
+        indOther = indDate;
+        for (string type: types) {
+            if(type != "Other")
+                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indDate);
+
+            // Remove indices from other that are assigned to one of the other categories
+            indOther = remove_from_other(indOther, indStatus);
+            if(type == "Other") numItems << indOther.size();
+            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type,indDate).size();
+        }break;}
+
+        case 3:
+        {
+        types = ((PresentationProcessing*)p)->getListOfTypes();
+        for (string type: types) {
+            numItems << ((PresentationProcessing *)p)->getIndicesType(type,indDate).size();
+        }break;}
+
+        case 4:
+        {
+        types = ((GrantProcessing*)p)->getListOfTypes();
+        for (string type: types) {
+            numItems << ((GrantProcessing *)p)->getIndicesType(type,indDate).size();
+        }break;}
+     }
+
 
     makePie(numItems, title, types);
 }
@@ -295,22 +366,89 @@ void MainWindow::on_bntDisplayScatter_clicked()
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
     //return as vector all of the possible types.
-    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-     vector<int> indDate2;
+    vector<string> types;
+    vector<int> indDate2;
+    vector<int> indStatus, indOther;
 
     double yearTotal = 0;
-    for (int i = yearStart; i < yearEnd; i++)
+    for (int i = yearStart; i <= yearEnd; i++)
     {
-        // Get all Indeces for the current year
-        indDate2 = p->getIndicesDate(1,1,i,31,12,i);
-        xData.push_back(i);
-        yearTotal = 0;
-        for (int j = 0; j < types.size(); j++) {
-            yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
-        }
-        yData.push_back(yearTotal);
+        switch(csvtype)
+        {
+            // Publications
+            case 1:
+            {
+                // Get all Indeces for the current year
+                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+                types = ((PublicationProcessing *)p)->getListOfTypes();
+                xData.push_back(i);
+                yearTotal = 0;
+                for (int j = 0; j < types.size(); j++) {
+                    yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
+                }
+                yData.push_back(yearTotal);
+                break;
+            }
 
-    }
+            // Teaching
+            case 2:
+            {
+                // Get all Indeces for the current year
+                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+                xData.push_back(i);
+                yearTotal = 0;
+                types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
+                for (string type: types) {
+                    if (type != "Other") {
+                        indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indDate2);
+                    }
+
+                    indOther = remove_from_other(indOther, indStatus);
+                    if(type == "Other") yearTotal += indOther.size();
+                    else yearTotal += ((TeachingProcessing *)p)->getIndicesProgram(type,indDate2).size();
+                }
+                yData.push_back(yearTotal);
+                break;
+
+            }
+
+            // Presentations
+            case 3:
+            {
+                // Get all Indeces for the current year
+                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+                types = ((PresentationProcessing *)p)->getListOfTypes();
+                xData.push_back(i);
+                yearTotal = 0;
+                for (int j = 0; j < types.size(); j++) {
+                    yearTotal += ((PresentationProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
+                }
+                yData.push_back(yearTotal);
+                break;
+
+            }
+
+            // Grants
+            case 4:
+            {
+                // Get all Indeces for the current year
+                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+                types = ((GrantProcessing *)p)->getListOfTypes();
+                xData.push_back(i);
+                yearTotal = 0;
+                for (int j = 0; j < types.size(); j++) {
+                    yearTotal += ((GrantProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
+                }
+                yData.push_back(yearTotal);
+                break;
+
+            }
+
+
+         } // End Switch
+
+    } // End For
+
     makeScatter(xData, yData, title);
 }
 
@@ -327,79 +465,169 @@ void MainWindow::on_bntDisplayLine_clicked()
     yearEnd = Enddate.year();
 
     QVector<double> xData;
-    QVector<double> yData;
-    QVector<double> yDataA;
-    QVector<double> yDataO;
-    QVector<double> yDataP;
-    QVector<double> yDataS;
+    QVector<double> yDataMax;
+
+    QVector<QVector<double>> yData; // To hold yData for each of the different statuses/programs etc...
+
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
 
 
-    string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
-    vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
+    vector<string> statuses;
+    //vector<string> types;
     vector<int> indDate2, indStatus, indStatusType;
     vector<int> indOther;
 
+    // Publications vectors
+    QVector<double> yDataA;
+    QVector<double> yDataP;
+    QVector<double> yDataO;
+    QVector<double> yDataS;
+    QVector<QString> names;
 
 
-    double yearTotal = 0;
-    double yearTotalA = 0;
-    double yearTotalO = 0;
-    double yearTotalP = 0;
-    double yearTotalS = 0;
 
     for (int i = yearStart; i <= yearEnd; i++)
     {
-
         xData.push_back(i);
-        // Get all Indeces for the current year
 
+        // Get all Indeces for the current year
         indDate2 = ((PublicationProcessing *)p)->getIndicesDate(1,1,i,31,12,i);
         indOther = indDate2;
 
-        /*
-        // Get all the indices for "Published" status
-        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Published",indDate2);
-        for(string type: types)
+        switch(csvtype)
         {
-            // Sum the total number of articles for each type
-            yearTotalP += ((PublicationProcessing *)p)->getIndicesType(type, indStatus).size();
+            case 1:
+            {
+                double maxY = 0;
+                double yearTotal = 0;
+                statuses = {"Published","Accepted / In Press","Submitted","Other"};
+
+                for(string status: statuses)
+                {
+                    if(status != "Other") {
+                        indStatus = ((PublicationProcessing*)p)->getIndicesStatus(status, indDate2);
+                    }
+                    // Remove from indOther the indeces that belong to a status
+                    indOther = remove_from_other(indOther, indStatus);
+                    if(status == "Other") yearTotal = indOther.size();
+                    else yearTotal = indStatus.size();
+                    if (yearTotal > maxY) maxY = yearTotal; // Find maxY value
+
+                    yDataMax.push_back(maxY);
+
+                    // Store the y Data for a particular program for a certain year
+                    if (status == "Other") yDataO.push_back(yearTotal);
+                    else if (status == "Published") yDataP.push_back(yearTotal);
+                    else if(status == "Accepted / In Press") yDataA.push_back(yearTotal);
+                    else if (status == "Submitted") yDataS.push_back(yearTotal);
+
+                    if(!names.contains(QString::fromStdString(status)))
+                        names.push_back(QString::fromStdString(status));
+
+                }
+                break;
+
+            } // end case1
+
+            case 2:
+            {
+                double maxY = 0;
+                double yearTotal = 0;
+                statuses = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other"};
+
+
+                for(string status: statuses)
+                {
+                    if(status != "Other") {
+                        indStatus = ((PublicationProcessing*)p)->getIndicesStatus(status, indDate2);
+                    }
+                    // Remove from indOther the indeces that belong to a status
+                    indOther = remove_from_other(indOther, indStatus);
+                    if(status == "Other") yearTotal = indOther.size();
+                    else yearTotal = indStatus.size();
+                    if (yearTotal > maxY) maxY = yearTotal; // Find maxY value
+
+                    yDataMax.push_back(maxY);
+
+                    // Store the y Data for a particular program for a certain year
+                    if (status == "Other") yDataO.push_back(yearTotal);
+                    else if (status == "Postgraduate Medical Education") yDataP.push_back(yearTotal);
+                    else if(status == "Continuing Medical Education") yDataA.push_back(yearTotal);
+                    else if (status == "Undergraduate Medical Education") yDataS.push_back(yearTotal);
+
+                    if(!names.contains(QString::fromStdString(status)))
+                        names.push_back(QString::fromStdString(status));
+
+                }
+                break;
+
+            } // end case2
+            case 3:
+            {
+                double yearTotal = 0;
+                string status = "Presentations";
+                vector<string> types = ((PresentationProcessing*)p)->getListOfTypes();
+                for(string type: types)
+                {
+                    yearTotal += ((PresentationProcessing*)p)->getIndicesType(type, indDate2).size();
+                }
+                yDataMax.push_back(yearTotal);
+                yDataP.push_back(yearTotal);
+                if(!names.contains(QString::fromStdString(status)))
+                    names.push_back(QString::fromStdString(status));
+                break;
+
+            } // end case3
+
+            case 4:
+            {
+                double maxY = 0;
+                double yearTotal = 0;
+                string status = "All Grants";
+                vector<string> types = ((GrantProcessing*)p)->getListOfTypes();
+
+                for(string type: types)
+                {
+                    yearTotal += ((GrantProcessing*)p)->getIndicesType(type, indDate2).size();
+                }
+                yDataMax.push_back(yearTotal);
+                yDataP.push_back(yearTotal);
+
+                if(!names.contains(QString::fromStdString(status)))
+                    names.push_back(QString::fromStdString(status));
+
+
+                break;
+
+            } // end case4
+        } // end switch
+
+    } // End For
+
+    switch(csvtype)
+    {
+        case 1: case 2: {
+            yData.push_back(yDataP);
+            yData.push_back(yDataA);
+            yData.push_back(yDataS);
+            yData.push_back(yDataO);
         }
-        yDataP.push_back(yearTotalP);*/
 
+        case 3: {
+            yData.push_back(yDataP);
+        }
+        case 4: {
+            yData.push_back(yDataP);
+            yData.push_back(yDataA);
+            yData.push_back(yDataO);
 
+        }
 
-
-        // For each year, Get the total number of articles
-        // for each year Status and calculate the max
-
-        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Accepted / In Press",indDate2);
-        yearTotalA = indStatus.size();
-        indOther = remove_from_other(indOther, indStatus);
-        double maxY = yearTotalA;
-
-        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Submitted",indDate2);
-        yearTotalS = indStatus.size();
-        indOther = remove_from_other(indOther, indStatus);
-        if(yearTotalS > maxY) maxY = yearTotalS;
-
-        indStatus = ((PublicationProcessing *)p)->getIndicesStatus("Published",indDate2);
-        yearTotalP = indStatus.size();
-        indOther = remove_from_other(indOther, indStatus);
-        if(yearTotalP > maxY) maxY = yearTotalP;
-
-        yearTotalO = indOther.size();
-        if(yearTotalO > maxY) maxY = yearTotalO;
-
-        yData.push_back(maxY);
-        yDataA.push_back(yearTotalA);
-        yDataO.push_back(yearTotalO);
-        yDataP.push_back(yearTotalP);
-        yDataS.push_back(yearTotalS);
 
     }
 
-    makeLine(xData, yData, yDataA, yDataO, yDataP, yDataS, title);
+
+    makeLine(xData, yDataMax, yData, names, title);
 }
 vector<int> MainWindow::remove_from_other(vector<int> indOther, vector<int> indStatus)
 {
@@ -665,10 +893,8 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 }
 
 // Create the line graph
-void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
-                          QVector<double> yDataA, QVector<double> yDataO,
-                          QVector<double> yDataP, QVector<double> yDataS,
-                          QString title ) {
+void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
+                          QVector<QVector<double>> yData, QVector<QString> names, QString title ) {
 
     QRect rec = QApplication::desktop()->screenGeometry();
     int height = rec.height();
@@ -683,37 +909,30 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
     customPlot->setGeometry(100, 100, width-200, height-200);
     // Tell QCustomPlot to show dots, but not lines
 
+    int red = 0;
+    int green = 0;
+    int blue = 0;
 
+    int i = 0;
+    for(QString name: names)
+    {
+        // Get a random colour
+        red = (red + 57) % 255;
+        green = (green + 97) % 255;
+        blue = (blue + 137) % 255;
 
+        // pass the data points to the scatter plot
+        customPlot->addGraph();
+        customPlot->graph()->setName(name);
+        QColor *color = new QColor(red, green, blue);
 
-    // pass the data points to the scatter plot
-    customPlot->addGraph();
-    customPlot->graph()->setName("Accepted / In Press");
-    pen.setColor(QColor(Qt::darkYellow));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-    customPlot->graph()->setData(xData, yDataA);
+        pen.setColor(*color);
+        customPlot->graph()->setPen(pen);
+        customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+        customPlot->graph()->setData(xData, yData.at(i));
 
-    customPlot->addGraph();
-    customPlot->graph()->setName("Other");
-    pen.setColor(QColor(Qt::magenta));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-    customPlot->graph()->setData(xData, yDataO);
-
-    customPlot->addGraph();
-    customPlot->graph()->setName("Published");
-    pen.setColor(QColor(Qt::green));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-    customPlot->graph()->setData(xData, yDataP);
-
-    customPlot->addGraph();
-    customPlot->graph()->setName("Submitted");
-    pen.setColor(QColor(Qt::red));
-    customPlot->graph()->setPen(pen);
-    customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-    customPlot->graph()->setData(xData, yDataS);
+        i++;
+    }
 
     customPlot->legend->setVisible(true);
 
@@ -730,14 +949,12 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yData,
     }
 
     //find minimum and maximum y values.
-    int yMax = yData.at(0);
-    int yMin = yData.at(0);
-    for(int yDataIndex=0; yDataIndex < yData.size(); yDataIndex++) {
-        if (yData.at(yDataIndex) < yMin) yMin = yData.at(yDataIndex);
-        if (yData.at(yDataIndex) > yMax) yMax = yData.at(yDataIndex);
+    int yMax = yDataMax.at(0);
+    int yMin = yDataMax.at(0);
+    for(int yDataIndex=0; yDataIndex < yDataMax.size(); yDataIndex++) {
+        if (yDataMax.at(yDataIndex) < yMin) yMin = yDataMax.at(yDataIndex);
+        if (yDataMax.at(yDataIndex) > yMax) yMax = yDataMax.at(yDataIndex);
     }
-
-
 
 
     // Add up to 2 years gap to min of X range
@@ -965,11 +1182,7 @@ void MainWindow::drawDashboard(){
                      treeProgram->addChild(treeProgramMember);
 
                 }
-
             }
-
-
-
        }
     }
 
