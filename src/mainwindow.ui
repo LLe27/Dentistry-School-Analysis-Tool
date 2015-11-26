@@ -333,6 +333,9 @@ QComboBox::down-arrow:on { /* shift the arrow when popup is open */
            </widget>
           </item>
           <item>
+           <widget class="QComboBox" name="comboBox"/>
+          </item>
+          <item>
            <layout class="QGridLayout" name="gridLayout">
             <property name="sizeConstraint">
              <enum>QLayout::SetMinimumSize</enum>
@@ -499,26 +502,6 @@ QTreeView::branch:open:has-children:has-siblings  {
      </layout>
     </item>
    </layout>
-   <zorder>treeWidget</zorder>
-   <zorder>layoutWidget</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>bntDisplayBar</zorder>
-   <zorder>bntDisplayPie</zorder>
-   <zorder>bntDisplayScatter</zorder>
-   <zorder>label_3</zorder>
-   <zorder>bntDisplayLine</zorder>
-   <zorder>minText_1</zorder>
-   <zorder>minText_2</zorder>
-   <zorder>maxText_1</zorder>
-   <zorder>maxText_2</zorder>
-   <zorder>labelHyp_1</zorder>
-   <zorder>labelHyp_2</zorder>
-   <zorder>lblMin_1</zorder>
-   <zorder>lblMin_2</zorder>
-   <zorder>lblMax_1</zorder>
-   <zorder>lblMax_2</zorder>
-   <zorder>lblDateRange</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

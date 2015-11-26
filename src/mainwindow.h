@@ -127,6 +127,7 @@ private:
     void initialize();
     void createActions();
     void createMenus();
+    void addComboBoxItems();
     vector<int> remove_from_other(vector<int> indOther, vector<int> indStatus);
 
     void addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description, QString count);

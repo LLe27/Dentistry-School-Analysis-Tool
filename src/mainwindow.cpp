@@ -108,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createHelpMenu();
     createActions();
+    addComboBoxItems();
 
     on_btnDates_clicked();
 
@@ -140,7 +141,43 @@ void MainWindow::addTreeChild(QTreeWidgetItem *parent,QString name,QString descr
 
     parent ->addChild(treeItem);
 }
+void MainWindow::addComboBoxItems()
+{
+    vector<string> members;
+    switch(csvtype)
+    {
+        case 1:
+        {
+            members = ((PublicationProcessing*)p)->getListOfMemberNames();
+            break;
+        }
+        case 2:
+        {
+            members = ((TeachingProcessing*)p)->getListOfMemberNames();
+            break;
+        }
+        case 3:
+        {
+            members = ((PresentationProcessing*)p)->getListOfMemberNames();
+            break;
+        }
+        case 4:
+        {
+            members = ((GrantProcessing*)p)->getListOfMemberNames();
+            break;
+        }
 
+    }
+    ui->comboBox->addItem(QString::fromStdString("Total"));
+    int i = 0;
+    for(string member: members)
+    {
+        // Add member names to combobox
+        ui->comboBox->addItem(QString::fromStdString(member));
+        i++;
+    }
+    ui->comboBox->setCurrentText("Total");
+}
 void MainWindow::createActions()
 {
 
@@ -243,7 +280,24 @@ void MainWindow::on_bntDisplayBar_clicked()
 
     //return as vector all of the possible types.
     vector<string> types;
-    vector<int> indOther, indStatus;
+    vector<int> indOther, indStatus, indMember;
+
+    // Get Faculty Member
+    const QString mem = ui->comboBox->currentText();
+    string member  = mem.toStdString();
+
+
+
+    // Narrow down the indeces to just show those of the member
+    if(member == "Total")
+    {
+        // Get all the members
+        indMember = indDate;
+    }
+    else  {
+        indMember = p->getIndicesMemberName(member, indDate);
+    }
+
 
     switch(csvtype)
     {
@@ -251,35 +305,35 @@ void MainWindow::on_bntDisplayBar_clicked()
         {
         types = ((PublicationProcessing* )p)->getListOfTypes();
         for (string type: types) {
-            numItems << ((PublicationProcessing *)p)->getIndicesType(type,indDate).size();
+            numItems << ((PublicationProcessing *)p)->getIndicesType(type,indMember).size();
         }break;}
 
         case 2:
         {
         types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
-        indOther = indDate;
+        indOther = indMember;
         for (string type: types) {
             if(type != "Other")
-                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indDate);
+                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
 
             // Remove indices from other that are assigned to one of the other categories
             indOther = remove_from_other(indOther, indStatus);
             if(type == "Other") numItems << indOther.size();
-            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type,indDate).size();
+            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type, indMember).size();
         }break;}
 
         case 3:
         {
         types = ((PresentationProcessing*)p)->getListOfTypes();
         for (string type: types) {
-            numItems << ((PresentationProcessing *)p)->getIndicesType(type,indDate).size();
+            numItems << ((PresentationProcessing *)p)->getIndicesType(type,indMember).size();
         }break;}
 
         case 4:
         {
         types = ((GrantProcessing*)p)->getListOfTypes();
         for (string type: types) {
-            numItems << ((GrantProcessing *)p)->getIndicesType(type,indDate).size();
+            numItems << ((GrantProcessing *)p)->getIndicesType(type,indMember).size();
         }break;}
      }
 
@@ -301,7 +355,23 @@ void MainWindow::on_bntDisplayPie_clicked()
 
     QVector<double> numItems;
     vector<string> types;
-    vector<int> indStatus, indOther;
+    vector<int> indStatus, indOther, indMember;
+
+    // Get Faculty Member
+    const QString mem = ui->comboBox->currentText();
+    string member  = mem.toStdString();
+
+
+
+    // Narrow down the indeces to just show those of the member
+    if(member == "Total")
+    {
+        // Get all the members
+        indMember = indDate;
+    }
+    else  {
+        indMember = p->getIndicesMemberName(member, indDate);
+    }
 
 
     QString title = QString("%1-%2-%3 to %4-%5-%6").arg(dayStart).arg(monthStart).arg(yearStart).arg(dayEnd).arg(monthEnd).arg(yearEnd);
@@ -312,35 +382,35 @@ void MainWindow::on_bntDisplayPie_clicked()
         {
         types = ((PublicationProcessing* )p)->getListOfTypes();
         for (string type: types) {
-            numItems << ((PublicationProcessing *)p)->getIndicesType(type,indDate).size();
+            numItems << ((PublicationProcessing *)p)->getIndicesType(type,indMember).size();
         }break;}
 
         case 2:
         {
         types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
-        indOther = indDate;
+        indOther = indMember;
         for (string type: types) {
             if(type != "Other")
-                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indDate);
+                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
 
             // Remove indices from other that are assigned to one of the other categories
             indOther = remove_from_other(indOther, indStatus);
             if(type == "Other") numItems << indOther.size();
-            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type,indDate).size();
+            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type,indMember).size();
         }break;}
 
         case 3:
         {
         types = ((PresentationProcessing*)p)->getListOfTypes();
         for (string type: types) {
-            numItems << ((PresentationProcessing *)p)->getIndicesType(type,indDate).size();
+            numItems << ((PresentationProcessing *)p)->getIndicesType(type,indMember).size();
         }break;}
 
         case 4:
         {
         types = ((GrantProcessing*)p)->getListOfTypes();
         for (string type: types) {
-            numItems << ((GrantProcessing *)p)->getIndicesType(type,indDate).size();
+            numItems << ((GrantProcessing *)p)->getIndicesType(type,indMember).size();
         }break;}
      }
 
@@ -368,23 +438,41 @@ void MainWindow::on_bntDisplayScatter_clicked()
     //return as vector all of the possible types.
     vector<string> types;
     vector<int> indDate2;
-    vector<int> indStatus, indOther;
+    vector<int> indStatus, indOther, indMember;
+
+    // Get Faculty Member
+    const QString mem = ui->comboBox->currentText();
+    string member  = mem.toStdString();
+
+
+
 
     double yearTotal = 0;
     for (int i = yearStart; i <= yearEnd; i++)
     {
+        // Get all Indeces for the current year
+        indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+        // Narrow down the indeces to just show those of the member
+        if(member == "Total")
+        {
+            // Get all the members
+            indMember = indDate2;
+        }
+        else  {
+            indMember = p->getIndicesMemberName(member, indDate2);
+        }
+
         switch(csvtype)
         {
             // Publications
             case 1:
             {
-                // Get all Indeces for the current year
-                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+
                 types = ((PublicationProcessing *)p)->getListOfTypes();
                 xData.push_back(i);
                 yearTotal = 0;
                 for (int j = 0; j < types.size(); j++) {
-                    yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
+                    yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indMember).size();
                 }
                 yData.push_back(yearTotal);
                 break;
@@ -393,19 +481,18 @@ void MainWindow::on_bntDisplayScatter_clicked()
             // Teaching
             case 2:
             {
-                // Get all Indeces for the current year
-                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+
                 xData.push_back(i);
                 yearTotal = 0;
                 types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
                 for (string type: types) {
                     if (type != "Other") {
-                        indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indDate2);
+                        indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
                     }
 
                     indOther = remove_from_other(indOther, indStatus);
                     if(type == "Other") yearTotal += indOther.size();
-                    else yearTotal += ((TeachingProcessing *)p)->getIndicesProgram(type,indDate2).size();
+                    else yearTotal += ((TeachingProcessing *)p)->getIndicesProgram(type,indMember).size();
                 }
                 yData.push_back(yearTotal);
                 break;
@@ -415,13 +502,12 @@ void MainWindow::on_bntDisplayScatter_clicked()
             // Presentations
             case 3:
             {
-                // Get all Indeces for the current year
-                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+
                 types = ((PresentationProcessing *)p)->getListOfTypes();
                 xData.push_back(i);
                 yearTotal = 0;
                 for (int j = 0; j < types.size(); j++) {
-                    yearTotal += ((PresentationProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
+                    yearTotal += ((PresentationProcessing *)p)->getIndicesType(types.at(j), indMember).size();
                 }
                 yData.push_back(yearTotal);
                 break;
@@ -431,13 +517,13 @@ void MainWindow::on_bntDisplayScatter_clicked()
             // Grants
             case 4:
             {
-                // Get all Indeces for the current year
-                indDate2 = p->getIndicesDate(1,1,i,31,12,i);
+
+
                 types = ((GrantProcessing *)p)->getListOfTypes();
                 xData.push_back(i);
                 yearTotal = 0;
                 for (int j = 0; j < types.size(); j++) {
-                    yearTotal += ((GrantProcessing *)p)->getIndicesType(types.at(j),indDate2).size();
+                    yearTotal += ((GrantProcessing *)p)->getIndicesType(types.at(j),indMember).size();
                 }
                 yData.push_back(yearTotal);
                 break;
@@ -474,8 +560,11 @@ void MainWindow::on_bntDisplayLine_clicked()
 
     vector<string> statuses;
     //vector<string> types;
-    vector<int> indDate2, indStatus, indStatusType;
-    vector<int> indOther;
+    vector<int> indDate2, indStatus, indOther, indMember;
+
+    // Get Faculty Member
+    const QString mem = ui->comboBox->currentText();
+    string member  = mem.toStdString();
 
     // Publications vectors
     QVector<double> yDataA;
@@ -485,14 +574,24 @@ void MainWindow::on_bntDisplayLine_clicked()
     QVector<QString> names;
 
 
-
     for (int i = yearStart; i <= yearEnd; i++)
     {
         xData.push_back(i);
 
         // Get all Indeces for the current year
         indDate2 = ((PublicationProcessing *)p)->getIndicesDate(1,1,i,31,12,i);
-        indOther = indDate2;
+
+        // Narrow down the indeces to just show those of the member
+        if(member == "Total")
+        {
+            // Get all the members
+            indMember = indDate2;
+        }
+        else  {
+            indMember = p->getIndicesMemberName(member, indDate2);
+        }
+
+        indOther = indMember;
 
         switch(csvtype)
         {
@@ -505,7 +604,7 @@ void MainWindow::on_bntDisplayLine_clicked()
                 for(string status: statuses)
                 {
                     if(status != "Other") {
-                        indStatus = ((PublicationProcessing*)p)->getIndicesStatus(status, indDate2);
+                        indStatus = ((PublicationProcessing*)p)->getIndicesStatus(status, indMember);
                     }
                     // Remove from indOther the indeces that belong to a status
                     indOther = remove_from_other(indOther, indStatus);
@@ -539,7 +638,7 @@ void MainWindow::on_bntDisplayLine_clicked()
                 for(string status: statuses)
                 {
                     if(status != "Other") {
-                        indStatus = ((PublicationProcessing*)p)->getIndicesStatus(status, indDate2);
+                        indStatus = ((PublicationProcessing*)p)->getIndicesStatus(status, indMember);
                     }
                     // Remove from indOther the indeces that belong to a status
                     indOther = remove_from_other(indOther, indStatus);
@@ -569,7 +668,7 @@ void MainWindow::on_bntDisplayLine_clicked()
                 vector<string> types = ((PresentationProcessing*)p)->getListOfTypes();
                 for(string type: types)
                 {
-                    yearTotal += ((PresentationProcessing*)p)->getIndicesType(type, indDate2).size();
+                    yearTotal += ((PresentationProcessing*)p)->getIndicesType(type, indMember).size();
                 }
                 yDataMax.push_back(yearTotal);
                 yDataP.push_back(yearTotal);
@@ -588,7 +687,7 @@ void MainWindow::on_bntDisplayLine_clicked()
 
                 for(string type: types)
                 {
-                    yearTotal += ((GrantProcessing*)p)->getIndicesType(type, indDate2).size();
+                    yearTotal += ((GrantProcessing*)p)->getIndicesType(type, indMember).size();
                 }
                 yDataMax.push_back(yearTotal);
                 yDataP.push_back(yearTotal);
@@ -1351,3 +1450,4 @@ void MainWindow::drawDashboard(){
 
 
 }
+
