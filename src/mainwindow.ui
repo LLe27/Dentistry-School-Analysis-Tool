@@ -311,6 +311,13 @@ QComboBox::down-arrow:on { /* shift the arrow when popup is open */
            <enum>QLayout::SetFixedSize</enum>
           </property>
           <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Change CSV</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="label_3">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">

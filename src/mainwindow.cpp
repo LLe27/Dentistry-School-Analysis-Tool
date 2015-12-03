@@ -11,9 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    initialize();
+        initialize();
 
-    string filename = on_actionOpen_triggered().toStdString();
+//    string filename = on_actionOpen_triggered().toStdString();
 
     this->setWindowTitle("Dashboard");
 
@@ -21,86 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //List to store the text of the colun headers for the treeWidget
-    QStringList ColumnNames;
-
-    switch(csvtype){
-        //Publications
-        case(1):
-            p = new PublicationProcessing(filename,csvtype);
-            ui->treeWidget->setColumnCount(2);
-            ColumnNames << " " << "Total";
-            break;
-        //Teaching
-        case(2):
-            p = new TeachingProcessing(filename, csvtype);
-            ui->treeWidget->setColumnCount(3);
-            ColumnNames << " " << "Hours" << "Students";
-
-            //Min text box
-            ui->minText_1->setVisible(true);
-            ui->minText_2->setVisible(true);
-
-            ui->minText_1->setText(QString::number(0));
-            ui->minText_2->setText(QString::number(0));
-
-            //Hypens
-            ui->labelHyp_1->setVisible(true);
-            ui->labelHyp_2->setVisible(true);
-
-            //Max text box
-            ui->maxText_1->setVisible(true);
-            ui->maxText_2->setVisible(true);
-
-            ui->maxText_1->setText(QString::number(100));
-            ui->maxText_2->setText(QString::number(100));
-
-            //Min label
-            ui->lblMin_1->setVisible(true);
-            ui->lblMin_2->setVisible(true);
-
-            //Max label
-            ui->lblMax_1->setVisible(true);
-            ui->lblMax_2->setVisible(true);
-
-
-
-
-            break;
-        //Presentations
-        case(3):
-            p = new PresentationProcessing(filename,csvtype);
-            ui->treeWidget->setColumnCount(2);
-            ColumnNames << " " << "#of \npresentations" ;
-            break;
-        //Grants
-        case(4):
-            p = new GrantProcessing(filename, csvtype);
-            ui->treeWidget->setColumnCount(3);
-            ColumnNames << " " << "Total#" << "Total$" ;
-
-            ui->minText_1->setVisible(true);
-            ui->maxText_1->setVisible(true);
-            ui->labelHyp_1->setVisible(true);
-            ui->lblMin_1->setVisible(true);
-            ui->lblMax_1->setVisible(true);
-
-            ui->minText_1->setText(QString::number(0));
-            ui->maxText_1->setText(QString::number(10));
-            break;
-        default:
-            ui->treeWidget->setColumnCount(3);
-            //CSV is not of the four types
-        }
-
-
-    //Read in list of Column Names to set the column Names
-    ui->treeWidget->setHeaderLabels(ColumnNames);
-    ui->treeWidget->setColumnWidth(0,150);
-
-    ui->dateEdit->setMaximumDate(QDate::currentDate());
-    ui->dateEdit_2->setMaximumDate(QDate::currentDate());
-
-    ui->dateEdit_2->setDate(QDate::currentDate());
 
     //Create treewidget item asa root
     ui->treeWidget->sortByColumn(0,Qt::AscendingOrder);
@@ -109,8 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     createHelpMenu();
     createActions();
     addComboBoxItems();
-
-    on_btnDates_clicked();
 
 }
 //Deletes UI after program stops
@@ -1124,6 +1042,7 @@ void MainWindow::initialize(){
     s = new StartUp(this);
 //    s->setStyleSheet("background-color:rgb(68,50,102);");
     QPalette Pal(palette());
+    string filename;
     QColor color(195,195,229,255);
     Pal.setColor(QPalette::Background, color);
     s->setAutoFillBackground(true);
@@ -1131,7 +1050,9 @@ void MainWindow::initialize(){
     s->show();
     if(s->exec() == QDialog::Accepted){
         csvtype = s->getCsvType();
+        filename = on_actionOpen_triggered().toStdString();
     }
+
     //These will only be for CSV's that reuire additional input for indicie queries
 
     //Min text box
@@ -1153,6 +1074,91 @@ void MainWindow::initialize(){
     //Max label
     ui->lblMax_1->setVisible(false);
     ui->lblMax_2->setVisible(false);
+
+    QStringList ColumnNames;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    switch(csvtype){
+        //Publications
+        case(1):
+            p = new PublicationProcessing(filename,csvtype);
+            ui->treeWidget->setColumnCount(2);
+            ColumnNames << " " << "Total";
+            break;
+        //Teaching
+        case(2):
+            p = new TeachingProcessing(filename, csvtype);
+            ui->treeWidget->setColumnCount(3);
+            ColumnNames << " " << "Hours" << "Students";
+
+            //Min text box
+            ui->minText_1->setVisible(true);
+            ui->minText_2->setVisible(true);
+
+            ui->minText_1->setText(QString::number(0));
+            ui->minText_2->setText(QString::number(0));
+
+            //Hypens
+            ui->labelHyp_1->setVisible(true);
+            ui->labelHyp_2->setVisible(true);
+
+            //Max text box
+            ui->maxText_1->setVisible(true);
+            ui->maxText_2->setVisible(true);
+
+            ui->maxText_1->setText(QString::number(100));
+            ui->maxText_2->setText(QString::number(100));
+
+            //Min label
+            ui->lblMin_1->setVisible(true);
+            ui->lblMin_2->setVisible(true);
+
+            //Max label
+            ui->lblMax_1->setVisible(true);
+            ui->lblMax_2->setVisible(true);
+            break;
+
+        //Presentations
+        case(3):
+            p = new PresentationProcessing(filename,csvtype);
+            ui->treeWidget->setColumnCount(2);
+            ColumnNames << " " << "#of \npresentations" ;
+            break;
+
+        //Grants
+        case(4):
+            p = new GrantProcessing(filename, csvtype);
+            ui->treeWidget->setColumnCount(3);
+            ColumnNames << " " << "Total#" << "Total$" ;
+
+            ui->minText_1->setVisible(true);
+            ui->maxText_1->setVisible(true);
+            ui->labelHyp_1->setVisible(true);
+            ui->lblMin_1->setVisible(true);
+            ui->lblMax_1->setVisible(true);
+
+            ui->minText_1->setText(QString::number(0));
+            ui->maxText_1->setText(QString::number(10));
+            break;
+        default:
+            ui->treeWidget->setColumnCount(3);
+            //CSV is not of the four types
+        }
+
+
+    //Read in list of Column Names to set the column Names
+    ui->treeWidget->setHeaderLabels(ColumnNames);
+    ui->treeWidget->setColumnWidth(0,150);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ui->dateEdit->setMaximumDate(QDate::currentDate());
+    ui->dateEdit_2->setMaximumDate(QDate::currentDate());
+
+    ui->dateEdit_2->setDate(QDate::currentDate());
+
+    on_btnDates_clicked();
 
 }
 
@@ -1451,3 +1457,8 @@ void MainWindow::drawDashboard(){
 
 }
 
+
+void MainWindow::on_pushButton_clicked()
+{
+    initialize();
+}

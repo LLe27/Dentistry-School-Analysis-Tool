@@ -78,6 +78,8 @@ public:
     void makeLine(QVector<double> xData, QVector<double> yDataMax,
                   QVector<QVector<double>>, QVector<QString> names, QString title );
 
+    CSVProcessing* p;
+
 private slots:
     /**
      * Returns file name of selected file in QFileDialog
@@ -116,6 +118,8 @@ private slots:
      */
     void on_btnDates_clicked();
 
+
+    void on_pushButton_clicked();
 
 private:
     /*
@@ -187,7 +191,7 @@ private:
     QTreeWidget* tree;
     QDate Startdate;
     QDate Enddate;
-    CSVProcessing* p;
+
     vector<int> indDate;
     int csvtype;
     StartUp *s;
