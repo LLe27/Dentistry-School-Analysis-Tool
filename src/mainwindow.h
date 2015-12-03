@@ -78,7 +78,7 @@ public:
     void makeLine(QVector<double> xData, QVector<double> yDataMax,
                   QVector<QVector<double>>, QVector<QString> names, QString title );
 
-    CSVProcessing* p;
+
 
 private slots:
     /**
@@ -191,7 +191,7 @@ private:
     QTreeWidget* tree;
     QDate Startdate;
     QDate Enddate;
-
+    CSVProcessing* p;
     vector<int> indDate;
     int csvtype;
     StartUp *s;

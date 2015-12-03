@@ -11,18 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-        initialize();
-
-//    string filename = on_actionOpen_triggered().toStdString();
+    initialize();
 
     this->setWindowTitle("Dashboard");
 
-    //Hardcoded value for csv type int, have to finish main window/check csv type
-
-
-    //List to store the text of the colun headers for the treeWidget
-
-    //Create treewidget item asa root
     ui->treeWidget->sortByColumn(0,Qt::AscendingOrder);
     ui->treeWidget->setSortingEnabled(true);
 
@@ -31,19 +23,20 @@ MainWindow::MainWindow(QWidget *parent) :
     addComboBoxItems();
 
 }
+
 //Deletes UI after program stops
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-//Add root to the tree
+//Add root to the tree (2 Columns)
 void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description){
-
     treeBranch ->setText(0, name);
     treeBranch ->setText(1, description);
 }
 
+//Add root to the tree (3 Columns)
 void MainWindow::addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description, QString count){
 treeBranch ->setText(0, name);
 treeBranch ->setText(1, description);
@@ -56,9 +49,9 @@ void MainWindow::addTreeChild(QTreeWidgetItem *parent,QString name,QString descr
     QTreeWidgetItem *treeItem = new QTreeWidgetItem();
     treeItem->setText(0,name);
     treeItem -> setText(1,description);
-
     parent ->addChild(treeItem);
 }
+
 void MainWindow::addComboBoxItems()
 {
     vector<string> members;
@@ -96,6 +89,7 @@ void MainWindow::addComboBoxItems()
     }
     ui->comboBox->setCurrentText("Total");
 }
+
 void MainWindow::createActions()
 {
 
@@ -108,6 +102,7 @@ void MainWindow::createActions()
     connect(ui->actionContents, SIGNAL(triggered()), this, SLOT(helpContents()));
     ui->menuHelp->addAction(ui->actionContents);
 }
+
 void MainWindow::createHelpMenu()
 {
     tree = new QTreeWidget();
@@ -165,26 +160,22 @@ void MainWindow::createHelpMenu()
 
     tree->resize(600, 300);
 }
+
 void MainWindow::helpContents()
 {
     tree->show();
 }
+
 QString MainWindow::on_actionOpen_triggered()
 {
     //Returns file name of selected file in QFileDialog
     QString filename= QFileDialog::getOpenFileName(this, tr("Open File"),"C://","CSV File (*.csv);;All files (*.*)");
     ui->lblDateRange->setText(filename);
     return filename;
-
-    //Pass filename to open file function
 }
 
 void MainWindow::on_bntDisplayBar_clicked()
 {
-    //update dates
-    //on_btnDates_clicked();
-
-    // Make the graph
     int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
     dayStart = Startdate.day();
     monthStart = Startdate.month();
@@ -204,8 +195,6 @@ void MainWindow::on_bntDisplayBar_clicked()
     const QString mem = ui->comboBox->currentText();
     string member  = mem.toStdString();
 
-
-
     // Narrow down the indeces to just show those of the member
     if(member == "Total")
     {
@@ -215,7 +204,6 @@ void MainWindow::on_bntDisplayBar_clicked()
     else  {
         indMember = p->getIndicesMemberName(member, indDate);
     }
-
 
     switch(csvtype)
     {
@@ -256,7 +244,6 @@ void MainWindow::on_bntDisplayBar_clicked()
      }
 
     makeBarGraph(numItems, title, types);
-    //w.show();
 
 }
 
@@ -278,8 +265,6 @@ void MainWindow::on_bntDisplayPie_clicked()
     // Get Faculty Member
     const QString mem = ui->comboBox->currentText();
     string member  = mem.toStdString();
-
-
 
     // Narrow down the indeces to just show those of the member
     if(member == "Total")
@@ -679,8 +664,6 @@ void MainWindow::on_btnDates_clicked()
 
     ui->treeWidget->clear();
     drawDashboard();
-
-    //return ColumnNames;
 
 }
 
@@ -1165,8 +1148,6 @@ void MainWindow::initialize(){
 
 void MainWindow::drawDashboard(){
 
-
-
     switch(csvtype){
         case(1):{
         vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
@@ -1175,8 +1156,8 @@ void MainWindow::drawDashboard(){
         vector<int> indOther = indDate;
         cout << "Date: " << indOther.size() << endl;
         vector<string> members = p->getListOfMemberNames();
-
         int count;
+
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
         addTreeRoot(treeRoot,"Publications", QString::number(indDate.size()));
 
@@ -1186,7 +1167,7 @@ void MainWindow::drawDashboard(){
             //get the subset of indices where the paper is of the status specified and is in the date range specified.
             else indStatus = ((PublicationProcessing *)p)->getIndicesStatus(status,indDate);
             count = indStatus.size();
-            //cout << status << "(" << count << ")" << endl;
+
             QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
             treeRoot->addChild(treeBranch);
               addTreeRoot(treeBranch,QString::fromStdString(status),QString::number(count));
@@ -1208,7 +1189,6 @@ void MainWindow::drawDashboard(){
                     if (type.length()<1) type = "Unspecified"; // rename the blank type
                     count = indStatusType.size();
                     if (count) {
-                        //cout << "\t" << type << "(" << count << ")" << endl;
                         QTreeWidgetItem *treeItem = new QTreeWidgetItem();
                         treeBranch->addChild(treeItem);
                         addTreeRoot(treeItem,QString::fromStdString(type),QString::number(count));
@@ -1223,8 +1203,6 @@ void MainWindow::drawDashboard(){
                                treeItem->addChild(treeChild);
                                treeChild->setText(0,QString::fromStdString(member));
                                treeChild -> setText(1,QString::number(count));
-
-                                //cout << "\t\t" << member << "(" << count << ")" << endl;
                             }
                         }
                     }
@@ -1234,6 +1212,7 @@ void MainWindow::drawDashboard(){
         }
 
     }break;
+
     case(2):{
         vector<string> members = p->getListOfMemberNames();
         vector<int> indProgram,indHours, indStudents, indProgramMember;
@@ -1241,8 +1220,6 @@ void MainWindow::drawDashboard(){
         int hoursTotal,hoursProg,hoursMember;
         int students;
         string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
-
-
 
         indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
         for(int i =0;i < indHours.size(); i++){
@@ -1320,19 +1297,10 @@ void MainWindow::drawDashboard(){
             if (type == "Other"){indType = indOther;}
             else{ indType = ((PresentationProcessing *)p)->getIndicesType(type,indDate);}
             count = indType.size();
-            cout << "Count: " << count <<endl;
 
             QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
             addTreeRoot(treeBranch,QString::fromStdString(type),QString::number(count));
-            treeRoot->addChild(treeBranch);
-
-//            for(int i: indRole){
-//                for(int i =indOther.size()-1; i>=0;i--){
-//                    if(iRole==indOther.at(i)){
-//                        indOther.erase(indOther.begin()+i);
-//                    }
-//                }
-//            }
+            treeRoot->addChild(treeBranch); 
 
             if(count){
                 for(string member : members){
@@ -1383,7 +1351,7 @@ void MainWindow::drawDashboard(){
             //Gets the indicies for all peer review
             indPeer = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
             count = indPeer.size();
-            //cout << "Peer Review Count: " << count <<endl;
+
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPeer);
             for(int i = 0; i <  indAmount.size(); i++){
                 amountTypePeer += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
@@ -1396,7 +1364,7 @@ void MainWindow::drawDashboard(){
             //Getthe indicies for all Industry
             indInd = ((GrantProcessing *)p)->getIndicesIndustry(indType);
             count = indInd.size();
-            //cout << "Industry Sponsor Count: " << count <<endl;
+
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indInd);
             for(int i = 0; i <  indAmount.size(); i++){
                 amountTypeInd += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
