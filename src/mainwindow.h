@@ -124,19 +124,23 @@ private:
 //    void initDate_Month(QComboBox *months);
 //    void initDate_Years(QComboBox *months);
 
+    /**
+     * Initializing Function. Pops up start menu and creates default palletes for GUI
+     */
     void initialize();
+
     void createActions();
     void createMenus();
     void addComboBoxItems();
     vector<int> remove_from_other(vector<int> indOther, vector<int> indStatus);
 
-    void addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description, QString count);
+
 
     void initDate_Month(QComboBox *months);
     void initDate_Years(QComboBox *months);
 
     /**
-     * Adds root with specified name and description to specified branch.
+     * Adds root with specified name and description to specified branch. (for Dashboard with two columns)
      *
      * @param treeBranch
      * @param name
@@ -144,6 +148,17 @@ private:
      */
 
     void addTreeRoot(QTreeWidgetItem *treeBranch,QString name, QString description);
+
+    /**
+     * Adds root with specified name and descirption and count to specified branch. (for Dashboard with three columns)
+     *
+     * @param treeBranch
+     * @param name
+     * @param description
+     * @param count
+     */
+    void addTreeRoot(QTreeWidgetItem *treeBranch, QString name, QString description, QString count);
+
 
     /**
      * Adds child with specified name and description to specified root.
