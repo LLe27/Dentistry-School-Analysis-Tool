@@ -292,196 +292,96 @@ vector<vector<string >> myData::parsePresentations(string filePath) {
 vector<vector<string >> myData::parseTeaching(string filePath) {
 
     // If the file is in the same folder as your source code, then there is no need to include file path
-    io::CSVReader<28, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filePath);
-    in.read_header(io::ignore_extra_column, "Record Info",\
-                                            "Last Modified User",\
-                                            "Last Modified Date",\
-                                            "ID",\
-                                            "Member Name",\
-                                            "Primary Domain",\
-                                            "Start Date",\
-                                            "End Date",\
-                                            "Program",\
-                                            "Type of Course / Activity",\
-                                            "Course / Activity",\
-                                            "Geographical Scope",\
-                                            "Institution / Organization",\
-                                            "Faculty",\
-                                            "Department",\
-                                            "Division",\
-                                            "Location",\
-                                            "Hours per Teaching Session or Week",\
-                                            "Number of Teaching Sessions or Weeks",\
-                                            "Faculty Member Additional Comments",\
-                                            "Number Of Trainees",\
-                                            "Student Name(s)",\
-                                            "Initial Lecture",\
-                                            "Faculty Development",\
-                                            "Stipend Received",\
-                                            "Comment",\
-                                            "Other Details (doesn't print)",\
-                                            "Total Hours");
+        io::CSVReader<11, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filePath);
+        in.read_header(io::ignore_extra_column, "Member Name",\
+                                                "Primary Domain",\
+                                                "Start Date",\
+                                                "End Date",\
+                                                "Program",\
+                                                "Type of Course / Activity",\
+                                                "Geographical Scope",\
+                                                "Course / Activity",\
+                                                "Hours per Teaching Session or Week",\
+                                                "Number of Teaching Sessions or Weeks",\
+                                                "Total Hours");
 
-    /* Declare variables for each data within the row */
-    string 	record_info,\
-            last_modified_user,\
-            last_modified_date,\
-            id,\
-            member_name,\
-            primary_domain,\
-            start_date,\
-            end_date,\
-            program,\
-            type_course_activity,\
-            course_activity,\
-            geographical_scope,\
-            institution_organization,\
-            faculty,\
-            department,\
-            division,\
-            location,\
-            hours_teaching_ses ,\
-            nums_teaching_ses ,\
-            faculty_member_add ,\
-            number_of_rainees,\
-            student_name,\
-            initial_lecture,\
-            faculty_development,\
-            stipend_received,\
-            comment,\
-            other_details,\
-            total_hours;
+        /* Declare variables for each data within the row */
+        string  member_name,\
+                primary_domain,\
+                start_date,\
+                end_date,\
+                program,\
+                type_course_activity,\
+                course_activity,\
+                geographical_scope,
+                hours_teaching_ses ,\
+                nums_teaching_ses ,\
+                total_hours;
 
-    /* Create data structure to store each row of infromation relative to their column header */
-    vector<string>	vector_record_info,\
-                    vector_last_modified_user,\
-                    vector_last_modified_date,\
-                    vector_id,\
-                    vector_member_name,\
-                    vector_primary_domain,\
-                    vector_start_date,\
-                    vector_end_date,\
-                    vector_program,\
-                    vector_type_course_activity,\
-                    vector_course_activity,\
-                    vector_geographical_scope,\
-                    vector_institution_organization,\
-                    vector_faculty,\
-                    vector_department,\
-                    vector_division,\
-                    vector_location,\
-                    vector_hours_teaching_ses ,\
-                    vector_nums_teaching_ses ,\
-                    vector_faculty_member_add ,\
-                    vector_number_of_rainees,\
-                    vector_student_name,\
-                    vector_initial_lecture,\
-                    vector_faculty_development,\
-                    vector_stipend_received,\
-                    vector_comment,\
-                    vector_other_details,\
-                    vector_total_hours;
+        /* Create data structure to store each row of infromation relative to their column header */
+        vector<string>	vector_member_name,\
+                        vector_primary_domain,\
+                        vector_start_date,\
+                        vector_end_date,\
+                        vector_program,\
+                        vector_type_course_activity,\
+                        vector_course_activity,\
+                        vector_geographical_scope,\
+                        vector_hours_teaching_ses ,\
+                        vector_nums_teaching_ses ,\
+                        vector_total_hours;
 
-    /* Create data structure to store each vector of data within each column */
-    vector<vector<string>> data;
+        /* Create data structure to store each vector of data within each column */
+        vector<vector<string>> data;
 
-    /* Loop until there are no more information within the CSV file */
-    while (in.read_row(	record_info,\
-                        last_modified_user,\
-                        last_modified_date,\
-                        id,\
-                        member_name,\
-                        primary_domain,\
-                        start_date,\
-                        end_date,\
-                        program,\
-                        type_course_activity,\
-                        course_activity,\
-                        geographical_scope,\
-                        institution_organization,\
-                        faculty,\
-                        department,\
-                        division,\
-                        location,\
-                        hours_teaching_ses ,\
-                        nums_teaching_ses ,\
-                        faculty_member_add ,\
-                        number_of_rainees,\
-                        student_name,\
-                        initial_lecture,\
-                        faculty_development,\
-                        stipend_received,\
-                        comment,\
-                        other_details,\
-                        total_hours)){
+        /* Loop until there are no more information within the CSV file */
+        while (in.read_row(	member_name,\
+                            primary_domain,\
+                            start_date,\
+                            end_date,\
+                            program,\
+                            type_course_activity,\
+                            course_activity,\
+                            geographical_scope,\
+                            hours_teaching_ses ,\
+                            nums_teaching_ses ,\
+                            total_hours)){
 
-                        /* Push each data within each column to their respected data structure */
-//                      vector_record_info.push_back(record_info);
-//                      vector_last_modified_user.push_back(last_modified_user);
-//                      vector_last_modified_date.push_back(last_modified_date);
-//                      vector_id.push_back(id);
-                        vector_member_name.push_back(member_name);
-//                      vector_primary_domain.push_back(primary_domain);
-                        vector_start_date.push_back(start_date);
-//                      vector_end_date.push_back(end_date);
-                        vector_program.push_back(program);
-                        vector_total_hours.push_back(total_hours);
-//                      vector_type_course_activity.push_back(type_course_activity);
-//                      vector_course_activity.push_back(course_activity);
-//                      vector_geographical_scope.push_back(geographical_scope);
-//                      vector_institution_organization.push_back(institution_organization);
-//                      vector_faculty.push_back(faculty);
-//                      vector_department.push_back(department);
-//                      vector_division.push_back(division);
-//                      vector_location.push_back(location);
-//                      vector_hours_teaching_ses.push_back(hours_teaching_ses);
-                        vector_nums_teaching_ses.push_back(nums_teaching_ses);
-//                      vector_faculty_member_add.push_back(faculty_member_add);
-//                      vector_number_of_rainees.push_back(number_of_rainees);
-//                      vector_student_name.push_back(student_name);
-//                      vector_initial_lecture.push_back(initial_lecture);
-//                      vector_faculty_development.push_back(faculty_development);
-//                      vector_stipend_received.push_back(stipend_received);
-//                      vector_comment.push_back(comment);
-//                      vector_other_details.push_back(other_details);
-}
+                            /* Push each data within each column to their respected data structure */
+                            vector_member_name.push_back(member_name);
+    //                      vector_primary_domain.push_back(primary_domain);
+                            vector_start_date.push_back(start_date);
+    //                      vector_end_date.push_back(end_date);
+                            vector_program.push_back(program);
+                            vector_total_hours.push_back(total_hours);
+    //                      vector_type_course_activity.push_back(type_course_activity);
+    //                      vector_course_activity.push_back(course_activity);
+    //                      vector_geographical_scope.push_back(geographical_scope);
+    //                      vector_hours_teaching_ses.push_back(hours_teaching_ses);
+                            vector_nums_teaching_ses.push_back(nums_teaching_ses);
+    //
+    }
 
-                        /* Push each vector of data into main data */
-//                      data.push_back(vector_record_info);
-//                      data.push_back(vector_last_modified_user);
-//                      data.push_back(vector_last_modified_date);
-//                      data.push_back(vector_id);
-                        data.push_back(vector_member_name);
-//                      data.push_back(vector_primary_domain);
-                        data.push_back(vector_start_date);
-//                      data.push_back(vector_end_date);
-                        data.push_back(vector_program);
-//                      data.push_back(vector_type_course_activity);
-//                      data.push_back(vector_course_activity);
-//                      data.push_back(vector_geographical_scope);
-//                      data.push_back(vector_institution_organization);
-//                      data.push_back(vector_faculty);
-//                      data.push_back(vector_department);
-//                      data.push_back(vector_division);
-//                      data.push_back(vector_location);
-                        data.push_back(vector_total_hours);
-//                      data.push_back(vector_hours_teaching_ses) ;
-                        data.push_back(vector_nums_teaching_ses) ;
-//                      data.push_back(vector_faculty_member_add);
-//                      data.push_back(vector_number_of_rainees);
-//                      data.push_back(vector_student_name);
-//                      data.push_back(vector_initial_lecture);
-//                      data.push_back(vector_faculty_development);
-//                      data.push_back(vector_stipend_received);
-//                      data.push_back(vector_comment);
-//                      data.push_back(vector_other_details);
+                            /* Push each vector of data into main data */
+                            data.push_back(vector_member_name);
+    //                      data.push_back(vector_primary_domain);
+                            data.push_back(vector_start_date);
+    //                      data.push_back(vector_end_date);
+                            data.push_back(vector_program);
+    //                      data.push_back(vector_type_course_activity);
+    //                      data.push_back(vector_course_activity);
+    //                      data.push_back(vector_geographical_scope);
+                            data.push_back(vector_total_hours);
+    //                      data.push_back(vector_hours_teaching_ses) ;
+                            data.push_back(vector_nums_teaching_ses) ;
 
-                        /* Return database */
-                        return data;
+                            /* Return database */
+                            return data;
 
-#if 0
-exit(EXIT_SUCCESS);
-#endif
+    #if 0
+    exit(EXIT_SUCCESS);
+    #endif
+
 }
 
 vector<vector<string >> myData::parsePublications(string filePath) {
