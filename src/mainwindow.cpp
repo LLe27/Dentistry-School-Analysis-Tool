@@ -1600,6 +1600,7 @@ void MainWindow::drawDashboard(){
                    amountPeerMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
                }
              if(count){
+                 if (member.length()<1) member = "Unspecified"; //rename blank member
                    QTreeWidgetItem *treePeerMember =new QTreeWidgetItem();
                    treePeerMember->setText(0,QString::fromStdString(member));
                    treePeerMember->setText(1,QString::number(count));
@@ -1615,6 +1616,7 @@ void MainWindow::drawDashboard(){
                        amountIndMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
                    }
                if(count){
+                   if (member.length()<1) member = "Unspecified"; //rename blank member
                    QTreeWidgetItem *treeIndMember =new QTreeWidgetItem();
                    treeIndMember->setText(0,QString::fromStdString(member));
                    treeIndMember->setText(1,QString::number(count));
