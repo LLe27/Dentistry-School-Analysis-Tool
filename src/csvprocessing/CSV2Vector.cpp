@@ -480,7 +480,7 @@ vector<vector<string >> myData::parseFunding(string filepath){
                                             "Role",\
                                             "Title",\
                                             "Principal Investigator",\
-                                            "Co-Investigator",\
+                                            "Co-Investigators",\
                                             "Total Amount");
 
     /* Declare variables for each data within the row */
