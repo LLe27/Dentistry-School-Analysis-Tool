@@ -183,6 +183,9 @@ private:
     void createHelpMenu();
 
 
+    void createOptimalYAxis(QCustomPlot * customPlot, int range);
+
+
 
     /**
      * Draws dashboard with current date-range data.

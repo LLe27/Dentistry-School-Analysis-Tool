@@ -884,25 +884,7 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
         if (yAxisData.at(yDataIndex) > yMax) yMax = yAxisData.at(yDataIndex);
     }
 
-    if(yMax <= 10)
-    {
-        //set the y axis tick labels
-        customPlot->yAxis->setAutoTickStep(false);
-        customPlot->yAxis->setTickStep(1);
-        customPlot->yAxis->setTickLengthIn(5);
-        customPlot->yAxis->setAutoSubTicks(false);
-        customPlot->yAxis->setSubTickCount(0);
-    }
-    else
-    {
-        //set the y axis tick labels
-        customPlot->yAxis->setAutoTickStep(false);
-        customPlot->yAxis->setTickStep(5);
-        customPlot->yAxis->setTickLengthIn(5);
-        customPlot->yAxis->setAutoSubTicks(false);
-        customPlot->yAxis->setSubTickCount(4);
-        customPlot->yAxis->setSubTickLengthIn(5);
-    }
+    createOptimalYAxis(customPlot, yMax);
 
     QPen gridPen;
     gridPen.setStyle(Qt::SolidLine);
@@ -1020,25 +1002,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
 
-    if(yMax-yMin <= 10)
-    {
-        //set the y axis tick labels
-        customPlot->yAxis->setAutoTickStep(false);
-        customPlot->yAxis->setTickStep(1);
-        customPlot->yAxis->setTickLengthIn(5);
-        customPlot->yAxis->setAutoSubTicks(false);
-        customPlot->yAxis->setSubTickCount(0);
-    }
-    else
-    {
-        //set the y axis tick labels
-        customPlot->yAxis->setAutoTickStep(false);
-        customPlot->yAxis->setTickStep(5);
-        customPlot->yAxis->setTickLengthIn(5);
-        customPlot->yAxis->setAutoSubTicks(false);
-        customPlot->yAxis->setSubTickCount(4);
-        customPlot->yAxis->setSubTickLengthIn(5);
-    }
+    createOptimalYAxis(customPlot, yMax-yMin);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2)
@@ -1179,25 +1143,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
 
-    if(yMax-yMin <= 10)
-    {
-        //set the y axis tick labels
-        customPlot->yAxis->setAutoTickStep(false);
-        customPlot->yAxis->setTickStep(1);
-        customPlot->yAxis->setTickLengthIn(5);
-        customPlot->yAxis->setAutoSubTicks(false);
-        customPlot->yAxis->setSubTickCount(0);
-    }
-    else
-    {
-        //set the y axis tick labels
-        customPlot->yAxis->setAutoTickStep(false);
-        customPlot->yAxis->setTickStep(5);
-        customPlot->yAxis->setTickLengthIn(5);
-        customPlot->yAxis->setAutoSubTicks(false);
-        customPlot->yAxis->setSubTickCount(4);
-        customPlot->yAxis->setSubTickLengthIn(5);
-    }
+    createOptimalYAxis(customPlot, yMax-yMin);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2)
@@ -1638,6 +1584,46 @@ void MainWindow::drawDashboard(){
 
 
 
+}
+
+
+void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
+{
+    if(range <= 10)
+    {
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(1);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(0);
+    }
+    else if ((range > 10) && (range <= 650))
+    {
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(5);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(4);
+        customPlot->yAxis->setSubTickLengthIn(5);
+    }
+    else if ((range > 650) && (range <= 1250))
+    {
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(20);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(3);
+        customPlot->yAxis->setSubTickLengthIn(5);
+    }
+    else
+    {
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(50);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(4);
+        customPlot->yAxis->setSubTickLengthIn(5);
+    }
 }
 
 
