@@ -36,8 +36,7 @@ HEADERS  += \
 	../src/csvprocessing/GrantProcessing.h \
 	../src/csvprocessing/TeachingProcessing.h \
     ../src/csvprocessing/CSV2Vector.hpp \
-	../src/csvprocessing/csv.h \
-    ../src/csv.h \
+    ../lib/csv.h \
     ../src/mainwindow.h \
     ../lib/nightcharts/nightcharts.h \
     ../lib/nightcharts/nightchartswidget.h \
