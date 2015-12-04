@@ -174,6 +174,23 @@ QString MainWindow::on_actionOpen_triggered()
     return filename;
 }
 
+
+
+/*
+ * on_bntDisplayBar_clicked()
+ *
+ * Description: This function runs when the bar graph button in the GUI is clicked. The first thing this
+ * function does is collect relevant data from instance variables (start date, end date, csvtype, etc).
+ * Then, this data is used to derive the proper parameters for the function
+ * makeBarGraph(QVector<double> yAxisData, QString title, vector<string> barLabels). Lastly, our function
+ * calls makeBarGraph with the proper data.
+ *
+ * Parameters:
+ * none
+ *
+ * Output:
+ * none
+ */
 void MainWindow::on_bntDisplayBar_clicked()
 {
     int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
@@ -247,6 +264,24 @@ void MainWindow::on_bntDisplayBar_clicked()
 
 }
 
+
+
+
+/*
+ * on_bntDisplayPie_clicked()
+ *
+ * Description: This function runs when the pie graph button in the GUI is clicked. The first thing this
+ * function does is collect relevant data from an instance variable (csvtype). Then, this data is used
+ * to derive the proper parameters for the function
+ * makePie(QVector<double> pieData, QString title, vector<string> Labels ). Lastly, our function
+ * calls makePie with the proper data.
+ *
+ * Parameters:
+ * none
+ *
+ * Output:
+ * none
+ */
 void MainWindow::on_bntDisplayPie_clicked()
 {
 
@@ -322,6 +357,25 @@ void MainWindow::on_bntDisplayPie_clicked()
 }
 
 
+
+
+
+
+/*
+ * on_bntDisplayScatter_clicked()
+ *
+ * Description: This function runs when the scatter plot button in the GUI is clicked. The first thing this
+ * function does is collect relevant data from instance variables (start date, end date, csvtype, etc).
+ * Then, this data is used to derive the proper parameters for the function
+ * makeScatter(QVector<double> xData, QVector<double> yData, QString title). Lastly, our function
+ * calls makeScatter with the proper data.
+ *
+ * Parameters:
+ * none
+ *
+ * Output:
+ * none
+ */
 void MainWindow::on_bntDisplayScatter_clicked()
 {
 
@@ -441,6 +495,31 @@ void MainWindow::on_bntDisplayScatter_clicked()
     makeScatter(xData, yData, title);
 }
 
+
+
+
+
+
+/*
+ * on_bntDisplayLine_clicked()
+ *
+ * Description: This function runs when the line graph button in the GUI is clicked. The first thing this
+ * function does is collect relevant data from instance variables (start date, end date, csvtype, etc).
+ * Then, this data is used to derive the proper parameters for the function
+ * makeLine(QVector<double> xData, QVector<double> yDataMax, QVector<QVector<double>> yData,
+ * QVector<QString> names, QString title). In order to obtain the yData, an extra step
+ * is needed, which does not happen in the other graphs. The Y axis data (number of papers) is
+ * divided into N categories(N could be 1, 3, or 4. The value of N depends on csvtype). We loop through
+ * each Y data point and figure out which category it belongs to, and it is then put into one of N vectors.
+ * Later, these will become N separate overlayed graphs on a single plot. Finally, our function can
+ * call makeLine with the proper data.
+ *
+ * Parameters:
+ * none
+ *
+ * Output:
+ * none
+ */
 void MainWindow::on_bntDisplayLine_clicked()
 {
 
@@ -668,6 +747,27 @@ void MainWindow::on_btnDates_clicked()
 }
 
 
+
+
+
+
+
+/*
+ * makePie
+ *
+ * Description: This function makes a pie chart using the data, title, and labels sent in as parameters.
+ * This function uses the Night Charts code library to make the pie chart.
+ *
+ * Parameters:
+ * Param 1: pieData: The quantities to be expressed in the pie graph. Note that each double in this QVector
+ * must be divided by the sum in order to obtain percentages.
+ * Param 2: title: title of the window.
+ * Param 3: Labels: The labels associated with each quantity in pieData. These labels are displayed in the
+ * legend on the left side of the window.
+ *
+ * Output:
+ * none
+ */
 void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> Labels ) {
 
 
@@ -724,6 +824,24 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 }
 
 
+
+
+
+
+
+/*
+ * makeBarGraph
+ *
+ * Description: This function displays a bar graph using the parameters sent in.
+ *
+ * Parameters:
+ * Param 1: yAxisData: The height of each bar.
+ * Param 2: title: The title of the bar graph.
+ * Param 3: barLabels: These labels will go on the x axis, below each bar.
+ *
+ * Output:
+ * none
+ */
 void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<string> barLabels ) {
     QRect rec = QApplication::desktop()->screenGeometry();
      int height = rec.height();
@@ -786,7 +904,23 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
 }
 
 
-// Create the scatter plot
+
+
+
+
+/*
+ * makeScatter
+ *
+ * Description: This function displays the data points that are sent in as parameters.
+ *
+ * Parameters:
+ * Param 1: xData: The x coordinates of all data points
+ * Param 2: yData: The y coordinates of all data points
+ * Param 3: title: The title of the scatter plot
+ *
+ * Output:
+ * none
+ */
 void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QString title ) {
 
     QRect rec = QApplication::desktop()->screenGeometry();
@@ -892,7 +1026,27 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     customPlot->replot();
 }
 
-// Create the line graph
+
+
+
+
+
+
+/*
+ * makeLine
+ *
+ * Description: This function creates a line graph. This function creates N overlayed graphs on a single plot, each
+ * having it's own colour. A legend is created, to indicate what each colour represents. Note that N could
+ * be 1, 3, or 4. The value of N depends on csvtype.
+ *
+ * Parameters:
+ * Param 1: xData: The x coordinates of the data points.
+ * Param 2: yDataMax: This vector contains the highest y coordinates for each of the N overlayed graphs.
+ * Param 3: yData: This vector contains N vectors, each of which contains the y coordinates for one of the overlayed graphs.
+ * Param 4: names: This vector contains N descriptions for what each overlayed graph(and colour) represent.
+ * Param 5: title: The title of the plot.
+ *
+ */
 void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
                           QVector<QVector<double>> yData, QVector<QString> names, QString title ) {
 
