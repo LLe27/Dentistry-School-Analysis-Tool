@@ -1020,13 +1020,25 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
 
-    //set the y axis tick labels
-    customPlot->yAxis->setAutoTickStep(false);
-    customPlot->yAxis->setTickStep(5);
-    customPlot->yAxis->setTickLengthIn(5);
-    customPlot->yAxis->setAutoSubTicks(false);
-    customPlot->yAxis->setSubTickCount(4);
-    customPlot->yAxis->setSubTickLengthIn(5);
+    if(yMax-yMin <= 10)
+    {
+        //set the y axis tick labels
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(1);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(0);
+    }
+    else
+    {
+        //set the y axis tick labels
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(5);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(4);
+        customPlot->yAxis->setSubTickLengthIn(5);
+    }
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2)
@@ -1034,7 +1046,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
         if(yMin == 1)
             yRangeMinimum = 0;
         else if (yMin == 0)
-            yRangeMinimum = -1;
+            yRangeMinimum = -0.8;
     }
     else
         yRangeMinimum = yMin - 2;
@@ -1167,14 +1179,25 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     //set the x axis range
     customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
 
-    //set the y axis tick labels
-
-    customPlot->yAxis->setAutoTickStep(false);
-    customPlot->yAxis->setTickStep(5);
-    customPlot->yAxis->setTickLengthIn(5);
-    customPlot->yAxis->setAutoSubTicks(false);
-    customPlot->yAxis->setSubTickCount(4);
-    customPlot->yAxis->setSubTickLengthIn(5);
+    if(yMax-yMin <= 10)
+    {
+        //set the y axis tick labels
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(1);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(0);
+    }
+    else
+    {
+        //set the y axis tick labels
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(5);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(4);
+        customPlot->yAxis->setSubTickLengthIn(5);
+    }
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2)
@@ -1182,7 +1205,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
         if(yMin == 1)
             yRangeMinimum = 0;
         else if (yMin == 0)
-            yRangeMinimum = -1;
+            yRangeMinimum = -0.8;
     }
     else
         yRangeMinimum = yMin - 2;
