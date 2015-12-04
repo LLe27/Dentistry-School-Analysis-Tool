@@ -393,8 +393,8 @@ vector<vector<string >> myData::parsePublications(string filePath) {
                                             "Primary Domain",\
                                             "Publication Status",\
                                             "Type",\
-                                            "Status Date",\
-                                            "Role",\
+                                            "Status Date *",\
+                                            "Role *",\
                                             "Journal Name | Published In | Book Title | etc.",\
                                             "Author(s)",\
                                             "Title");
