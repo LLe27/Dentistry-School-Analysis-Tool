@@ -468,12 +468,8 @@ vector<vector<string >> myData::parsePublications(string filePath) {
 vector<vector<string >> myData::parseFunding(string filepath){
 
     // Read in CSV file, igoring specific special characters
-    io::CSVReader<37, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filepath);
-    in.read_header(io::ignore_extra_column, "Record Info",\
-                                            "Last Modified User",\
-                                            "Last Modified Date",\
-                                            "ID",\
-                                            "Member Name",\
+    io::CSVReader<13, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filepath);
+    in.read_header(io::ignore_extra_column, "Member Name",\
                                             "Primary Domain",\
                                             "Start Date",\
                                             "End Date",\
@@ -482,37 +478,13 @@ vector<vector<string >> myData::parseFunding(string filepath){
                                             "Peer Reviewed?",\
                                             "Industry Grant?",\
                                             "Role",\
-                                            "Short Title",\
                                             "Title",\
-                                            "Application Summary",\
-                                            "Grant Purpose",\
-                                            "Area",\
                                             "Principal Investigator",\
-                                            "Co-Investigators",\
-                                            "Grant and\/or Account #",\
-                                            "Administered By",\
-                                            "Funding Source",\
-                                            "Project",\
-                                            "Currency",\
-                                            "Received Amount",\
-                                            "Total Amount",\
-                                            "Member Share",\
-                                            "Monetary",\
-                                            "Rpt",\
-                                            "Hours Per Week",\
-                                            "Personnel Paid",\
-                                            "Rnw",\
-                                            "Education Grant",\
-                                            "Duplicate Reported",\
-                                            "Other Details (doesn't print)",\
-                                            "Year");
+                                            "Co-Investigator",\
+                                            "Total Amount");
 
     /* Declare variables for each data within the row */
-    string 	record_info,\
-            last_modified_user,\
-            last_modified_date,\
-            id,\
-            member_name,\
+    string 	member_name,\
             primary_domain,\
             start_date,\
             end_date,\
@@ -521,37 +493,13 @@ vector<vector<string >> myData::parseFunding(string filepath){
             peer_reviewed,\
             industry_grant,\
             role,\
-            short_title,\
             title,\
-            application_summary,\
-            grant_purpose,\
-            area,\
             principal_inv,\
             co_inv,\
-            grant_account,\
-            administered,\
-            funding_source,\
-            project,\
-            currency,\
-            rec_amount,\
-            tot_amount,\
-            member_share,\
-            monetary,\
-            rpt,\
-            hours_per_week,\
-            personnel_paid,\
-            rnw,\
-            education_grant,\
-            duplicate_rep,\
-            other_details,\
-            year;
+            tot_amount;
 
     /* Create data structure to store each row of infromation relative to their column header */
-    vector<string>  vector_record_info,\
-                    vector_last_modified_user,\
-                    vector_last_modified_date,\
-                    vector_id,\
-                    vector_member_name,\
+    vector<string>  vector_member_name,\
                     vector_primary_domain,\
                     vector_start_date,\
                     vector_end_date,\
@@ -560,40 +508,16 @@ vector<vector<string >> myData::parseFunding(string filepath){
                     vector_peer_reviewed,\
                     vector_industry_grant,\
                     vector_role,\
-                    vector_short_title,\
                     vector_title,\
-                    vector_application_summary,\
-                    vector_grant_purpose,\
-                    vector_area,\
                     vector_principal_inv,\
                     vector_co_inv,\
-                    vector_grant_account,\
-                    vector_administered,\
-                    vector_funding_source,\
-                    vector_project,\
-                    vector_currency,\
-                    vector_rec_amount,\
-                    vector_tot_amount,\
-                    vector_member_share,\
-                    vector_monetary,\
-                    vector_rpt,\
-                    vector_hours_per_week,\
-                    vector_personnel_paid,\
-                    vector_rnw,\
-                    vector_education_grant,\
-                    vector_duplicate_rep,\
-                    vector_other_details,\
-                    vector_year;
+                    vector_tot_amount;
 
     /* Create data structure to store each vector of data within each column */
     vector<vector<string>> data;
 
     /* Loop until there are no more information within the CSV file */
-    while (in.read_row(	record_info,\
-                        last_modified_user,\
-                        last_modified_date,\
-                        id,\
-                        member_name,\
+    while (in.read_row(	member_name,\
                         primary_domain,\
                         start_date,\
                         end_date,\
@@ -602,36 +526,12 @@ vector<vector<string >> myData::parseFunding(string filepath){
                         peer_reviewed,\
                         industry_grant,\
                         role,\
-                        short_title,\
                         title,\
-                        application_summary,\
-                        grant_purpose,\
-                        area,\
                         principal_inv,\
                         co_inv,\
-                        grant_account,\
-                        administered,\
-                        funding_source,\
-                        project,\
-                        currency,\
-                        rec_amount,\
-                        tot_amount,\
-                        member_share,\
-                        monetary,\
-                        rpt,\
-                        hours_per_week,\
-                        personnel_paid,\
-                        rnw,\
-                        education_grant,\
-                        duplicate_rep,\
-                        other_details,\
-                        year)){
+                        tot_amount)){
 
                         /* Push each vector of data into main data */
-//                      vector_record_info.push_back(record_info);
-//                      vector_last_modified_user.push_back(last_modified_user);
-//                      vector_last_modified_date.push_back(last_modified_user);
-//                      vector_id.push_back(id);
                         vector_member_name.push_back(member_name);
 //                      vector_primary_domain.push_back(primary_domain);
                         vector_start_date.push_back(start_date);
@@ -641,36 +541,12 @@ vector<vector<string >> myData::parseFunding(string filepath){
                         vector_peer_reviewed.push_back(peer_reviewed);
                         vector_industry_grant.push_back(industry_grant);
                         vector_role.push_back(role);
-//                      vector_short_title.push_back(short_title);
                         vector_tot_amount.push_back(tot_amount);
                         vector_title.push_back(title);
-//                      vector_application_summary.push_back(application_summary);
-//                      vector_grant_purpose.push_back(grant_purpose);
-//                      vector_area.push_back(area);
                         vector_principal_inv.push_back(principal_inv);
                         vector_co_inv.push_back(co_inv);
-//                      vector_grant_account.push_back(grant_account);
-//                      vector_administered.push_back(administered);
-//                      vector_funding_source.push_back(funding_source);
-//                      vector_project.push_back(project);
-//                      vector_currency.push_back(currency);
-//                      vector_rec_amount.push_back(rec_amount);
-//                      vector_member_share.push_back(member_share);
-//                      vector_monetary.push_back(monetary);
-//                      vector_rpt.push_back(rpt);
-//                      vector_hours_per_week.push_back(hours_per_week);
-//                      vector_personnel_paid.push_back(personnel_paid);
-//                      vector_rnw.push_back(rnw);
-//                      vector_education_grant.push_back(education_grant);
-//                      vector_duplicate_rep.push_back(duplicate_rep);
-//                      vector_other_details.push_back(other_details);
-//                      vector_year.push_back(year);
 }
                         /* Push each vector of data into main data */
-//                      data.push_back(vector_record_info);
-//                      data.push_back(vector_last_modified_user);
-//                      data.push_back(vector_last_modified_date);
-//                      data.push_back(vector_id);
                         data.push_back(vector_member_name);
 //                      data.push_back(vector_primary_domain);
                         data.push_back(vector_start_date);
@@ -681,29 +557,9 @@ vector<vector<string >> myData::parseFunding(string filepath){
                         data.push_back(vector_industry_grant);
                         data.push_back(vector_role);
                         data.push_back(vector_tot_amount);
-//                      data.push_back(vector_short_title);
                         data.push_back(vector_title);
-//                      data.push_back(vector_application_summary);
-//                      data.push_back(vector_grant_purpose);
-//                      data.push_back(vector_area);
 //                      data.push_back(vector_principal_inv);
 //                      data.push_back(vector_co_inv);
-//                      data.push_back(vector_grant_account);
-//                      data.push_back(vector_administered);
-//                      data.push_back(vector_funding_source);
-//                      data.push_back(vector_project);
-//                      data.push_back(vector_currency);
-//                      data.push_back(vector_rec_amount);
-//                      data.push_back(vector_member_share);
-//                      data.push_back(vector_monetary);
-//                      data.push_back(vector_rpt);
-//                      data.push_back(vector_hours_per_week);
-//                      data.push_back(vector_personnel_paid);
-//                      data.push_back(vector_rnw);
-//                      data.push_back(vector_education_grant);
-//                      data.push_back(vector_duplicate_rep);
-//                      data.push_back(vector_other_details);
-//                      data.push_back(vector_year);
 
                         /* Return database */
                         return data;
