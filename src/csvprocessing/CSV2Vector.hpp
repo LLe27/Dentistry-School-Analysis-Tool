@@ -6,7 +6,7 @@ using namespace std;
 
 /*TODO: These names make sense?? */
 enum publicationField {vm_name, vp_domain, vp_status, vp_type, vs_date, vrole, vauthor, vjn_pi_bt, vtitle};
-enum documentType {publications, teaching, funding, presentations};
+enum CSVType {pubType, presType, teachType, fundType};
 
 class myData {
 
@@ -21,20 +21,15 @@ public:
     vector<vector<string >> parsePresentations(string filePath);
     vector<vector<string >> parsePublications(string filePath);
 
-    void changeTeachingField(int myField, int userNumber, string newMsg);
-    void changeFundingField(int myField, int userNumber, string newMsg);
-    void changePresentationsField(int myField, int userNumber, string newMsg);
-    void changePublicationField(int myField, int userNumber, string newMsg);
 
 
     /* Invert the prased vector */
     vector<vector<string>> invertVector(vector<vector<string>> myVector);
 
     /* Error subsets */
-    vector<vector<string >> getErrorTeaching();
-    vector<vector<string >> getErrorFunding();
-    vector<vector<string >> getErrorPresentations();
-    vector<vector<string >> getErrorPublications();
+    vector<vector<int>> getErrors(CSVType type);
+    void changeField(int myField, int userNumber, CSVType type, string newMsg);
+
 
 	/* Read and create the CSV */
 	bool createParsePublications(string filePath);

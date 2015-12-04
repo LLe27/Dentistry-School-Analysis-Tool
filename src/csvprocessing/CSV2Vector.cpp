@@ -59,138 +59,82 @@ vector<vector<string>> myData::invertVector(vector<vector<string>> myVector)
     return newVector;
 }
 
-
-vector<vector<string >> myData::getErrorPublications()
+vector<vector<int>> myData::getErrors(CSVType type)
 {
-    vector<vector<string>> userSubset, invertedVector;
-    if (publications == NULL) * (new vector<vector<string>> ());
-    invertedVector = invertVector(*publications);
 
+    vector<vector<int>> errors;
 
-    for (int i = 0; i < invertedVector.size(); i++)
+    vector<vector<string>> *csvFile;
+
+    switch(type) {
+
+        case pubType:
+            csvFile = publications;
+            break;
+        case presType:
+            csvFile = presentations;
+            break;
+        case teachType:
+            csvFile = teaching;
+            break;
+        case fundType:
+            csvFile = teaching;
+            break;
+        default:
+            /* This should not happen */
+            csvFile = NULL;
+            break;
+    }
+
+    /* If it's null return a empty vector */
+    if (csvFile == NULL) {
+        return errors;
+    }
+
+    for (int i = 0; i < csvFile->size(); i++)
     {
-        for (int j = 0; j < invertedVector.at(i).size(); j++ )
-        {
-            /* If it's null add to the subset */
-            if (invertedVector.at(i).at(j).compare("") == 0){
-                /* The last field of the vector will be reason of error */
-                vector<string> currUser = invertedVector.at(i);
-                currUser.push_back("NULL String. Please Enter something!");
-                currUser.push_back(to_string(i));
-                userSubset.push_back(currUser);
-                break;
+        vector<int> currUser;
+        errors.push_back(currUser);
+
+
+        for (int j = 0; j < csvFile->at(i).size(); j++) {
+            if (csvFile->at(i).at(j).compare("") == 0) {
+                errors.at(i).push_back(j);
             }
-
-            /* TODO: What other reasons are needed ??? */
-
         }
     }
 
+
+    return errors;
 }
 
-vector<vector<string >> myData::getErrorTeaching()
+void myData::changeField(int myField, int userNumber, CSVType type, string newMsg)
 {
-    vector<vector<string>> userSubset, invertedVector;
-    if (teaching == NULL) * (new vector<vector<string>> ());
-    invertedVector = invertVector(*teaching);
 
+    vector<vector<string>> *csvFile;
 
-    for (int i = 0; i < invertedVector.size(); i++)
-    {
-        for (int j = 0; j < invertedVector.at(i).size(); j++ )
-        {
-            /* If it's null add to the subset */
-            if (invertedVector.at(i).at(j).compare("") == 0){
-                /* The last field of the vector will be reason of error */
-                vector<string> currUser = invertedVector.at(i);
-                currUser.push_back("NULL String. Please Enter something!");
-                currUser.push_back(to_string(i));
-                userSubset.push_back(currUser);
-                break;
-            }
+    switch(type) {
 
-            /* TODO: What other reasons are needed ??? */
-
-        }
+        case pubType:
+            csvFile = publications;
+            break;
+        case presType:
+            csvFile = presentations;
+            break;
+        case teachType:
+            csvFile = teaching;
+            break;
+        case fundType:
+            csvFile = teaching;
+            break;
+        default:
+            /* This should not happen */
+            csvFile = NULL;
+            break;
     }
-}
 
-vector<vector<string >> myData::getErrorFunding()
-{
-    vector<vector<string>> userSubset, invertedVector;
-    if (funding == NULL) * (new vector<vector<string>> ());
-    invertedVector = invertVector(*funding);
-
-
-    for (int i = 0; i < invertedVector.size(); i++)
-    {
-        for (int j = 0; j < invertedVector.at(i).size(); j++ )
-        {
-            /* If it's null add to the subset */
-            if (invertedVector.at(i).at(j).compare("") == 0){
-                /* The last field of the vector will be reason of error */
-                vector<string> currUser = invertedVector.at(i);
-                currUser.push_back("NULL String. Please Enter something!");
-                currUser.push_back(to_string(i));
-                userSubset.push_back(currUser);
-                break;
-            }
-
-            /* TODO: What other reasons are needed ??? */
-
-        }
-    }
-}
-
-vector<vector<string >> myData::getErrorPresentations()
-{
-    vector<vector<string>> userSubset, invertedVector;
-    if (presentations == NULL) * (new vector<vector<string>> ());
-    invertedVector = invertVector(*presentations);
-
-
-    for (int i = 0; i < invertedVector.size(); i++)
-    {
-        for (int j = 0; j < invertedVector.at(i).size(); j++ )
-        {
-            /* If it's null add to the subset */
-            if (invertedVector.at(i).at(j).compare("") == 0){
-                /* The last field of the vector will be reason of error */
-                vector<string> currUser = invertedVector.at(i);
-                currUser.push_back("NULL String. Please Enter something!");
-                currUser.push_back(to_string(i));
-                userSubset.push_back(currUser);
-                break;
-            }
-
-            /* TODO: What other reasons are needed ??? */
-
-        }
-    }
-}
-
-void myData::changePublicationField(int myField, int userNumber, string newMsg)
-{
-    if (publications == NULL) return;
-    publications->at(userNumber).at(myField) = newMsg;
-}
-
-void myData::changeTeachingField(int  myField, int userNumber, string newMsg)
-{
-    if (teaching == NULL) return;
-    teaching->at(userNumber).at(myField) = newMsg;
-}
-
-void myData::changeFundingField(int myField, int userNumber, string newMsg)
-{
-    if (funding == NULL) return;
-    funding->at(userNumber).at(myField) = newMsg;
-}
-
-void myData::changePresentationsField(int myField, int userNumber, string newMsg)
-{
-    if (presentations == NULL) return;
-    presentations->at(userNumber).at(myField) = newMsg;
+    if (csvFile == NULL) return;
+    csvFile->at(userNumber).at(myField) = newMsg;
 }
 
 bool myData::isPublications()
