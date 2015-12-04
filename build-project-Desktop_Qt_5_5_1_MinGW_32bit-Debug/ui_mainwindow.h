@@ -15,8 +15,6 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDateEdit>
-#include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -24,11 +22,9 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeWidget>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -46,108 +42,49 @@ public:
     QAction *actionReport_BUg;
     QAction *actionReport_Bug;
     QWidget *centralWidget;
-    QGridLayout *gridLayout_2;
-    QHBoxLayout *horizontalLayout_8;
-    QVBoxLayout *verticalLayout_3;
-    QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *label;
-    QLabel *label_2;
-    QHBoxLayout *horizontalLayout;
-    QDateEdit *dateEdit;
-    QSpacerItem *horizontalSpacer;
-    QDateEdit *dateEdit_2;
-    QHBoxLayout *horizontalLayout_2;
-    QPushButton *btnDates;
-    QSpacerItem *horizontalSpacer_2;
-    QLabel *lblDateRange;
-    QVBoxLayout *verticalLayout_2;
-    QHBoxLayout *horizontalLayout_4;
-    QLabel *lblMin_1;
-    QLabel *lblMax_1;
-    QHBoxLayout *horizontalLayout_6;
-    QLineEdit *minText_1;
-    QLabel *labelHyp_1;
-    QLineEdit *maxText_1;
-    QHBoxLayout *horizontalLayout_5;
-    QLabel *lblMin_2;
-    QLabel *lblMax_2;
-    QHBoxLayout *horizontalLayout_7;
-    QLineEdit *minText_2;
-    QLabel *labelHyp_2;
-    QLineEdit *maxText_2;
-    QVBoxLayout *verticalLayout_4;
-    QPushButton *pushButton;
-    QLabel *label_3;
-    QComboBox *comboBox;
-    QGridLayout *gridLayout;
-    QPushButton *bntDisplayBar;
-    QPushButton *bntDisplayPie;
-    QPushButton *bntDisplayScatter;
-    QPushButton *bntDisplayLine;
     QTreeWidget *treeWidget;
+    QPushButton *bntDisplayPie;
+    QPushButton *bntDisplayBar;
+    QPushButton *bntDisplayLine;
+    QPushButton *bntDisplayScatter;
+    QLabel *label_3;
+    QDateEdit *dateEdit;
+    QDateEdit *dateEdit_2;
+    QPushButton *btnDates;
+    QLabel *lblMax_1;
+    QLabel *lblMax_2;
+    QLabel *lblMin_1;
+    QLabel *lblMin_2;
+    QLabel *labelHyp_1;
+    QLabel *labelHyp_2;
+    QLineEdit *maxText_1;
+    QLineEdit *maxText_2;
+    QLineEdit *minText_1;
+    QLineEdit *minText_2;
+    QLabel *label_4;
+    QLabel *label_5;
+    QLabel *label_6;
+    QPushButton *pushButton;
+    QComboBox *comboBox;
+    QLabel *label_8;
+    QLabel *label_7;
+    QLabel *label;
     QMenuBar *menuBar;
     QMenu *menuFIle;
     QMenu *menuOptions;
     QMenu *menuWindow;
     QMenu *menuTools;
     QMenu *menuHelp;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
+    QToolBar *mainToolBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(800, 592);
-        MainWindow->setStyleSheet(QLatin1String("\n"
-"QComboBox {\n"
-"    border: 1px solid gray;\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 18px 1px 3px;\n"
-"   \n"
-"}\n"
-"\n"
-"QComboBox:editable {\n"
-"    background: white;\n"
-"}\n"
-"\n"
-"QComboBox:!editable, QComboBox::drop-down:editable {\n"
-"     background: white\n"
-"}\n"
-"\n"
-"/* QComboBox gets the \"on\" state when the popup is open */\n"
-"QComboBox:!editable:on, QComboBox::drop-down:editable:on {\n"
-"    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
-"                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,\n"
-"                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);\n"
-"}\n"
-"\n"
-"QComboBox:on { /* shift the text when the popup opens */\n"
-"    padding-top: 3px;\n"
-"    padding-left: 4px;\n"
-"}\n"
-"\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 15px;\n"
-"\n"
-"    border-left-width: 1px;\n"
-"    border-left-color: darkgray;\n"
-"    border-left-style: solid; /* just a single line */\n"
-""
-                        "    border-top-right-radius: 3px; /* same radius as the QComboBox */\n"
-"    border-bottom-right-radius: 3px;\n"
-"}\n"
-"\n"
-"QComboBox::down-arrow {\n"
-"    image: url(:/myFiles/down-arrow-circle-hi.png);\n"
-"}\n"
-"\n"
-"QComboBox::down-arrow:on { /* shift the arrow when popup is open */\n"
-"    top: 1px;\n"
-"    left: 1px;\n"
+        MainWindow->resize(850, 720);
+        MainWindow->setStyleSheet(QLatin1String("QLabel{\n"
+"color: white;\n"
 "}"));
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
@@ -169,327 +106,283 @@ public:
         actionReport_Bug->setObjectName(QStringLiteral("actionReport_Bug"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        gridLayout_2 = new QGridLayout(centralWidget);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        horizontalLayout_8 = new QHBoxLayout();
-        horizontalLayout_8->setSpacing(6);
-        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy);
-        label->setIndent(30);
-
-        horizontalLayout_3->addWidget(label);
-
-        label_2 = new QLabel(centralWidget);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        sizePolicy.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
-        label_2->setSizePolicy(sizePolicy);
-        label_2->setLayoutDirection(Qt::LeftToRight);
-        label_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-        label_2->setMargin(0);
-        label_2->setIndent(30);
-
-        horizontalLayout_3->addWidget(label_2);
-
-
-        verticalLayout->addLayout(horizontalLayout_3);
-
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        dateEdit = new QDateEdit(centralWidget);
-        dateEdit->setObjectName(QStringLiteral("dateEdit"));
-
-        horizontalLayout->addWidget(dateEdit);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-        dateEdit_2 = new QDateEdit(centralWidget);
-        dateEdit_2->setObjectName(QStringLiteral("dateEdit_2"));
-
-        horizontalLayout->addWidget(dateEdit_2);
-
-
-        verticalLayout->addLayout(horizontalLayout);
-
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        btnDates = new QPushButton(centralWidget);
-        btnDates->setObjectName(QStringLiteral("btnDates"));
-        QFont font;
-        font.setBold(false);
-        font.setWeight(50);
-        btnDates->setFont(font);
-
-        horizontalLayout_2->addWidget(btnDates);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_2);
-
-        lblDateRange = new QLabel(centralWidget);
-        lblDateRange->setObjectName(QStringLiteral("lblDateRange"));
-
-        horizontalLayout_2->addWidget(lblDateRange);
-
-
-        verticalLayout->addLayout(horizontalLayout_2);
-
-
-        verticalLayout_3->addLayout(verticalLayout);
-
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        lblMin_1 = new QLabel(centralWidget);
-        lblMin_1->setObjectName(QStringLiteral("lblMin_1"));
-        lblMin_1->setEnabled(true);
-
-        horizontalLayout_4->addWidget(lblMin_1);
-
-        lblMax_1 = new QLabel(centralWidget);
-        lblMax_1->setObjectName(QStringLiteral("lblMax_1"));
-        lblMax_1->setEnabled(true);
-
-        horizontalLayout_4->addWidget(lblMax_1);
-
-
-        verticalLayout_2->addLayout(horizontalLayout_4);
-
-        horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setSpacing(6);
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        minText_1 = new QLineEdit(centralWidget);
-        minText_1->setObjectName(QStringLiteral("minText_1"));
-        minText_1->setEnabled(true);
-
-        horizontalLayout_6->addWidget(minText_1);
-
-        labelHyp_1 = new QLabel(centralWidget);
-        labelHyp_1->setObjectName(QStringLiteral("labelHyp_1"));
-        labelHyp_1->setEnabled(true);
-        QFont font1;
-        font1.setPointSize(23);
-        labelHyp_1->setFont(font1);
-        labelHyp_1->setAlignment(Qt::AlignCenter);
-
-        horizontalLayout_6->addWidget(labelHyp_1);
-
-        maxText_1 = new QLineEdit(centralWidget);
-        maxText_1->setObjectName(QStringLiteral("maxText_1"));
-        maxText_1->setEnabled(true);
-
-        horizontalLayout_6->addWidget(maxText_1);
-
-
-        verticalLayout_2->addLayout(horizontalLayout_6);
-
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        lblMin_2 = new QLabel(centralWidget);
-        lblMin_2->setObjectName(QStringLiteral("lblMin_2"));
-        lblMin_2->setEnabled(true);
-
-        horizontalLayout_5->addWidget(lblMin_2);
-
-        lblMax_2 = new QLabel(centralWidget);
-        lblMax_2->setObjectName(QStringLiteral("lblMax_2"));
-        lblMax_2->setEnabled(true);
-
-        horizontalLayout_5->addWidget(lblMax_2);
-
-
-        verticalLayout_2->addLayout(horizontalLayout_5);
-
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        minText_2 = new QLineEdit(centralWidget);
-        minText_2->setObjectName(QStringLiteral("minText_2"));
-        minText_2->setEnabled(true);
-
-        horizontalLayout_7->addWidget(minText_2);
-
-        labelHyp_2 = new QLabel(centralWidget);
-        labelHyp_2->setObjectName(QStringLiteral("labelHyp_2"));
-        labelHyp_2->setEnabled(true);
-        labelHyp_2->setFont(font1);
-        labelHyp_2->setAlignment(Qt::AlignCenter);
-
-        horizontalLayout_7->addWidget(labelHyp_2);
-
-        maxText_2 = new QLineEdit(centralWidget);
-        maxText_2->setObjectName(QStringLiteral("maxText_2"));
-        maxText_2->setEnabled(true);
-
-        horizontalLayout_7->addWidget(maxText_2);
-
-
-        verticalLayout_2->addLayout(horizontalLayout_7);
-
-
-        verticalLayout_3->addLayout(verticalLayout_2);
-
-        verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setSpacing(0);
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        verticalLayout_4->setSizeConstraint(QLayout::SetFixedSize);
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-
-        verticalLayout_4->addWidget(pushButton);
-
-        label_3 = new QLabel(centralWidget);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
-        label_3->setSizePolicy(sizePolicy1);
-        label_3->setMinimumSize(QSize(400, 60));
-        label_3->setStyleSheet(QStringLiteral("font: 87 22pt \"Segoe UI Black\";"));
-
-        verticalLayout_4->addWidget(label_3);
-
-        comboBox = new QComboBox(centralWidget);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-
-        verticalLayout_4->addWidget(comboBox);
-
-        gridLayout = new QGridLayout();
-        gridLayout->setSpacing(1);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
-        bntDisplayBar = new QPushButton(centralWidget);
-        bntDisplayBar->setObjectName(QStringLiteral("bntDisplayBar"));
-        sizePolicy1.setHeightForWidth(bntDisplayBar->sizePolicy().hasHeightForWidth());
-        bntDisplayBar->setSizePolicy(sizePolicy1);
-        bntDisplayBar->setMinimumSize(QSize(100, 100));
-        QFont font2;
-        font2.setFamily(QStringLiteral("Terminal"));
-        font2.setPointSize(12);
-        font2.setBold(false);
-        font2.setWeight(50);
-        bntDisplayBar->setFont(font2);
-        bntDisplayBar->setStyleSheet(QStringLiteral("border-image: url(:/images/BarIcon.png);"));
-
-        gridLayout->addWidget(bntDisplayBar, 0, 0, 1, 1);
-
-        bntDisplayPie = new QPushButton(centralWidget);
-        bntDisplayPie->setObjectName(QStringLiteral("bntDisplayPie"));
-        sizePolicy1.setHeightForWidth(bntDisplayPie->sizePolicy().hasHeightForWidth());
-        bntDisplayPie->setSizePolicy(sizePolicy1);
-        bntDisplayPie->setMinimumSize(QSize(100, 100));
-        bntDisplayPie->setStyleSheet(QStringLiteral("border-image: url(:/images/PieIcon.png);"));
-
-        gridLayout->addWidget(bntDisplayPie, 0, 1, 1, 1);
-
-        bntDisplayScatter = new QPushButton(centralWidget);
-        bntDisplayScatter->setObjectName(QStringLiteral("bntDisplayScatter"));
-        sizePolicy1.setHeightForWidth(bntDisplayScatter->sizePolicy().hasHeightForWidth());
-        bntDisplayScatter->setSizePolicy(sizePolicy1);
-        bntDisplayScatter->setMinimumSize(QSize(100, 100));
-        bntDisplayScatter->setStyleSheet(QStringLiteral("border-image: url(:/images/ScatterIcon.png);"));
-
-        gridLayout->addWidget(bntDisplayScatter, 1, 0, 1, 1);
-
-        bntDisplayLine = new QPushButton(centralWidget);
-        bntDisplayLine->setObjectName(QStringLiteral("bntDisplayLine"));
-        sizePolicy1.setHeightForWidth(bntDisplayLine->sizePolicy().hasHeightForWidth());
-        bntDisplayLine->setSizePolicy(sizePolicy1);
-        bntDisplayLine->setMinimumSize(QSize(100, 100));
-        bntDisplayLine->setStyleSheet(QStringLiteral("border-image: url(:/images/LineIcon2.png);"));
-
-        gridLayout->addWidget(bntDisplayLine, 1, 1, 1, 1);
-
-
-        verticalLayout_4->addLayout(gridLayout);
-
-
-        verticalLayout_3->addLayout(verticalLayout_4);
-
-
-        horizontalLayout_8->addLayout(verticalLayout_3);
-
         treeWidget = new QTreeWidget(centralWidget);
         QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
         __qtreewidgetitem->setText(0, QStringLiteral("1"));
+        __qtreewidgetitem->setTextAlignment(0, Qt::AlignLeading|Qt::AlignVCenter);
         treeWidget->setHeaderItem(__qtreewidgetitem);
+        QTreeWidgetItem *__qtreewidgetitem1 = new QTreeWidgetItem(treeWidget);
+        __qtreewidgetitem1->setTextAlignment(0, Qt::AlignTrailing|Qt::AlignVCenter);
         treeWidget->setObjectName(QStringLiteral("treeWidget"));
-        treeWidget->setStyleSheet(QLatin1String("QTreeView {\n"
-"    show-decoration-selected: 2;\n"
+        treeWidget->setGeometry(QRect(430, 20, 331, 401));
+        QFont font;
+        font.setFamily(QStringLiteral("Verdana"));
+        font.setBold(false);
+        font.setWeight(50);
+        treeWidget->setFont(font);
+        treeWidget->setStyleSheet(QLatin1String("QTreeView{\n"
+"        background-color:rgb(191, 85, 236);\n"
+"        color:rgb(255, 255, 255);\n"
+"        border: none;\n"
 "}\n"
 "\n"
-"QTreeView::item {\n"
-"     border: 1px solid #d9d9d9;\n"
-"    border-top-color: transparent;\n"
-"    border-bottom-color: transparent;\n"
+"QHeaderView::section{\n"
+"        background-color:rgb(191, 85, 236);\n"
+"        color: white;\n"
+"        border-top: none;\n"
+"        border-left: none;\n"
+"        border-right:none;\n"
+"}"));
+        treeWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
+        bntDisplayPie = new QPushButton(centralWidget);
+        bntDisplayPie->setObjectName(QStringLiteral("bntDisplayPie"));
+        bntDisplayPie->setGeometry(QRect(210, 70, 165, 221));
+        bntDisplayPie->setStyleSheet(QLatin1String("QPushButton{\n"
+"border-image: url(:/images/BarGraph_Button.png);\n"
 "}\n"
 "\n"
-"QTreeView::item:hover {\n"
-"    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);\n"
-"    border: 1px solid #bfcde4;\n"
+"QPushButton:hover{\n"
+"border-image: url(:/images/BarGraph_Button_Hover.png);\n"
 "}\n"
 "\n"
-"QTreeView::item:selected {\n"
-"    border: 1px solid #567dbc;\n"
+"QPushButton:pressed{\n"
+"border-image: url(:/images/BarGraph_Button_Clicked.png);\n"
+"}"));
+        bntDisplayBar = new QPushButton(centralWidget);
+        bntDisplayBar->setObjectName(QStringLiteral("bntDisplayBar"));
+        bntDisplayBar->setGeometry(QRect(30, 70, 165, 221));
+        bntDisplayBar->setStyleSheet(QLatin1String("QPushButton{\n"
+"border-image: url(:/images/BarGraph_Button.png);\n"
 "}\n"
 "\n"
-"QTreeView::item:selected:active{\n"
-"    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6ea1f1, stop: 1 #567dbc);\n"
+"QPushButton:hover{\n"
+"border-image: url(:/images/BarGraph_Button_Hover.png);\n"
 "}\n"
 "\n"
-"QTreeView::item:selected:!active {\n"
-"    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6b9be8, stop: 1 #577fbf);\n"
+"QPushButton:pressed{\n"
+"border-image: url(:/images/BarGraph_Button_Clicked.png);\n"
+"}"));
+        bntDisplayLine = new QPushButton(centralWidget);
+        bntDisplayLine->setObjectName(QStringLiteral("bntDisplayLine"));
+        bntDisplayLine->setGeometry(QRect(210, 290, 165, 221));
+        bntDisplayLine->setStyleSheet(QLatin1String("QPushButton{\n"
+"border-image: url(:/images/BarGraph_Button.png);\n"
 "}\n"
 "\n"
-"/*\n"
-"QTreeView::branch:has-children:!has-siblings:closed,\n"
-"QTreeView::branch:closed:has-children:has-siblings {\n"
-"        border-image: none;\n"
-"    image: url(:/myFiles/black-plus-sign.png);\n"
+"QPushButton:hover{\n"
+"border-image: url(:/images/BarGraph_Button_Hover.png);\n"
 "}\n"
 "\n"
-"QTreeView::branch:open:has-children:!has-siblings,"
-                        "\n"
-"QTreeView::branch:open:has-children:has-siblings  {\n"
-"        border-image: none;\n"
-"        image: url(:/myFiles/minus_sign_u2212_icon_256x256.png);\n"
+"QPushButton:pressed{\n"
+"border-image: url(:/images/BarGraph_Button_Clicked.png);\n"
 "}\n"
-"*/"));
-
-        horizontalLayout_8->addWidget(treeWidget);
-
-
-        gridLayout_2->addLayout(horizontalLayout_8, 0, 0, 1, 1);
-
+""));
+        bntDisplayScatter = new QPushButton(centralWidget);
+        bntDisplayScatter->setObjectName(QStringLiteral("bntDisplayScatter"));
+        bntDisplayScatter->setGeometry(QRect(30, 290, 165, 221));
+        bntDisplayScatter->setStyleSheet(QLatin1String("QPushButton{\n"
+"border-image: url(:/images/BarGraph_Button.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"border-image: url(:/images/BarGraph_Button_Hover.png);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"border-image: url(:/images/BarGraph_Button_Clicked.png);\n"
+"}"));
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(30, 12, 341, 41));
+        QFont font1;
+        font1.setFamily(QStringLiteral("NEOTERIC"));
+        font1.setPointSize(25);
+        font1.setBold(true);
+        font1.setWeight(75);
+        label_3->setFont(font1);
+        label_3->setStyleSheet(QStringLiteral("color: white;"));
+        label_3->setAlignment(Qt::AlignCenter);
+        dateEdit = new QDateEdit(centralWidget);
+        dateEdit->setObjectName(QStringLiteral("dateEdit"));
+        dateEdit->setGeometry(QRect(425, 456, 121, 25));
+        dateEdit->setStyleSheet(QLatin1String("QDateEdit{\n"
+"        background-color:rgb(191, 85, 236);\n"
+"        color:rgb(255, 255, 255);\n"
+"        border:none;\n"
+"}"));
+        dateEdit_2 = new QDateEdit(centralWidget);
+        dateEdit_2->setObjectName(QStringLiteral("dateEdit_2"));
+        dateEdit_2->setGeometry(QRect(645, 456, 121, 25));
+        dateEdit_2->setStyleSheet(QLatin1String("QDateEdit{\n"
+"        background-color:rgb(191, 85, 236);\n"
+"        color:rgb(255, 255, 255);\n"
+"        border:none;\n"
+"}"));
+        btnDates = new QPushButton(centralWidget);
+        btnDates->setObjectName(QStringLiteral("btnDates"));
+        btnDates->setGeometry(QRect(420, 600, 366, 61));
+        btnDates->setStyleSheet(QLatin1String("QPushButton{\n"
+"border-image: url(:/images/Enter_Button.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"border-image: url(:/images/Enter_Button_Hover.png);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"border-image: url(:/images/Enter_Button_Clicked.png);\n"
+"}"));
+        lblMax_1 = new QLabel(centralWidget);
+        lblMax_1->setObjectName(QStringLiteral("lblMax_1"));
+        lblMax_1->setGeometry(QRect(700, 513, 47, 13));
+        QFont font2;
+        font2.setFamily(QStringLiteral("NEOTERIC"));
+        font2.setBold(true);
+        font2.setWeight(75);
+        lblMax_1->setFont(font2);
+        lblMax_2 = new QLabel(centralWidget);
+        lblMax_2->setObjectName(QStringLiteral("lblMax_2"));
+        lblMax_2->setGeometry(QRect(700, 553, 47, 13));
+        lblMax_2->setFont(font2);
+        lblMin_1 = new QLabel(centralWidget);
+        lblMin_1->setObjectName(QStringLiteral("lblMin_1"));
+        lblMin_1->setGeometry(QRect(424, 513, 47, 13));
+        lblMin_1->setFont(font2);
+        lblMin_1->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        lblMin_2 = new QLabel(centralWidget);
+        lblMin_2->setObjectName(QStringLiteral("lblMin_2"));
+        lblMin_2->setGeometry(QRect(424, 553, 47, 13));
+        lblMin_2->setFont(font2);
+        lblMin_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        labelHyp_1 = new QLabel(centralWidget);
+        labelHyp_1->setObjectName(QStringLiteral("labelHyp_1"));
+        labelHyp_1->setGeometry(QRect(536, 510, 101, 20));
+        labelHyp_1->setFont(font2);
+        labelHyp_1->setAlignment(Qt::AlignCenter);
+        labelHyp_2 = new QLabel(centralWidget);
+        labelHyp_2->setObjectName(QStringLiteral("labelHyp_2"));
+        labelHyp_2->setGeometry(QRect(536, 550, 101, 20));
+        labelHyp_2->setFont(font2);
+        labelHyp_2->setAlignment(Qt::AlignCenter);
+        maxText_1 = new QLineEdit(centralWidget);
+        maxText_1->setObjectName(QStringLiteral("maxText_1"));
+        maxText_1->setGeometry(QRect(640, 510, 51, 20));
+        maxText_2 = new QLineEdit(centralWidget);
+        maxText_2->setObjectName(QStringLiteral("maxText_2"));
+        maxText_2->setGeometry(QRect(640, 550, 51, 20));
+        minText_1 = new QLineEdit(centralWidget);
+        minText_1->setObjectName(QStringLiteral("minText_1"));
+        minText_1->setGeometry(QRect(480, 510, 51, 20));
+        minText_2 = new QLineEdit(centralWidget);
+        minText_2->setObjectName(QStringLiteral("minText_2"));
+        minText_2->setGeometry(QRect(480, 550, 51, 20));
+        label_4 = new QLabel(centralWidget);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(420, 10, 381, 451));
+        label_4->setStyleSheet(QLatin1String("QLabel{\n"
+"border-image: url(:/images/TreeWidget_Background.png);\n"
+"}"));
+        label_5 = new QLabel(centralWidget);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(30, 10, 345, 61));
+        label_5->setStyleSheet(QLatin1String("QLabel{\n"
+"border-image: url(:/images/DisplayGraph.png);\n"
+"}"));
+        label_6 = new QLabel(centralWidget);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setGeometry(QRect(420, 451, 141, 42));
+        label_6->setStyleSheet(QLatin1String("QLabel{\n"
+"border-image: url(:/images/Label.png);\n"
+"}"));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(30, 510, 341, 61));
+        pushButton->setStyleSheet(QLatin1String("QPushButton{\n"
+"border-image: url(:/images/Change_Button.png);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"border-image: url(:/images/Change_Button_Hover.png);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"border-image: url(:/images/Change_Button_Clicked.png);\n"
+"}\n"
+""));
+        comboBox = new QComboBox(centralWidget);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setGeometry(QRect(40, 610, 311, 22));
+        comboBox->setStyleSheet(QLatin1String("QComboBox {\n"
+"    border: none;\n"
+"\n"
+"    padding: 1px 18px 1px 3px;\n"
+"   background:rgb(191, 85, 236);\n"
+"\n"
+"}\n"
+"\n"
+"QComboBox:editable {\n"
+"    background: rgb(191, 85, 236);\n"
+"}\n"
+"\n"
+"/* QComboBox gets the \"on\" state when the popup is open */\n"
+"QComboBox:!editable:on, QComboBox::drop-down:editable:on {\n"
+"    background: white;\n"
+"}\n"
+"\n"
+"\n"
+"QComboBox:on { /* shift the text when the popup opens */\n"
+"    padding-top: 3px;\n"
+"    padding-left: 4px;\n"
+"}"));
+        label_8 = new QLabel(centralWidget);
+        label_8->setObjectName(QStringLiteral("label_8"));
+        label_8->setGeometry(QRect(640, 451, 141, 42));
+        label_8->setStyleSheet(QLatin1String("QLabel{\n"
+"border-image: url(:/images/Label.png);\n"
+"}"));
+        label_7 = new QLabel(centralWidget);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setGeometry(QRect(30, 600, 345, 61));
+        label_7->setStyleSheet(QLatin1String("QLabel{\n"
+"border-image: url(:/images/DisplayGraph.png);\n"
+"}"));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(420, 500, 381, 111));
+        label->setStyleSheet(QLatin1String("QLabel{\n"
+"border-image: url(:/images/Label_Group.png);\n"
+"}"));
         MainWindow->setCentralWidget(centralWidget);
+        label->raise();
+        label_7->raise();
+        label_8->raise();
+        label_6->raise();
+        label_5->raise();
+        label_4->raise();
+        treeWidget->raise();
+        bntDisplayPie->raise();
+        bntDisplayBar->raise();
+        bntDisplayLine->raise();
+        bntDisplayScatter->raise();
+        label_3->raise();
+        dateEdit->raise();
+        dateEdit_2->raise();
+        btnDates->raise();
+        lblMax_1->raise();
+        lblMax_2->raise();
+        lblMin_1->raise();
+        lblMin_2->raise();
+        labelHyp_1->raise();
+        labelHyp_2->raise();
+        maxText_1->raise();
+        maxText_2->raise();
+        minText_1->raise();
+        minText_2->raise();
+        pushButton->raise();
+        comboBox->raise();
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 800, 21));
+        menuBar->setGeometry(QRect(0, 0, 850, 21));
         menuFIle = new QMenu(menuBar);
         menuFIle->setObjectName(QStringLiteral("menuFIle"));
         menuOptions = new QMenu(menuBar);
@@ -501,12 +394,12 @@ public:
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
         MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
+        mainToolBar = new QToolBar(MainWindow);
+        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
+        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
 
         menuBar->addAction(menuFIle->menuAction());
         menuBar->addAction(menuOptions->menuAction());
@@ -541,25 +434,30 @@ public:
         actionIndex->setText(QApplication::translate("MainWindow", "Index", 0));
         actionReport_BUg->setText(QApplication::translate("MainWindow", "Report BUg", 0));
         actionReport_Bug->setText(QApplication::translate("MainWindow", "Report Bug", 0));
-        label->setText(QApplication::translate("MainWindow", "Date 1", 0));
-        label_2->setText(QApplication::translate("MainWindow", "Date 2", 0));
-        btnDates->setText(QApplication::translate("MainWindow", "Enter Dates", 0));
-        lblDateRange->setText(QString());
-        lblMin_1->setText(QApplication::translate("MainWindow", "Min", 0));
-        lblMax_1->setText(QApplication::translate("MainWindow", "Max", 0));
-        labelHyp_1->setText(QApplication::translate("MainWindow", "-", 0));
-        lblMin_2->setText(QApplication::translate("MainWindow", "Min", 0));
-        lblMax_2->setText(QApplication::translate("MainWindow", "Max", 0));
-        labelHyp_2->setText(QApplication::translate("MainWindow", "-", 0));
-        pushButton->setText(QApplication::translate("MainWindow", "Change CSV", 0));
-        label_3->setText(QApplication::translate("MainWindow", "Display Graph", 0));
-#ifndef QT_NO_STATUSTIP
-        bntDisplayBar->setStatusTip(QString());
-#endif // QT_NO_STATUSTIP
-        bntDisplayBar->setText(QString());
+
+        const bool __sortingEnabled = treeWidget->isSortingEnabled();
+        treeWidget->setSortingEnabled(false);
+        treeWidget->setSortingEnabled(__sortingEnabled);
+
         bntDisplayPie->setText(QString());
-        bntDisplayScatter->setText(QString());
+        bntDisplayBar->setText(QString());
         bntDisplayLine->setText(QString());
+        bntDisplayScatter->setText(QString());
+        label_3->setText(QApplication::translate("MainWindow", "\"Publications.csv\"", 0));
+        btnDates->setText(QString());
+        lblMax_1->setText(QApplication::translate("MainWindow", "MAX", 0));
+        lblMax_2->setText(QApplication::translate("MainWindow", "MAX", 0));
+        lblMin_1->setText(QApplication::translate("MainWindow", "MIN", 0));
+        lblMin_2->setText(QApplication::translate("MainWindow", "MIN", 0));
+        labelHyp_1->setText(QApplication::translate("MainWindow", "TextLabel", 0));
+        labelHyp_2->setText(QApplication::translate("MainWindow", "TextLabel", 0));
+        label_4->setText(QString());
+        label_5->setText(QString());
+        label_6->setText(QString());
+        pushButton->setText(QString());
+        label_8->setText(QString());
+        label_7->setText(QString());
+        label->setText(QString());
         menuFIle->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuOptions->setTitle(QApplication::translate("MainWindow", "Options", 0));
         menuWindow->setTitle(QApplication::translate("MainWindow", "Window", 0));

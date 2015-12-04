@@ -133,6 +133,13 @@ private:
      */
     void initialize();
 
+    /**
+     * Swaps the background pallete with the parameter color.
+     *
+     * @param color
+     */
+    void PaletteSwap(QColor color);
+
     void createActions();
     void createMenus();
     void addComboBoxItems();

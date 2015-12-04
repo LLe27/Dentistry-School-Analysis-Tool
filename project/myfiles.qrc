@@ -35,5 +35,18 @@
         <file>Teachings_Button_Checked_Hover.png</file>
         <file>Teachings_Button_Unchecked_Clicked.png</file>
         <file>Teachings_Button_Unchecked_Hover.png</file>
+        <file>DisplayGraph.png</file>
+        <file>Enter_Button.png</file>
+        <file>Enter_Button_Clicked.png</file>
+        <file>Enter_Button_Hover.png</file>
+        <file>Label.png</file>
+        <file>BarGraph_Button.png</file>
+        <file>BarGraph_Button_Clicked.png</file>
+        <file>BarGraph_Button_Hover.png</file>
+        <file>TreeWidget_Background.png</file>
+        <file>Change_Button.png</file>
+        <file>Change_Button_Clicked.png</file>
+        <file>Change_Button_Hover.png</file>
+        <file>Label_Group.png</file>
     </qresource>
 </RCC>

@@ -170,7 +170,7 @@ QString MainWindow::on_actionOpen_triggered()
 {
     //Returns file name of selected file in QFileDialog
     QString filename= QFileDialog::getOpenFileName(this, tr("Open File"),"C://","CSV File (*.csv);;All files (*.*)");
-    ui->lblDateRange->setText(filename);
+
     return filename;
 }
 
@@ -733,7 +733,6 @@ void MainWindow::on_btnDates_clicked()
     QString dateString2 = date2.toString("yyyy/MM/dd");
     QString dateString3 = date1.toString("MMM/yyyy");
     QString dateString4 = date2.toString("MMM/yyyy");
-    ui->lblDateRange->setText(dateString1 + " - " + dateString2);
     QStringList ColumnNames;
     ColumnNames << dateString3 + " " + dateString4;
     ui->treeWidget->setHeaderLabels(ColumnNames);
@@ -1175,6 +1174,13 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
 
 }
 
+void MainWindow::PaletteSwap(QColor color){
+        QPalette Pal(palette());
+        Pal.setColor(QPalette::Background, color);
+        MainWindow::setAutoFillBackground(true);
+        MainWindow::setPalette(Pal);
+}
+
 void MainWindow::initialize(){
     s = new StartUp(this);
 //    s->setStyleSheet("background-color:rgb(68,50,102);");
@@ -1182,6 +1188,8 @@ void MainWindow::initialize(){
     string filename;
     QColor color(195,195,229,255);
     Pal.setColor(QPalette::Background, color);
+    QColor wcolor(255, 255, 255,255);
+    PaletteSwap(wcolor);
     s->setAutoFillBackground(true);
     s->setPalette(Pal);
     s->show();
@@ -1237,6 +1245,9 @@ void MainWindow::initialize(){
             ui->minText_2->setText(QString::number(0));
 
             //Hypens
+            ui->labelHyp_1->setText("------------Hours------------");
+            ui->labelHyp_2->setText("------------Students------------");
+
             ui->labelHyp_1->setVisible(true);
             ui->labelHyp_2->setVisible(true);
 
@@ -1271,6 +1282,7 @@ void MainWindow::initialize(){
 
             ui->minText_1->setVisible(true);
             ui->maxText_1->setVisible(true);
+            ui->labelHyp_1->setText("------------Amount------------");
             ui->labelHyp_1->setVisible(true);
             ui->lblMin_1->setVisible(true);
             ui->lblMax_1->setVisible(true);
