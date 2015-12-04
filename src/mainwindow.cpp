@@ -1369,7 +1369,6 @@ void MainWindow::drawDashboard(){
         string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<int> indOther = indDate;
-        cout << "Date: " << indOther.size() << endl;
         vector<string> members = p->getListOfMemberNames();
         int count;
 
