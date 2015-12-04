@@ -878,6 +878,14 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
     customPlot->yAxis->setLabel("number of articles");
     customPlot->yAxis->grid()->setSubGridVisible(true);
 
+    //set the y axis tick labels
+    customPlot->yAxis->setAutoTickStep(false);
+    customPlot->yAxis->setTickStep(5);
+    customPlot->yAxis->setTickLengthIn(5);
+    customPlot->yAxis->setAutoSubTicks(false);
+    customPlot->yAxis->setSubTickCount(4);
+    customPlot->yAxis->setSubTickLengthIn(5);
+
     QPen gridPen;
     gridPen.setStyle(Qt::SolidLine);
     gridPen.setColor(QColor(0, 0, 0, 25));
