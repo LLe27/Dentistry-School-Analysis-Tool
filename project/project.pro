@@ -49,4 +49,4 @@ FORMS    += \
 CONFIG	 += c++11
 
 RESOURCES += \
-    myfiles.qrc
+    ../src/images/myfiles.qrc
