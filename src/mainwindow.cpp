@@ -878,13 +878,31 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
     customPlot->yAxis->setLabel("number of articles");
     customPlot->yAxis->grid()->setSubGridVisible(true);
 
-    //set the y axis tick labels
-    customPlot->yAxis->setAutoTickStep(false);
-    customPlot->yAxis->setTickStep(5);
-    customPlot->yAxis->setTickLengthIn(5);
-    customPlot->yAxis->setAutoSubTicks(false);
-    customPlot->yAxis->setSubTickCount(4);
-    customPlot->yAxis->setSubTickLengthIn(5);
+    //find the maximum y value.
+    int yMax = yAxisData.at(0);
+    for(int yDataIndex=0; yDataIndex < yAxisData.size(); yDataIndex++) {
+        if (yAxisData.at(yDataIndex) > yMax) yMax = yAxisData.at(yDataIndex);
+    }
+
+    if(yMax <= 10)
+    {
+        //set the y axis tick labels
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(1);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(0);
+    }
+    else
+    {
+        //set the y axis tick labels
+        customPlot->yAxis->setAutoTickStep(false);
+        customPlot->yAxis->setTickStep(5);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(4);
+        customPlot->yAxis->setSubTickLengthIn(5);
+    }
 
     QPen gridPen;
     gridPen.setStyle(Qt::SolidLine);
