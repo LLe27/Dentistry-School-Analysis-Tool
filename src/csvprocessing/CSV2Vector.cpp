@@ -228,208 +228,64 @@ enum presentations_members {RecordInfo, LastModifiedUser, LastModifiedDate, ID, 
 vector<vector<string >> myData::parsePresentations(string filePath) {
 
     // If the file is in the same folder as your source code, then there is no need to include file path
-    io::CSVReader<30, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filePath);
-    in.read_header(io::ignore_extra_column, "Record Info",\
-                                            "Last Modified User",\
-                                            "Last Modified Date",\
-                                            "ID",\
-                                            "Member Name",\
-                                            "Primary Domain",\
-                                            "Date",\
-                                            "Type",\
-                                            "Area",\
-                                            "Role",\
-                                            "Activity Type",\
-                                            "Geographical Scope",\
-                                            "Host",\
-                                            "Country",\
-                                            "Province",\
-                                            "City",\
-                                            "Number of Attendees",\
-                                            "Main Audience",\
-                                            "Hours",\
-                                            "Teaching Effectiveness Score",\
-                                            "URL",\
-                                            "Competitive",\
-                                            "Education Presentation",\
-                                            "Remarks",\
-                                            "Funding Organization",\
-                                            "Authorship",\
-                                            "Title",\
-                                            "Rest of Citation",\
-                                            "Personal Remuneration",\
-                                            "Other Details (doesn't print)");
+        io::CSVReader<6, io::trim_chars<' ','\t'>, io::double_quote_escape<',','\"'>> in(filePath);
+        in.read_header(io::ignore_extra_column, "Member Name",\
+                                                "Primary Domain",\
+                                                "Date",\
+                                                "Type",\
+                                                "Role",\
+                                                "Title");
 
-    /* Declare variables for each data within the row */
-    string record_info,\
-           last_modified_user,\
-           last_modified_date,\
-           id,\
-           member_name,\
-           primary_domain,\
-           date,\
-           type,\
-           area,\
-           role,\
-           activity_type,\
-           geographical_scope,\
-           host,\
-           country,\
-           province,\
-           city,\
-           number_attendees,\
-           main_audience,\
-           hours,\
-           teaching_effect_score,\
-           url,\
-           competitive,\
-           education_presentation,\
-           remarks,\
-           funding_organization,\
-           authorship,\
-           title,\
-           rest_citation,\
-           personal_remuneration,\
-           other_details;
+        /* Declare variables for each data within the row */
+        string member_name,\
+               primary_domain,\
+               date,\
+               type,\
+               role,\
+               title;
 
-    /* Create data structure to store each row of infromation relative to their column header */
-    vector<string>  vector_record_info,\
-                    vector_last_modified_user,\
-                    vector_last_modified_date,\
-                    vector_id,\
-                    vector_member_name,\
-                    vector_primary_domain,\
-                    vector_date,\
-                    vector_type,\
-                    vector_area,\
-                    vector_role,\
-                    vector_activity_type,\
-                    vector_geographical_scope,\
-                    vector_host,\
-                    vector_country,\
-                    vector_province,\
-                    vector_city,\
-                    vector_number_attendees,\
-                    vector_main_audience,\
-                    vector_hours,\
-                    vector_teaching_effect_score,\
-                    vector_url,\
-                    vector_competitive,\
-                    vector_education_presentation,\
-                    vector_remarks,\
-                    vector_funding_organization,\
-                    vector_authorship,\
-                    vector_title,\
-                    vector_rest_citation,\
-                    vector_personal_remuneration,\
-                    vector_other_details;
+        /* Create data structure to store each row of infromation relative to their column header */
+        vector<string>  vector_member_name,\
+                        vector_primary_domain,\
+                        vector_date,\
+                        vector_type,\
+                        vector_role,\
+                        vector_title;
 
-    /* Create data structure to store each vector of data within each column */
-    vector<vector<string>> data;
+        /* Create data structure to store each vector of data within each column */
+        vector<vector<string>> data;
 
-    /* Loop until there are no more information within the CSV file */
-    while (in.read_row(	record_info,\
-                        last_modified_user,\
-                        last_modified_date,\
-                        id,\
-                        member_name,\
-                        primary_domain,\
-                        date,\
-                        type,\
-                        area,\
-                        role,\
-                        activity_type,\
-                        geographical_scope,\
-                        host,\
-                        country,\
-                        province,\
-                        city,\
-                        number_attendees,\
-                        main_audience,\
-                        hours,\
-                        teaching_effect_score,\
-                        url,\
-                        competitive,\
-                        education_presentation,\
-                        remarks,\
-                        funding_organization,\
-                        authorship,\
-                        title,\
-                        rest_citation,\
-                        personal_remuneration,\
-                        other_details)){
+        /* Loop until there are no more information within the CSV file */
+        while (in.read_row(	member_name,\
+                            primary_domain,\
+                            date,\
+                            type,\
+                            role,\
+                            title)){
 
-                        /* Push each data within each column to their respected data structure */
-                        vector_record_info.push_back(record_info);
-                        vector_last_modified_user.push_back(last_modified_user);
-                        vector_last_modified_date.push_back(last_modified_date);
-                        vector_id.push_back(id);
-                        vector_member_name.push_back(member_name);
-                        vector_primary_domain.push_back(primary_domain);
-                        vector_date.push_back(date);
-                        vector_type.push_back(type);
-                        vector_area.push_back(area);
-                        vector_role.push_back(role);
-                        vector_activity_type.push_back(activity_type);
-                        vector_geographical_scope.push_back(geographical_scope);
-                        vector_host.push_back(host);
-                        vector_country.push_back(country);
-                        vector_province.push_back(province);
-                        vector_city.push_back(city);
-                        vector_number_attendees.push_back(number_attendees);
-                        vector_main_audience.push_back(main_audience);
-                        vector_hours.push_back(hours);
-                        vector_teaching_effect_score.push_back(teaching_effect_score);
-                        vector_url.push_back(url);
-                        vector_competitive.push_back(competitive);
-                        vector_education_presentation.push_back(education_presentation);
-                        vector_remarks.push_back(remarks);
-                        vector_funding_organization.push_back(funding_organization);
-                        vector_authorship.push_back(authorship);
-                        vector_title.push_back(title);
-                        vector_rest_citation.push_back(rest_citation);
-                        vector_personal_remuneration.push_back(personal_remuneration);
-                        vector_other_details.push_back(other_details);
-}
+                            /* Push each data within each column to their respected data structure */
+                            vector_member_name.push_back(member_name);
+                            vector_primary_domain.push_back(primary_domain);
+                            vector_date.push_back(date);
+                            vector_type.push_back(type);
+                            vector_role.push_back(role);
+                            vector_title.push_back(title);
+    }
 
-                        /* Push each vector of data into main data */
-//                      data.push_back(vector_record_info);
-//                      data.push_back(vector_last_modified_user);
-//                      data.push_back(vector_last_modified_date);
-//                      data.push_back(vector_id);
-                        data.push_back(vector_member_name);
-                        data.push_back(vector_date);
-                        data.push_back(vector_type);
-                        data.push_back(vector_primary_domain);
-//                      data.push_back(vector_area);
-                        data.push_back(vector_role);
-//                      data.push_back(vector_activity_type);
-//                      data.push_back(vector_geographical_scope);
-//                      data.push_back(vector_host);
-//                      data.push_back(vector_country);
-//                      data.push_back(vector_province);
-//                      data.push_back(vector_city);
-//                      data.push_back(vector_number_attendees);
-//                      data.push_back(vector_main_audience);
-//                      data.push_back(vector_hours);
-//                      data.push_back(vector_teaching_effect_score);
-//                      data.push_back(vector_url);
-//                      data.push_back(vector_competitive);
-//                      data.push_back(vector_education_presentation);
-//                      data.push_back(vector_remarks);
-//                      data.push_back(vector_funding_organization);
-//                      data.push_back(vector_authorship);
-                        data.push_back(vector_title);
-//                      data.push_back(vector_rest_citation);
-//                      data.push_back(vector_personal_remuneration);
-//                      data.push_back(vector_other_details);
+                            /* Push each vector of data into main data */
+                            data.push_back(vector_member_name);
+                            data.push_back(vector_date);
+                            data.push_back(vector_type);
+                            data.push_back(vector_primary_domain);
+                            data.push_back(vector_role);
+                            data.push_back(vector_title);
 
-                        /* Return database */
-                        return data;
+                            /* Return database */
+                            return data;
 
-#if 0
-exit(EXIT_SUCCESS);
-#endif
+    #if 0
+    exit(EXIT_SUCCESS);
+    #endif
 
 }
 
