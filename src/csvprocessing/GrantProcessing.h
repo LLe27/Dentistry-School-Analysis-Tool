@@ -33,6 +33,7 @@ public:
      */
     GrantProcessing(string filename, int csvtype);
 
+
     /**
      * Getter for grant type. Return a vector<string> of all UNIQUE values.
      *
@@ -67,6 +68,8 @@ public:
      * @return
      */
     vector<int> getIndicesType(string type, vector<int> indToConsider);
+
+
 
     /**
      * Getter/Refiner for status (e.g., Applied). Considers all indecies.

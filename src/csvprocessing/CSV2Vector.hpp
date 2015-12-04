@@ -29,7 +29,7 @@ public:
     /* Error subsets */
     vector<vector<int>> getErrors(CSVType type);
     void changeField(int myField, int userNumber, CSVType type, string newMsg);
-
+    vector<vector<string>> getDatabaseCopy(CSVType type);
 
 	/* Read and create the CSV */
 	bool createParsePublications(string filePath);

@@ -41,6 +41,24 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
 /// Public Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+vector<vector<int>> CSVProcessing::processErrors(CSVType type)
+{
+    return csvData.getErrors(type);
+}
+
+void CSVProcessing::processingChangeField(int myField, int userNumber, CSVType type, string newMsg)
+{
+    csvData.changeField(myField, userNumber, type, newMsg);
+}
+
+
+vector<vector<string>> CSVProcessing::processingGetDatabaseCopy(CSVType type)
+{
+    return csvData.getDatabaseCopy(type);
+}
+
+
 vector<string> CSVProcessing::getListOfMemberNames() {
     return memberNames;
 }

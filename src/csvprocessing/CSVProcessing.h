@@ -133,6 +133,10 @@ protected:
      */
     pair<vector<string>,vector<vector<int>>> getUniqueInColumn(int column);
 
+    void processingChangeField(int myField, int userNumber, CSVType type, string newMsg);
+    vector<vector<string>> processingGetDatabaseCopy(CSVType type);
+
+
     /**
      * Returns vector of the specified indicies from the specified column.
      *
@@ -190,6 +194,10 @@ protected:
      * @param min
      * @param max
      */
+
+    vector<vector<int>> processErrors(CSVType type);
+
+
     bool numberWithinBounds(string numStr, double min, double max);
 
     bool grantsNumberWithinBounds(string numStr, double min, double max);

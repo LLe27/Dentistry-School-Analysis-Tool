@@ -59,6 +59,37 @@ vector<vector<string>> myData::invertVector(vector<vector<string>> myVector)
     return newVector;
 }
 
+
+vector<vector<string>> myData::getDatabaseCopy(CSVType type)
+{
+    vector<vector<string>> *csvFile;
+    vector<vector<string>> emptyVector;
+    switch(type) {
+
+        case pubType:
+            csvFile = publications;
+            break;
+        case presType:
+            csvFile = presentations;
+            break;
+        case teachType:
+            csvFile = teaching;
+            break;
+        case fundType:
+            csvFile = teaching;
+            break;
+        default:
+            /* This should not happen */
+            csvFile = NULL;
+            break;
+    }
+
+    if (csvFile == NULL) return emptyVector;
+
+    return *csvFile;
+
+}
+
 vector<vector<int>> myData::getErrors(CSVType type)
 {
 
