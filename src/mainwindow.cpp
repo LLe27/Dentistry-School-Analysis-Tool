@@ -4,6 +4,7 @@
 #include "../lib/nightcharts/nightcharts.h"
 #include "../lib/nightcharts/nightchartswidget.h"
 #include <iostream>
+#include <math.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -1598,7 +1599,7 @@ void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
         customPlot->yAxis->setAutoSubTicks(false);
         customPlot->yAxis->setSubTickCount(0);
     }
-    else if ((range > 10) && (range <= 650))
+    else if ((range > 10) && (range <= 300))
     {
         customPlot->yAxis->setAutoTickStep(false);
         customPlot->yAxis->setTickStep(5);
@@ -1607,7 +1608,7 @@ void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
         customPlot->yAxis->setSubTickCount(4);
         customPlot->yAxis->setSubTickLengthIn(5);
     }
-    else if ((range > 650) && (range <= 1250))
+    else if ((range > 300) && (range <= 1000))
     {
         customPlot->yAxis->setAutoTickStep(false);
         customPlot->yAxis->setTickStep(20);
@@ -1616,7 +1617,7 @@ void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
         customPlot->yAxis->setSubTickCount(3);
         customPlot->yAxis->setSubTickLengthIn(5);
     }
-    else
+    else if ((range > 1000) && (range <= 2000))
     {
         customPlot->yAxis->setAutoTickStep(false);
         customPlot->yAxis->setTickStep(50);
@@ -1624,6 +1625,15 @@ void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
         customPlot->yAxis->setAutoSubTicks(false);
         customPlot->yAxis->setSubTickCount(4);
         customPlot->yAxis->setSubTickLengthIn(5);
+    }
+    else
+    {
+        customPlot->yAxis->setAutoTickStep(true);
+//        customPlot->yAxis->setTickStep(50);
+        customPlot->yAxis->setTickLengthIn(5);
+        customPlot->yAxis->setAutoSubTicks(false);
+        customPlot->yAxis->setSubTickCount(0);
+//        customPlot->yAxis->setSubTickLengthIn(5);
     }
 }
 
