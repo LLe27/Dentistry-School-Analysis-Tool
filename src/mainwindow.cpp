@@ -1189,10 +1189,16 @@ void MainWindow::initialize(){
     s->setAutoFillBackground(true);
     s->setPalette(Pal);
     s->show();
+
+
     if(s->exec() == QDialog::Accepted){
         csvtype = s->getCsvType();
+        if(csvtype > 0){
+
         filename = on_actionOpen_triggered().toStdString();
-    }
+
+
+
 
     //These will only be for CSV's that reuire additional input for indicie queries
 
@@ -1304,7 +1310,16 @@ void MainWindow::initialize(){
     ui->dateEdit_2->setDate(QDate::currentDate());
 
     on_btnDates_clicked();
+        }
+    }
 
+
+    else{
+          //None Work.....
+          close();
+          QApplication::closeAllWindows();
+          QApplication::quit();
+    }
 }
 
 

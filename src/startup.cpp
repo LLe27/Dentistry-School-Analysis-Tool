@@ -7,7 +7,7 @@ StartUp::StartUp(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->groupBox->setStyleSheet("border:0;");
-
+    csvtype = -1;
 }
 
 StartUp::~StartUp()
