@@ -1589,6 +1589,25 @@ void MainWindow::drawDashboard(){
 }
 
 
+
+/*
+ * createOptimalYAxis
+ *
+ * Description: This function uses the range of Y data to create a Y axis that
+ * is asthetically appealing, and easy to read. If the data range is 2000 or less, the
+ * numerical distance between ticks is set manually. If the data range exceeds 2000, then
+ * it is set automatically using pre built methods in QCustomPlot.
+ *
+ * Parameters:
+ * Param 1: customPlot: This is a QCustomPlot object. A QCustomPlot object represents a
+ * graph, and all it's components. The parameter customPlot is the graph that will
+ * have its y axis created.
+ * Param 2: range: This variable represents the difference between the highest and lowest
+ * y coordinates of data points on the graph.
+ *
+ * Output:
+ * none
+ */
 void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
 {
     if(range <= 10)
@@ -1629,11 +1648,9 @@ void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
     else
     {
         customPlot->yAxis->setAutoTickStep(true);
-//        customPlot->yAxis->setTickStep(50);
         customPlot->yAxis->setTickLengthIn(5);
         customPlot->yAxis->setAutoSubTicks(false);
         customPlot->yAxis->setSubTickCount(0);
-//        customPlot->yAxis->setSubTickLengthIn(5);
     }
 }
 
