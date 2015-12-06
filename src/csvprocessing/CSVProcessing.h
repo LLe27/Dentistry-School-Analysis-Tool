@@ -224,6 +224,15 @@ private:
      * @return
      */
     bool isWithinTimeframe(int ind, int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd);
+
+    /**
+     * Changes all empty cells in data to read "Unspecified" (or "0" if numeric).
+     * If a single cell in a column is numeric, all empty cells of that column will
+     * be set to "0".
+     *
+     * @brief setUnspecified
+     */
+    void setUnspecified();
 };
 
 #endif // CSVPROCESSING_H

@@ -13,23 +13,25 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
 {
     switch(csvtype){
     case(1):
-        this->data = csvData.parsePublications(filename);
+        data = csvData.parsePublications(filename);
         break;
     case(2):
-        this->data = csvData.parseTeaching(filename);
+        data = csvData.parseTeaching(filename);
         break;
     case(3):
-        this->data = csvData.parsePresentations(filename);
+        data = csvData.parsePresentations(filename);
         break;
     case(4):
-        this->data = csvData.parseFunding(filename);
+        data = csvData.parseFunding(filename);
         break;
 
     }
 
-
     //populate default index of all entries
     for (int i=0; i<(int)data.at(0).size(); i++) allInd.push_back(i);
+
+    //change all empty fields to "Unspecified" (or "0" if numeric)
+    setUnspecified();
 
     //populate member names
     populateMemberNames();
@@ -384,4 +386,33 @@ bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int
 
     //default to false
     return false;
+}
+
+void CSVProcessing::setUnspecified() {
+    vector<int> indUnspecified;
+    string cellVal;
+    int isNumeric;
+    for (unsigned int i=0; i<data.size(); i++) {
+        indUnspecified.clear();
+        isNumeric = 0;
+        for (unsigned int j=0; j<data.at(i).size(); j++) {
+            cellVal = data.at(i).at(j);
+            if (!cellVal.size()) {
+                indUnspecified.push_back(j);
+            }
+            else if (!isNumeric && atof(cellVal.c_str())!=0) {
+                isNumeric = 1;
+            }
+        }
+        if (isNumeric) {
+            for (int j:indUnspecified) {
+                data.at(i).at(j) = "0";
+            }
+        }
+        else {
+            for (int j:indUnspecified) {
+                data.at(i).at(j) = "Unspecified";
+            }
+        }
+    }
 }

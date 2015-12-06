@@ -909,7 +909,6 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
 
     customPlot->yAxis->rescale();
     customPlot->replot();
-
 }
 
 
