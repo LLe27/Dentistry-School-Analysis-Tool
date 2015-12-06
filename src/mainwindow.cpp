@@ -523,7 +523,6 @@ void MainWindow::on_bntDisplayScatter_clicked()
  */
 void MainWindow::on_bntDisplayLine_clicked()
 {
-
     // Make the graph
     int dayStart, monthStart, yearStart, dayEnd, monthEnd, yearEnd;
     dayStart = Startdate.day();
@@ -726,6 +725,14 @@ vector<int> MainWindow::remove_from_other(vector<int> indOther, vector<int> indS
     return indOther;
 }
 
+void MainWindow::on_btnCollapse_clicked() {
+    ui->treeWidget->collapseAll();
+}
+
+void MainWindow::on_btnExpand_clicked() {
+    ui->treeWidget->expandAll();
+}
+
 void MainWindow::on_btnDates_clicked()
 {
     QDate date1 = (ui->dateEdit->date());
@@ -745,12 +752,6 @@ void MainWindow::on_btnDates_clicked()
     drawDashboard();
 
 }
-
-
-
-
-
-
 
 /*
  * makePie

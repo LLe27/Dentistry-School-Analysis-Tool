@@ -118,6 +118,15 @@ private slots:
      */
     void on_btnDates_clicked();
 
+    /**
+     * Button response function. Collapses all nodes in dashboard tree.
+     */
+    void on_btnCollapse_clicked();
+
+    /**
+     * Button response function. Expands all nodes in dashboard tree.
+     */
+    void on_btnExpand_clicked();
 
     void on_pushButton_clicked();
 
