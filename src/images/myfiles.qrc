@@ -48,5 +48,7 @@
         <file>Change_Button_Clicked.png</file>
         <file>Change_Button_Hover.png</file>
         <file>Label_Group.png</file>
+        <file>green_plus_sign.png</file>
+        <file>red_minus_sign.png</file>
     </qresource>
 </RCC>

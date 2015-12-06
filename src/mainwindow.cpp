@@ -101,6 +101,12 @@ void MainWindow::createActions()
 
     ui->actionContents->setStatusTip(tr("Display help menu contents"));
     connect(ui->actionContents, SIGNAL(triggered()), this, SLOT(helpContents()));
+    connect(ui->actionSaveDashboard, SIGNAL(triggered()), this, SLOT(saveDashboard()));
+    connect(ui->actionDashboard, SIGNAL(triggered()), this, SLOT(viewDashboard()));
+    connect(ui->actionSave_Bar_Graph, SIGNAL(triggered()), this, SLOT(saveBarGraph()));
+    connect(ui->actionSave_Line_Graph, SIGNAL(triggered()), this, SLOT(saveLineGraph()));
+    connect(ui->actionSave_Pie_Chart, SIGNAL(triggered()), this, SLOT(savePieChart()));
+    connect(ui->actionSave_Scatter_Plot, SIGNAL(triggered()), this, SLOT(saveScatterPlot()));
     ui->menuHelp->addAction(ui->actionContents);
 }
 
@@ -796,7 +802,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     window->setLayout(layout);
 
 
-    NightchartsWidget * PieChart = new NightchartsWidget(window);
+    PieChart = new NightchartsWidget(window);
     PieChart->clear();
     PieChart->setType(Nightcharts::Pie);//{Histogramm,Pie,DPie};
     PieChart->resize(520, height);
@@ -848,12 +854,12 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
      int height = rec.height();
      int width = rec.width();
 
-    QCustomPlot *customPlot = new QCustomPlot();
-    customPlot->show();
-    customPlot->setGeometry(100, 100, width-200, height-200);
+    barcustomPlot = new QCustomPlot();
+    barcustomPlot->show();
+    barcustomPlot->setGeometry(100, 100, width-200, height-200);
 
-    QCPBars *myBars = new QCPBars(customPlot->xAxis, customPlot->yAxis);
-    customPlot->addPlottable(myBars);
+    QCPBars *myBars = new QCPBars(barcustomPlot->xAxis, barcustomPlot->yAxis);
+    barcustomPlot->addPlottable(myBars);
         myBars->setName("this is the name");
 
 
@@ -865,20 +871,20 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
         xAxisLabels << barLabels.at(i).c_str();
     }
 
-    customPlot->xAxis->setAutoTicks(false);
-    customPlot->xAxis->setAutoTickLabels(false);
-    customPlot->xAxis->setTickVector(xAxisPositions);
-    customPlot->xAxis->setTickVectorLabels(xAxisLabels);
-    customPlot->xAxis->setTickLabelRotation(60);
-    customPlot->xAxis->setSubTickCount(0);
-    customPlot->xAxis->setTickLength(0, 4);
-    customPlot->xAxis->grid()->setVisible(true);
-    customPlot->xAxis->setRange(-1, barLabels.size()+1);  // Set min and max tick value (one beyond either end)
+    barcustomPlot->xAxis->setAutoTicks(false);
+    barcustomPlot->xAxis->setAutoTickLabels(false);
+    barcustomPlot->xAxis->setTickVector(xAxisPositions);
+    barcustomPlot->xAxis->setTickVectorLabels(xAxisLabels);
+    barcustomPlot->xAxis->setTickLabelRotation(60);
+    barcustomPlot->xAxis->setSubTickCount(0);
+    barcustomPlot->xAxis->setTickLength(0, 4);
+    barcustomPlot->xAxis->grid()->setVisible(true);
+    barcustomPlot->xAxis->setRange(-1, barLabels.size()+1);  // Set min and max tick value (one beyond either end)
 
-    customPlot->yAxis->setRange(0, 12.1);
-    customPlot->yAxis->setPadding(5);
-    customPlot->yAxis->setLabel("number of articles");
-    customPlot->yAxis->grid()->setSubGridVisible(true);
+    barcustomPlot->yAxis->setRange(0, 12.1);
+    barcustomPlot->yAxis->setPadding(5);
+    barcustomPlot->yAxis->setLabel("number of articles");
+    barcustomPlot->yAxis->grid()->setSubGridVisible(true);
 
     //find the maximum y value.
     int yMax = yAxisData.at(0);
@@ -886,29 +892,29 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
         if (yAxisData.at(yDataIndex) > yMax) yMax = yAxisData.at(yDataIndex);
     }
 
-    createOptimalYAxis(customPlot, yMax);
+    createOptimalYAxis(barcustomPlot, yMax);
 
     QPen gridPen;
     gridPen.setStyle(Qt::SolidLine);
     gridPen.setColor(QColor(0, 0, 0, 25));
-    customPlot->yAxis->grid()->setPen(gridPen);
+    barcustomPlot->yAxis->grid()->setPen(gridPen);
     gridPen.setStyle(Qt::DotLine);
-    customPlot->yAxis->grid()->setSubGridPen(gridPen);
+    barcustomPlot->yAxis->grid()->setSubGridPen(gridPen);
 
 
-    customPlot->legend->setVisible(false);
+    barcustomPlot->legend->setVisible(false);
 
-    customPlot->yAxis->setPadding(25); // Add space to the left of the Y axis title
-    customPlot->yAxis2->setPadding(25); // Add space to the left of the Y axis title
+    barcustomPlot->yAxis->setPadding(25); // Add space to the left of the Y axis title
+    barcustomPlot->yAxis2->setPadding(25); // Add space to the left of the Y axis title
 
     // Set the title
-    customPlot->plotLayout()->insertRow(0); // inserts an empty row above the default axis rect
-    customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(customPlot, title));
+    barcustomPlot->plotLayout()->insertRow(0); // inserts an empty row above the default axis rect
+    barcustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(barcustomPlot, title));
 
     myBars->setData(xAxisPositions, yAxisData);
 
-    customPlot->yAxis->rescale();
-    customPlot->replot();
+    barcustomPlot->yAxis->rescale();
+    barcustomPlot->replot();
 }
 
 
@@ -936,22 +942,22 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
      int width = rec.width();
      double xRangeMinimum, yRangeMinimum, xRangeMaximum, yRangeMaximum;
 
-    QCustomPlot *customPlot = new QCustomPlot();
-    customPlot->show();
+    scattercustomPlot = new QCustomPlot();
+    scattercustomPlot->show();
     //set window size based on screen size
-    customPlot->setGeometry(100, 100, width-200, height-200);
-    // Tell QCustomPlot to show dots, but not lines
-    customPlot->addGraph();
-    customPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
-    customPlot->graph(0)->setPen(QPen(Qt::blue)); // line color blue for first graph
+    scattercustomPlot->setGeometry(100, 100, width-200, height-200);
+    // Tell QscattercustomPlot to show dots, but not lines
+    scattercustomPlot->addGraph();
+    scattercustomPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    scattercustomPlot->graph(0)->setPen(QPen(Qt::blue)); // line color blue for first graph
 
     // add title
-    customPlot->plotLayout()->insertRow(0);
-    customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(customPlot, title));
+    scattercustomPlot->plotLayout()->insertRow(0);
+    scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, title));
 
     //set the graph to a scatter plot
-    customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-    customPlot->graph(0)->setName(title);
+    scattercustomPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+    scattercustomPlot->graph(0)->setName(title);
 
     //find minimum and maximum x values.
     int xMax = xData.at(0);
@@ -970,7 +976,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     }
 
     // pass the data points to the scatter plot
-    customPlot->graph()->setData(xData, yData);
+    scattercustomPlot->graph()->setData(xData, yData);
 
     // Add up to 2 years gap to min of X range
     if(xMin < 2) xRangeMinimum = 0;
@@ -989,21 +995,21 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
         xRangeMaximum = xMax + 2;
 
     //set the x axis tick labels
-    customPlot->xAxis->setAutoTickStep(false);
-    customPlot->xAxis->setTickStep(2);
-    customPlot->xAxis->setTickLengthIn(5);
-    customPlot->xAxis->setAutoSubTicks(false);
-    customPlot->xAxis->setSubTickCount(1);
-    customPlot->xAxis->setSubTickLengthIn(5);
+    scattercustomPlot->xAxis->setAutoTickStep(false);
+    scattercustomPlot->xAxis->setTickStep(2);
+    scattercustomPlot->xAxis->setTickLengthIn(5);
+    scattercustomPlot->xAxis->setAutoSubTicks(false);
+    scattercustomPlot->xAxis->setSubTickCount(1);
+    scattercustomPlot->xAxis->setSubTickLengthIn(5);
 
 
     //set the x axis label
-    customPlot->xAxis->setLabel("Years");
+    scattercustomPlot->xAxis->setLabel("Years");
 
     //set the x axis range
-    customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
+    scattercustomPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
 
-    createOptimalYAxis(customPlot, yMax-yMin);
+    createOptimalYAxis(scattercustomPlot, yMax-yMin);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2)
@@ -1019,13 +1025,13 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     yRangeMaximum = yMax + 2;
 
     //set the y axis label
-    customPlot->yAxis->setLabel("number of papers");
+    scattercustomPlot->yAxis->setLabel("number of papers");
 
     //set the y axis range
-    customPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
+    scattercustomPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
 
     //draw scatter plot
-    customPlot->replot();
+    scattercustomPlot->replot();
 }
 
 
@@ -1058,11 +1064,11 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     double xRangeMinimum, yRangeMinimum, xRangeMaximum, yRangeMaximum;
     QPen pen;
 
-    QCustomPlot *customPlot = new QCustomPlot();
+    linecustomPlot = new QCustomPlot();
 
-    customPlot->show();
+    linecustomPlot->show();
     //set window size based on screen size
-    customPlot->setGeometry(100, 100, width-200, height-200);
+    linecustomPlot->setGeometry(100, 100, width-200, height-200);
     // Tell QCustomPlot to show dots, but not lines
 
     int red = 0;
@@ -1078,23 +1084,23 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
         blue = (blue + 137) % 255;
 
         // pass the data points to the scatter plot
-        customPlot->addGraph();
-        customPlot->graph()->setName(name);
+        linecustomPlot->addGraph();
+        linecustomPlot->graph()->setName(name);
         QColor *color = new QColor(red, green, blue);
 
         pen.setColor(*color);
-        customPlot->graph()->setPen(pen);
-        customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
-        customPlot->graph()->setData(xData, yData.at(i));
+        linecustomPlot->graph()->setPen(pen);
+        linecustomPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+        linecustomPlot->graph()->setData(xData, yData.at(i));
 
         i++;
     }
 
-    customPlot->legend->setVisible(true);
+    linecustomPlot->legend->setVisible(true);
 
     // add title
-    customPlot->plotLayout()->insertRow(0);
-    customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(customPlot, title));
+    linecustomPlot->plotLayout()->insertRow(0);
+    linecustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(linecustomPlot, title));
 
     //find minimum and maximum x values.
     int xMax = xData.at(0);
@@ -1130,21 +1136,21 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
         xRangeMaximum = xMax + 2;
 
     //set the x axis tick labels
-    customPlot->xAxis->setAutoTickStep(false);
-    customPlot->xAxis->setTickStep(2);
-    customPlot->xAxis->setTickLengthIn(5);
-    customPlot->xAxis->setAutoSubTicks(false);
-    customPlot->xAxis->setSubTickCount(1);
-    customPlot->xAxis->setSubTickLengthIn(5);
+    linecustomPlot->xAxis->setAutoTickStep(false);
+    linecustomPlot->xAxis->setTickStep(2);
+    linecustomPlot->xAxis->setTickLengthIn(5);
+    linecustomPlot->xAxis->setAutoSubTicks(false);
+    linecustomPlot->xAxis->setSubTickCount(1);
+    linecustomPlot->xAxis->setSubTickLengthIn(5);
 
 
     //set the x axis label
-    customPlot->xAxis->setLabel("Years");
+    linecustomPlot->xAxis->setLabel("Years");
 
     //set the x axis range
-    customPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
+    linecustomPlot->xAxis->setRange(xRangeMinimum, xRangeMaximum);
 
-    createOptimalYAxis(customPlot, yMax-yMin);
+    createOptimalYAxis(linecustomPlot, yMax-yMin);
 
     //set the y axis to be larger than the maximum y value
     if(yMin < 2)
@@ -1160,13 +1166,13 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     yRangeMaximum = yMax + 2;
 
     //set the y axis label
-    customPlot->yAxis->setLabel("number of papers");
+    linecustomPlot->yAxis->setLabel("number of papers");
 
     //set the y axis range
-    customPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
+    linecustomPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
 
     //draw scatter plot
-    customPlot->replot();
+    linecustomPlot->replot();
 
 }
 
@@ -1673,4 +1679,139 @@ void MainWindow::createOptimalYAxis(QCustomPlot * customPlot, int range)
 void MainWindow::on_pushButton_clicked()
 {
     initialize();
+}
+void MainWindow::saveBarGraph()
+{
+    // Create graph if not created already
+    if(barcustomPlot->hasHeightForWidth()) {
+           on_bntDisplayBar_clicked();
+         barcustomPlot->close();
+    }
+    barcustomPlot->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
+}
+void MainWindow::savePieChart()
+{
+    if(PieChart->hasHeightForWidth()) {
+           on_bntDisplayPie_clicked();
+         PieChart->close();
+    }
+    PieChart->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
+}
+void MainWindow::saveScatterPlot()
+{
+    if(scattercustomPlot->hasHeightForWidth()) {
+           on_bntDisplayScatter_clicked();
+         scattercustomPlot->close();
+    }
+    scattercustomPlot->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
+}
+void MainWindow::saveLineGraph()
+{
+    if(linecustomPlot->hasHeightForWidth()) {
+           on_bntDisplayLine_clicked();
+         linecustomPlot->close();
+    }
+    linecustomPlot->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
+}
+
+// Duplicates the tree in a new window and saves it
+// If save is set
+void MainWindow::duplicateDashboard(int save)
+{
+
+    // Duplicate Dashboard
+    QTreeWidget* tree1 = new QTreeWidget();
+
+    tree1->setColumnCount(ui->treeWidget->columnCount());
+    QStringList ColumnNames;
+    QString Column;
+
+    for(int i = 0; i < tree1->columnCount(); i++)
+    {
+        Column = ui->treeWidget->headerItem()->text(i);
+        ColumnNames << Column;
+
+    }
+    tree1->setHeaderLabels(ColumnNames);
+
+    tree1->sortByColumn(0,Qt::AscendingOrder);
+    tree1->setSortingEnabled(true);
+
+    QTreeWidgetItem* item;
+    QTreeWidgetItem* item2;
+    QTreeWidgetItem* item3;
+
+    int height = 0;
+
+    for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++)
+    {
+        height++;
+        item = ui->treeWidget->topLevelItem(i);
+        QTreeWidgetItem* itemnew = new QTreeWidgetItem(tree1);
+        *itemnew = *item;
+        if(item->isExpanded())
+        {
+            itemnew->setExpanded(true);
+        }
+        if(item->childCount() > 0)
+        {
+            for(int j = 0; j < item->childCount(); j++)
+            {
+                item2 = item->child(j);
+                QTreeWidgetItem* itemnew2 = new QTreeWidgetItem(itemnew);
+                *itemnew2 = *item2;
+                if(item->isExpanded())
+                {
+                    height++;
+                }
+                if(item2->isExpanded())
+                {
+                    itemnew2->setExpanded(true);
+                }
+                if(item2->childCount() > 0)
+                {
+                    for(int k = 0; k < item2->childCount(); k++)
+                    {
+                        item3 = item2->child(k);
+                        QTreeWidgetItem* itemnew3 = new QTreeWidgetItem(itemnew2);
+                        *itemnew3 = *item3;
+                        if(item2->isExpanded())
+                        {
+                            height++;
+                        }
+                        if(item3->isExpanded())
+                        {
+                            itemnew3->setExpanded(true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    tree1->setColumnWidth(0, 250);
+    tree1->setColumnWidth(1, 250);
+    if(height < 10) {
+        tree1->resize(700, 500);
+    }
+    else {
+        tree1->resize(700,height*20);
+    }
+
+    // Save the Dashboard
+    if(save) {
+        tree1->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
+    }
+    else
+        tree1->show();
+}
+void MainWindow::viewDashboard()
+{
+    // duplicate the dashboard without saving
+    duplicateDashboard(0);
+}
+void MainWindow::saveDashboard()
+{
+    // duplicate the dashboard and save it
+    duplicateDashboard(1);
 }

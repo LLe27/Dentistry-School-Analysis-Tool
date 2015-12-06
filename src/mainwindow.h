@@ -12,10 +12,11 @@
 #include "csvprocessing/TeachingProcessing.h"
 #include "startup.h"
 
-
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include "../lib/qcustomplot.h"
+#include "../lib/nightcharts/nightcharts.h"
+#include "../lib/nightcharts/nightchartswidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -126,9 +127,17 @@ private slots:
     /**
      * Button response function. Expands all nodes in dashboard tree.
      */
+
     void on_btnExpand_clicked();
 
     void on_pushButton_clicked();
+
+    void saveDashboard();
+    void viewDashboard();
+    void saveBarGraph();
+    void saveLineGraph();
+    void savePieChart();
+    void saveScatterPlot();
 
 private:
     /*
@@ -201,9 +210,23 @@ private:
      */
     void drawDashboard();
 
+    /**
+      * Duplicates dashboard in a new window with the option to save
+      *
+      * @param save
+      */
+    void duplicateDashboard(int save);
+
     /*
      * Private Instance Variables
      */
+
+    QCustomPlot* barcustomPlot;
+    QCustomPlot* linecustomPlot;
+    QCustomPlot* scattercustomPlot;
+    NightchartsWidget* PieChart;
+
+
     Ui::MainWindow *ui;
     QMenu *HelpMenu;
     QAction *HelpAction;

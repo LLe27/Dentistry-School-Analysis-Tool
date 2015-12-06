@@ -606,27 +606,33 @@ border-image: url(:/images/Label_Group.png);
    <widget class="QPushButton" name="btnCollapse">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>20</y>
-      <width>31</width>
-      <height>31</height>
+      <x>390</x>
+      <y>50</y>
+      <width>21</width>
+      <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/red_minus_sign.png);</string>
+    </property>
     <property name="text">
-     <string>-</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="btnExpand">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>390</x>
       <y>20</y>
-      <width>31</width>
-      <height>31</height>
+      <width>21</width>
+      <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/green_plus_sign.png);</string>
+    </property>
     <property name="text">
-     <string>+</string>
+     <string/>
     </property>
    </widget>
    <zorder>label</zorder>
@@ -672,9 +678,19 @@ border-image: url(:/images/Label_Group.png);
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuSave_Graph">
+     <property name="title">
+      <string>Save Graph</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="actionSave_Bar_Graph"/>
+     <addaction name="actionSave_Pie_Chart"/>
+     <addaction name="actionSave_Line_Graph"/>
+     <addaction name="actionSave_Scatter_Plot"/>
+    </widget>
     <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
+    <addaction name="actionSaveDashboard"/>
+    <addaction name="menuSave_Graph"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
@@ -686,7 +702,13 @@ border-image: url(:/images/Label_Group.png);
     <property name="title">
      <string>Window</string>
     </property>
-    <addaction name="actionView"/>
+    <widget class="QMenu" name="menuView">
+     <property name="title">
+      <string>View</string>
+     </property>
+     <addaction name="actionDashboard"/>
+    </widget>
+    <addaction name="menuView"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -723,24 +745,14 @@ border-image: url(:/images/Label_Group.png);
     <string>Open</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="actionSaveDashboard">
    <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
-  <action name="actionSave_as">
-   <property name="text">
-    <string>Save as...</string>
+    <string>Save Dashboard</string>
    </property>
   </action>
   <action name="actionPreferences">
    <property name="text">
     <string>Preferences</string>
-   </property>
-  </action>
-  <action name="actionView">
-   <property name="text">
-    <string>View</string>
    </property>
   </action>
   <action name="actionContents">
@@ -761,6 +773,31 @@ border-image: url(:/images/Label_Group.png);
   <action name="actionReport_Bug">
    <property name="text">
     <string>Report Bug</string>
+   </property>
+  </action>
+  <action name="actionSave_Bar_Graph">
+   <property name="text">
+    <string>Save Bar Graph</string>
+   </property>
+  </action>
+  <action name="actionSave_Pie_Chart">
+   <property name="text">
+    <string>Save Pie Chart</string>
+   </property>
+  </action>
+  <action name="actionSave_Line_Graph">
+   <property name="text">
+    <string>Save Line Graph</string>
+   </property>
+  </action>
+  <action name="actionSave_Scatter_Plot">
+   <property name="text">
+    <string>Save Scatter Plot</string>
+   </property>
+  </action>
+  <action name="actionDashboard">
+   <property name="text">
+    <string>Dashboard</string>
    </property>
   </action>
  </widget>
