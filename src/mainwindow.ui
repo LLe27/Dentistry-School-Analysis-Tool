@@ -218,6 +218,16 @@ border-image: url(:/images/BarGraph_Button_Clicked.png);
         border:none;
 }</string>
     </property>
+    <property name="dateTime">
+     <datetime>
+      <hour>0</hour>
+      <minute>0</minute>
+      <second>0</second>
+      <year>1900</year>
+      <month>1</month>
+      <day>1</day>
+     </datetime>
+    </property>
    </widget>
    <widget class="QDateEdit" name="dateEdit_2">
     <property name="geometry">
@@ -671,7 +681,7 @@ border-image: url(:/images/Label_Group.png);
      <x>0</x>
      <y>0</y>
      <width>850</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFIle">
