@@ -100,6 +100,40 @@ vector<string> CSVProcessing::toStringTest(vector<int> indices) {
     return result;
 }
 
+QDate CSVProcessing::earliestDate() {
+    //if there is no data, return today as earliest
+    QDate today = QDate::currentDate();
+    if (!allInd.size()) return today;
+
+    //initialize current
+    int yearFirst = today.year();
+    int monthFirst = today.month();
+    int dayFirst = today.day();
+
+    //iterate through all indecies and compare dates
+    int *date, year, month, day;
+    for (unsigned int i=0; i<allInd.size(); i++) {
+        date = getDate(i);
+        year = date[0];
+        month = date[1];
+        day = date[2];
+
+        if (year>0 && ( (year<yearFirst) || (year==yearFirst && month<monthFirst) || (year==yearFirst && month==monthFirst && day<dayFirst) ) ) {
+            //this entry is earlier
+            yearFirst = year;
+            monthFirst = month;
+            dayFirst = day;
+        }
+    }
+
+    //if month or day are -1 (undefined), set to 01
+    if (monthFirst<=0) monthFirst = 01;
+    if (dayFirst<=0) dayFirst = 01;
+
+    //return QDate
+    return *(new QDate(yearFirst,monthFirst,dayFirst));
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Protected Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -227,80 +261,11 @@ bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int
      *
      */
 
-    //get date string
-    string date = data.at(COLUMN_DATE).at(ind);
-
-    //check for alphabetic month
-    string dateNonNumeric;
-    char c;
-    for (int i=0; i<(int)date.size(); i++) {
-        c = date.at((i));
-        if (c!='-' && !isdigit(c)) dateNonNumeric += c;
-    }
-
-    //declare/init year, month, dat
-    int year, month, day;
-    year = month = day = -1;
-
-    //if date contains alphabetic month, set month
-    if (dateNonNumeric.length()>0) {
-        //consider lower case
-        transform(dateNonNumeric.begin(),dateNonNumeric.end(),dateNonNumeric.begin(),::tolower);
-        if (dateNonNumeric.find("jan") != string::npos) month = 1;
-        else if (dateNonNumeric.find("feb") != string::npos) month = 2;
-        else if (dateNonNumeric.find("mar") != string::npos) month = 3;
-        else if (dateNonNumeric.find("apr") != string::npos) month = 4;
-        else if (dateNonNumeric.find("may") != string::npos) month = 5;
-        else if (dateNonNumeric.find("jun") != string::npos) month = 6;
-        else if (dateNonNumeric.find("jul") != string::npos) month = 7;
-        else if (dateNonNumeric.find("aug") != string::npos) month = 8;
-        else if (dateNonNumeric.find("sep") != string::npos) month = 9;
-        else if (dateNonNumeric.find("oct") != string::npos) month = 10;
-        else if (dateNonNumeric.find("nov") != string::npos) month = 11;
-        else if (dateNonNumeric.find("dec") != string::npos) month = 12;
-    }
-
-    //note1: the year is always present
-    //note2: the year is always the first number
-    //note3: year may be 2-digit if after 2000?
-    //note4: always sets in the order of year -> month -> day
-
-    //parse
-    string str;
-    int strInt;
-    for (int i=0; i<(int)date.size(); i++) {
-        c = date.at(i);
-        if (isdigit(c)) str += c;
-
-        if (str.length()==2 && ((i<(int)(date.size()-1) && !isdigit(date.at(i+1))) || i==(int)(date.size()-1))) {
-            strInt = atoi(str.c_str());
-
-            //2-ditit year, month, or day
-            if (year==-1) {
-                //set year (assume 2000 and beyond)
-                year = (strInt+2000);
-            }
-            else if (month==-1) {
-                //set month
-                month = strInt;
-            }
-            else if (day==-1) {
-                //set day
-                day = strInt;
-            }
-            else {
-                //shouldn't happen
-            }
-            //clear str
-            str = "";
-        }
-        else if(str.length()==4) {
-            //4-digit year
-            strInt = atoi(str.c_str());
-            year = strInt;
-            str = "";
-        }
-    }
+    //get date
+    int *date = getDate(ind);
+    int year = date[0];
+    int month = date[1];
+    int day = date[2];
 
     /*
      * compare dates
@@ -415,4 +380,84 @@ void CSVProcessing::setUnspecified() {
             }
         }
     }
+}
+
+int* CSVProcessing::getDate(int ind) {
+    //get date string
+    string date = data.at(COLUMN_DATE).at(ind);
+
+    //check for alphabetic month
+    string dateNonNumeric;
+    char c;
+    for (int i=0; i<(int)date.size(); i++) {
+        c = date.at((i));
+        if (c!='-' && !isdigit(c)) dateNonNumeric += c;
+    }
+
+    //declare/init year, month, dat
+    int year, month, day;
+    year = month = day = -1;
+
+    //if date contains alphabetic month, set month
+    if (dateNonNumeric.length()>0) {
+        //consider lower case
+        transform(dateNonNumeric.begin(),dateNonNumeric.end(),dateNonNumeric.begin(),::tolower);
+        if (dateNonNumeric.find("jan") != string::npos) month = 1;
+        else if (dateNonNumeric.find("feb") != string::npos) month = 2;
+        else if (dateNonNumeric.find("mar") != string::npos) month = 3;
+        else if (dateNonNumeric.find("apr") != string::npos) month = 4;
+        else if (dateNonNumeric.find("may") != string::npos) month = 5;
+        else if (dateNonNumeric.find("jun") != string::npos) month = 6;
+        else if (dateNonNumeric.find("jul") != string::npos) month = 7;
+        else if (dateNonNumeric.find("aug") != string::npos) month = 8;
+        else if (dateNonNumeric.find("sep") != string::npos) month = 9;
+        else if (dateNonNumeric.find("oct") != string::npos) month = 10;
+        else if (dateNonNumeric.find("nov") != string::npos) month = 11;
+        else if (dateNonNumeric.find("dec") != string::npos) month = 12;
+    }
+
+    //note1: the year is always present
+    //note2: the year is always the first number
+    //note3: year may be 2-digit if after 2000?
+    //note4: always sets in the order of year -> month -> day
+
+    //parse
+    string str;
+    int strInt;
+    for (int i=0; i<(int)date.size(); i++) {
+        c = date.at(i);
+        if (isdigit(c)) str += c;
+
+        if (str.length()==2 && ((i<(int)(date.size()-1) && !isdigit(date.at(i+1))) || i==(int)(date.size()-1))) {
+            strInt = atoi(str.c_str());
+
+            //2-ditit year, month, or day
+            if (year==-1) {
+                //set year (assume 2000 and beyond)
+                year = (strInt+2000);
+            }
+            else if (month==-1) {
+                //set month
+                month = strInt;
+            }
+            else if (day==-1) {
+                //set day
+                day = strInt;
+            }
+            else {
+                //shouldn't happen
+            }
+            //clear str
+            str = "";
+        }
+        else if(str.length()==4) {
+            //4-digit year
+            strInt = atoi(str.c_str());
+            year = strInt;
+            str = "";
+        }
+    }
+
+    int ret[3] = {year,month,day};
+    return  ret;
 }

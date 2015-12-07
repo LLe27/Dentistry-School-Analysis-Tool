@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <QDate>
 #include "CSV2Vector.hpp"
 
 
@@ -110,6 +111,18 @@ public:
      * @return
      */
     vector<string> toStringTest(vector<int> indices);
+
+    /**
+     * Returns earliest date found in dataset.
+     *
+     * If the earliest date is missing the day, it is set to the 1st of the month.
+     * If the earliest date is missing the month, it is set to January.
+     *
+     * @brief findEarliestDate
+     * @return
+     */
+    QDate earliestDate();
+
 
 protected:
     /*
@@ -233,6 +246,15 @@ private:
      * @brief setUnspecified
      */
     void setUnspecified();
+
+    /**
+     * Returns the year/month/day of the specfied item. Unspecified values are returned as -1.
+     *
+     * @brief getDate
+     * @param ind
+     * @return
+     */
+    int* getDate(int ind);
 };
 
 #endif // CSVPROCESSING_H

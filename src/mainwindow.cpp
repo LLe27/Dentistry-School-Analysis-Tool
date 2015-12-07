@@ -1313,6 +1313,7 @@ void MainWindow::initialize(){
     ui->dateEdit->setMaximumDate(QDate::currentDate());
     ui->dateEdit_2->setMaximumDate(QDate::currentDate());
 
+    ui->dateEdit->setDate(p->earliestDate());
     ui->dateEdit_2->setDate(QDate::currentDate());
 
     on_btnDates_clicked();
