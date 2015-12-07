@@ -19,6 +19,30 @@ TeachingProcessing::TeachingProcessing(string filename, int csvtype) : CSVProces
 /// Public Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+vector<string> TeachingProcessing::getListOfTypes() {
+    return types;
+}
+
+vector<int> TeachingProcessing::getIndicesType(string type) {
+    return getIndicesType(type,allInd);
+}
+
+//uses stored type indices
+vector<int> TeachingProcessing::getIndicesType(string type, vector<int> indToConsider) {
+    //get type ind or return empty vector
+    int indType = -1;
+    for (int i=0; i<types.size(); i++) {
+        if (types.at(i)==type) {
+            indType = i;
+            break;
+        }
+    }
+    if (indType==-1) return {};
+
+    //retrurn intersect between known type indicies and indToConsider
+    return getIndicesIntersect( typesIndices.at(indType) , indToConsider );
+}
+
 vector<int> TeachingProcessing::getIndicesProgram(string program) {
     return getIndicesProgram(program,allInd);
 }
@@ -59,3 +83,9 @@ double TeachingProcessing::getHours(int index){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void TeachingProcessing::populateTypes() {
+    pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_COURSE_TYPE);
+    types = uniqueType.first;
+    typesIndices = uniqueType.second;
+}

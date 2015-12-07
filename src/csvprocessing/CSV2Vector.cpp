@@ -385,7 +385,7 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
     //                      vector_end_date.push_back(end_date);
                             vector_program.push_back(program);
                             vector_total_hours.push_back(total_hours);
-    //                      vector_type_course_activity.push_back(type_course_activity);
+                          vector_type_course_activity.push_back(type_course_activity);
     //                      vector_course_activity.push_back(course_activity);
     //                      vector_geographical_scope.push_back(geographical_scope);
     //                      vector_hours_teaching_ses.push_back(hours_teaching_ses);
@@ -399,12 +399,12 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
                             data.push_back(vector_start_date);
     //                      data.push_back(vector_end_date);
                             data.push_back(vector_program);
-    //                      data.push_back(vector_type_course_activity);
     //                      data.push_back(vector_course_activity);
     //                      data.push_back(vector_geographical_scope);
                             data.push_back(vector_total_hours);
     //                      data.push_back(vector_hours_teaching_ses) ;
                             data.push_back(vector_nums_teaching_ses) ;
+                            data.push_back(vector_type_course_activity);
 
                             /* Return database */
                             return data;

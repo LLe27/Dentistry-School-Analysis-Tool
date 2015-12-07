@@ -20,6 +20,7 @@ public:
     static const int COLUMN_PROGRAM = 2;
     static const int COLUMN_HOURS = 3;
     static const int COLUMN_NUMBER_STUDENTS = 4;
+    static const int COLUMN_COURSE_TYPE = 5;
 
     /**
      * Constructor.
@@ -28,6 +29,33 @@ public:
      * @param filename
      */
     TeachingProcessing(string filename, int csvtype);
+
+    /**
+     * Getter for course type. Return a vector<string> of all UNIQUE values.
+     *
+     * @brief getListOfTypes
+     * @return
+     */
+    vector<string> getListOfTypes();
+
+    /**
+     * Getter/Refiner for type (e.g., Instructor - Academic Half Day Seminars). Considers all indecies.
+     *
+     * @brief getIndicesType
+     * @param type
+     * @return
+     */
+    vector<int> getIndicesType(string type);
+
+    /**
+     * Getter/Refiner for type (e.g., Instructor - Academic Half Day Seminars). Considers specified indecies.
+     *
+     * @brief getIndicesType
+     * @param type
+     * @param indToConsider
+     * @return
+     */
+    vector<int> getIndicesType(string type, vector<int> indToConsider);
 
     /**
      * Getter/Refiner for status (e.g., Postgraduate Medical Education). Considers all indecies.
@@ -93,6 +121,13 @@ public:
     double getHours(int index);
 
 private:
+    /**
+     * Populates types and typesIndices for course type.
+     *
+     * @brief populateTypes
+     */
+    void populateTypes();
+
     /*
      * Private Instance Variables
      *
