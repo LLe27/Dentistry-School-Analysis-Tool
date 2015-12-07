@@ -13,20 +13,21 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
 {
     switch(csvtype){
     case(1):
-        data = csvData.parsePublications(filename);
+        csvData.createParsePublications(filename);
         break;
     case(2):
-        data = csvData.parseTeaching(filename);
+        csvData.createParseTeaching(filename);
         break;
     case(3):
-        data = csvData.parsePresentations(filename);
+        csvData.createParsePresentations(filename);
         break;
     case(4):
-        data = csvData.parseFunding(filename);
+        csvData.createParseFunding(filename);
         break;
 
     }
 
+    data = csvData.getDatabaseCopy((CSVType)csvtype);
     //populate default index of all entries
     for (int i=0; i<(int)data.at(0).size(); i++) allInd.push_back(i);
 

@@ -203,7 +203,7 @@ bool myData::isPresentations()
 bool myData::createParsePublications(string filePath)
 {
     publications = new vector<vector <string>> ();
-    if (publications == NULL) return false;
+    if (publications != NULL) return false;
     *publications = parsePublications(filePath);
     return true;
 }
@@ -211,7 +211,7 @@ bool myData::createParsePublications(string filePath)
 bool myData::createParseTeaching(string filePath)
 {
     teaching = new vector<vector <string>> ();
-    if (teaching == NULL) return false;
+    if (teaching != NULL) return false;
     *teaching = parseTeaching(filePath);
     return true;
 }
@@ -219,7 +219,7 @@ bool myData::createParseTeaching(string filePath)
 bool myData::createParseFunding(string filePath)
 {
     funding = new vector<vector <string>> ();
-    if (funding == NULL) return false;
+    if (funding != NULL) return false;
     *funding = parseFunding(filePath);
     return true;
 }
@@ -227,7 +227,7 @@ bool myData::createParseFunding(string filePath)
 bool myData::createParsePresentations(string filePath)
 {
     presentations = new vector<vector <string>> ();
-    if (presentations == NULL) return false;
+    if (presentations != NULL) return false;
     *presentations = parsePresentations(filePath);
     return true;
 }
