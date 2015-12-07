@@ -112,8 +112,8 @@ double GrantProcessing::getAmount(int index) {
         Str_index++;
    }
 
-   cout << "Total: " <<str << endl;
-   cout << "A Total" <<atof(str.c_str()) << endl;
+   //cout << "Total: " <<str << endl;
+   //cout << "A Total" <<atof(str.c_str()) << endl;
 
    return atof(str.c_str());
 }

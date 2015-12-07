@@ -515,7 +515,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
  * Then, this data is used to derive the proper parameters for the function
  * makeLine(QVector<double> xData, QVector<double> yDataMax, QVector<QVector<double>> yData,
  * QVector<QString> names, QString title). In order to obtain the yData, an extra step
- * is needed, which does not happen in the other graphs. The Y axis data (number of papers) is
+ * is needed, which does not happen in the other graphs. The Y axis data (Number of Papers) is
  * divided into N categories(N could be 1, 3, or 4. The value of N depends on csvtype). We loop through
  * each Y data point and figure out which category it belongs to, and it is then put into one of N vectors.
  * Later, these will become N separate overlayed graphs on a single plot. Finally, our function can
@@ -883,7 +883,7 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
 
     barcustomPlot->yAxis->setRange(0, 12.1);
     barcustomPlot->yAxis->setPadding(5);
-    barcustomPlot->yAxis->setLabel("number of articles");
+    barcustomPlot->yAxis->setLabel("Number of Articles");
     barcustomPlot->yAxis->grid()->setSubGridVisible(true);
 
     //find the maximum y value.
@@ -1025,7 +1025,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     yRangeMaximum = yMax + 2;
 
     //set the y axis label
-    scattercustomPlot->yAxis->setLabel("number of papers");
+    scattercustomPlot->yAxis->setLabel("Number of Papers");
 
     //set the y axis range
     scattercustomPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
@@ -1166,7 +1166,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     yRangeMaximum = yMax + 2;
 
     //set the y axis label
-    linecustomPlot->yAxis->setLabel("number of papers");
+    linecustomPlot->yAxis->setLabel("Number of Papers");
 
     //set the y axis range
     linecustomPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
