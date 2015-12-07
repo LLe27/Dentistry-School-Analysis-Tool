@@ -133,6 +133,7 @@ protected:
     vector<string> memberNames;
     vector<vector<int>> memberNamesIndices;
     myData csvData;
+    vector<vector<int>> dateTable;
 
     /*
      * Helper Functions
@@ -254,7 +255,14 @@ private:
      * @param ind
      * @return
      */
-    int* getDate(int ind);
+    vector<int> getDate(int ind);
+
+    /**
+     * Populates dateTable with y/m/d for all entries. dateTable is of size [#entry]x[3]
+     *
+     * @brief populateDates
+     */
+    void populateDates();
 };
 
 #endif // CSVPROCESSING_H

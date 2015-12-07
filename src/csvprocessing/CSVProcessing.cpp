@@ -30,6 +30,9 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
     //populate default index of all entries
     for (int i=0; i<(int)data.at(0).size(); i++) allInd.push_back(i);
 
+    //populate date table (of y/m/d entries)
+    populateDates();
+
     //change all empty fields to "Unspecified" (or "0" if numeric)
     setUnspecified();
 
@@ -111,12 +114,11 @@ QDate CSVProcessing::earliestDate() {
     int dayFirst = today.day();
 
     //iterate through all indecies and compare dates
-    int *date, year, month, day;
+    int year, month, day;
     for (unsigned int i=0; i<allInd.size(); i++) {
-        date = getDate(i);
-        year = date[0];
-        month = date[1];
-        day = date[2];
+        year = dateTable[i][0];
+        month = dateTable[i][1];
+        day = dateTable[i][2];
 
         if (year>0 && ( (year<yearFirst) || (year==yearFirst && month<monthFirst) || (year==yearFirst && month==monthFirst && day<dayFirst) ) ) {
             //this entry is earlier
@@ -262,10 +264,9 @@ bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int
      */
 
     //get date
-    int *date = getDate(ind);
-    int year = date[0];
-    int month = date[1];
-    int day = date[2];
+    int year = dateTable[ind][0];
+    int month = dateTable[ind][1];
+    int day = dateTable[ind][2];
 
     /*
      * compare dates
@@ -382,7 +383,7 @@ void CSVProcessing::setUnspecified() {
     }
 }
 
-int* CSVProcessing::getDate(int ind) {
+vector<int> CSVProcessing::getDate(int ind) {
     //get date string
     string date = data.at(COLUMN_DATE).at(ind);
 
@@ -458,6 +459,15 @@ int* CSVProcessing::getDate(int ind) {
         }
     }
 
-    int ret[3] = {year,month,day};
+    vector<int> ret;
+    ret.push_back(year);
+    ret.push_back(month);
+    ret.push_back(day);
     return  ret;
+}
+
+void CSVProcessing::populateDates() {
+    for (int i:allInd) {
+        dateTable.push_back(getDate(i));
+    }
 }
