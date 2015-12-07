@@ -312,6 +312,9 @@ vector<vector<string >> myData::parsePresentations(string filePath) {
                             data.push_back(vector_title);
 
                             /* Return database */
+                            if (presentations != NULL) delete presentations;
+                            presentations = new vector<vector<string>> ();
+                            *presentations = data;
                             return data;
 
     #if 0
@@ -407,6 +410,10 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
                             data.push_back(vector_type_course_activity);
 
                             /* Return database */
+
+                            if (teaching != NULL) delete teaching;
+                            teaching = new vector<vector<string>> ();
+                            *teaching = data;
                             return data;
 
     #if 0
@@ -488,6 +495,10 @@ vector<vector<string >> myData::parsePublications(string filePath) {
                         data.push_back(vector_authors);
                         data.push_back(vector_title);
                         /* Return database */
+
+                        if (publications != NULL) delete publications;
+                        publications = new vector<vector<string>> ();
+                        *publications = data;
                         return data;
 
 #if 0
@@ -593,6 +604,9 @@ vector<vector<string >> myData::parseFunding(string filepath){
 //                      data.push_back(vector_co_inv);
 
                         /* Return database */
+                        if (funding != NULL) delete funding;
+                        funding = new vector<vector<string>> ();
+                        *funding = data;
                         return data;
 
 #if 0
