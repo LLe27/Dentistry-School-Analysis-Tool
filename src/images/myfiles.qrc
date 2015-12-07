@@ -50,5 +50,14 @@
         <file>Label_Group.png</file>
         <file>green_plus_sign.png</file>
         <file>red_minus_sign.png</file>
+        <file>LineGraph_Button.png</file>
+        <file>LineGraph_Button_Clicked.png</file>
+        <file>LineGraph_Button_Hover.png</file>
+        <file>PieGraph_Button.png</file>
+        <file>PieGraph_Button_Clicked.png</file>
+        <file>PieGraph_Button_Hover.png</file>
+        <file>ScatterPlot_Button.png</file>
+        <file>ScatterPlot_Button_Clicked.png</file>
+        <file>ScatterPlot_Button_Hover.png</file>
     </qresource>
 </RCC>

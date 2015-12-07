@@ -81,15 +81,15 @@ QHeaderView::section{
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{
-border-image: url(:/images/BarGraph_Button.png);
+border-image: url(:/images/PieGraph_Button.png);
 }
 
 QPushButton:hover{
-border-image: url(:/images/BarGraph_Button_Hover.png);
+border-image: url(:/images/PieGraph_Button_Hover.png);
 }
 
 QPushButton:pressed{
-border-image: url(:/images/BarGraph_Button_Clicked.png);
+border-image: url(:/images/PieGraph_Button_Clicked.png);
 }</string>
     </property>
     <property name="text">
@@ -133,15 +133,15 @@ border-image: url(:/images/BarGraph_Button_Clicked.png);
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{
-border-image: url(:/images/BarGraph_Button.png);
+border-image: url(:/images/LineGraph_Button.png);
 }
 
 QPushButton:hover{
-border-image: url(:/images/BarGraph_Button_Hover.png);
+border-image: url(:/images/LineGraph_Button_Hover.png);
 }
 
 QPushButton:pressed{
-border-image: url(:/images/BarGraph_Button_Clicked.png);
+border-image: url(:/images/LineGraph_Button_Clicked.png);
 }
 </string>
     </property>
@@ -160,15 +160,15 @@ border-image: url(:/images/BarGraph_Button_Clicked.png);
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{
-border-image: url(:/images/BarGraph_Button.png);
+border-image: url(:/images/ScatterPlot_Button.png);
 }
 
 QPushButton:hover{
-border-image: url(:/images/BarGraph_Button_Hover.png);
+border-image: url(:/images/ScatterPlot_Button_Hover.png);
 }
 
 QPushButton:pressed{
-border-image: url(:/images/BarGraph_Button_Clicked.png);
+border-image: url(:/images/ScatterPlot_Button_Clicked.png);
 }</string>
     </property>
     <property name="text">
@@ -681,7 +681,7 @@ border-image: url(:/images/Label_Group.png);
      <x>0</x>
      <y>0</y>
      <width>850</width>
-     <height>27</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFIle">
