@@ -41,7 +41,7 @@ vector<int> GrantProcessing::getIndicesType(string type) {
 vector<int> GrantProcessing::getIndicesType(string type, vector<int> indToConsider) {
     //get type ind or return empty vector
     int indType = -1;
-    for (int i=0; i<types.size(); i++) {
+    for (unsigned int i=0; i<types.size(); i++) {
         if (types.at(i)==type) {
             indType = i;
             break;
@@ -84,7 +84,7 @@ vector<int> GrantProcessing::getIndicesRole(string role) {
 vector<int> GrantProcessing::getIndicesRole(string role, vector<int> indToConsider) {
     //get role ind or return empty vector
     int indRole = -1;
-    for (int i=0; i<roles.size(); i++) {
+    for (unsigned int i=0; i<roles.size(); i++) {
         if (roles.at(i)==role) {
             indRole = i;
             break;

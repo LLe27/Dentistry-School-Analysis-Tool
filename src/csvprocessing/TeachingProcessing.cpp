@@ -13,6 +13,9 @@ using namespace std;
 
 TeachingProcessing::TeachingProcessing(string filename, int csvtype) : CSVProcessing(filename, csvtype) {
     //note that data, memberNames, and memberNamesIndices are assigned in the super-constructor
+
+    //populate course types
+    populateTypes();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +34,7 @@ vector<int> TeachingProcessing::getIndicesType(string type) {
 vector<int> TeachingProcessing::getIndicesType(string type, vector<int> indToConsider) {
     //get type ind or return empty vector
     int indType = -1;
-    for (int i=0; i<types.size(); i++) {
+    for (unsigned int i=0; i<types.size(); i++) {
         if (types.at(i)==type) {
             indType = i;
             break;

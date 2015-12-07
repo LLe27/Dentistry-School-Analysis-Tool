@@ -46,10 +46,10 @@ vector<vector<string>> myData::invertVector(vector<vector<string>> myVector)
     /* Transition to every vector is a user, and each field in that vector are elements of fields */
     vector<vector<string>> newVector;
 
-    for (int i = 0; i < myVector.size(); i++)
+    for (unsigned int i = 0; i < myVector.size(); i++)
     {
         vector<string> currUser;
-        for (int j = 0; j < myVector.at(i).size(); j++)
+        for (unsigned int j = 0; j < myVector.at(i).size(); j++)
         {
             currUser.push_back(myVector.at(i).at(j));
         }
@@ -122,13 +122,13 @@ vector<vector<int>> myData::getErrors(CSVType type)
         return errors;
     }
 
-    for (int i = 0; i < csvFile->size(); i++)
+    for (unsigned int i = 0; i < csvFile->size(); i++)
     {
         vector<int> currUser;
         errors.push_back(currUser);
 
 
-        for (int j = 0; j < csvFile->at(i).size(); j++) {
+        for (unsigned int j = 0; j < csvFile->at(i).size(); j++) {
             if (csvFile->at(i).at(j).compare("") == 0) {
                 errors.at(i).push_back(j);
             }

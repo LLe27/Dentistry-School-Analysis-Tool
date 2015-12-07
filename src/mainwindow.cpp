@@ -435,7 +435,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
                 types = ((PublicationProcessing *)p)->getListOfTypes();
                 xData.push_back(i);
                 yearTotal = 0;
-                for (int j = 0; j < types.size(); j++) {
+                for (unsigned int j = 0; j < types.size(); j++) {
                     yearTotal += ((PublicationProcessing *)p)->getIndicesType(types.at(j),indMember).size();
                 }
                 yData.push_back(yearTotal);
@@ -470,7 +470,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
                 types = ((PresentationProcessing *)p)->getListOfTypes();
                 xData.push_back(i);
                 yearTotal = 0;
-                for (int j = 0; j < types.size(); j++) {
+                for (unsigned int j = 0; j < types.size(); j++) {
                     yearTotal += ((PresentationProcessing *)p)->getIndicesType(types.at(j), indMember).size();
                 }
                 yData.push_back(yearTotal);
@@ -486,7 +486,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
                 types = ((GrantProcessing *)p)->getListOfTypes();
                 xData.push_back(i);
                 yearTotal = 0;
-                for (int j = 0; j < types.size(); j++) {
+                for (unsigned int j = 0; j < types.size(); j++) {
                     yearTotal += ((GrantProcessing *)p)->getIndicesType(types.at(j),indMember).size();
                 }
                 yData.push_back(yearTotal);
@@ -780,7 +780,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 
     QVector<QString> pieLabels;
 
-    for (int i = 0; i < Labels.size(); i++) {
+    for (unsigned int i = 0; i < Labels.size(); i++) {
         pieLabels << Labels.at(i).c_str();
     }
 
@@ -866,7 +866,7 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
     QVector<double> xAxisPositions;
     QVector<QString> xAxisLabels;
 
-    for (int i = 0; i < barLabels.size(); i++) {
+    for (unsigned int i = 0; i < barLabels.size(); i++) {
         xAxisPositions << i;
         xAxisLabels << barLabels.at(i).c_str();
     }
@@ -1404,7 +1404,7 @@ void MainWindow::drawDashboard(){
         string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
 
         indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
-        for(int i =0;i < indHours.size(); i++){
+        for(unsigned int i =0;i < indHours.size(); i++){
             hoursTotal += ((TeachingProcessing *)p)->getHours(indHours.at(i));
         } // Testing to see if populates
         indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indDate);
@@ -1420,7 +1420,7 @@ void MainWindow::drawDashboard(){
             else indProgram = ((TeachingProcessing *)p)->getIndicesProgram(program,indDate);
 
             indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgram);
-            for(int i =0;i < indHours.size(); i++){
+            for(unsigned int i =0;i < indHours.size(); i++){
                 hoursProg += ((TeachingProcessing *)p)->getHours(indHours.at(i));
             } // Testing to see if populates
             indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgram);
@@ -1446,7 +1446,7 @@ void MainWindow::drawDashboard(){
                 indProgramMember = p->getIndicesMemberName(member,indProgram);
 
                 indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgramMember);
-                for(int i =0;i < indHours.size(); i++){
+                for(unsigned int i =0;i < indHours.size(); i++){
                     hoursMember += ((TeachingProcessing *)p)->getHours(indHours.at(i));
                 } // Testing to see if populates
                 indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgramMember);
@@ -1523,7 +1523,7 @@ void MainWindow::drawDashboard(){
 
             //Calculate amount
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indType);
-            for(int i = 0; i <  indAmount.size(); i++){
+            for(unsigned int i = 0; i <  indAmount.size(); i++){
                 amountType += ((GrantProcessing*)p)->getAmount((indAmount.at(i)));
             }
 
@@ -1535,7 +1535,7 @@ void MainWindow::drawDashboard(){
             count = indPeer.size();
 
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPeer);
-            for(int i = 0; i <  indAmount.size(); i++){
+            for(unsigned int i = 0; i <  indAmount.size(); i++){
                 amountTypePeer += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
             }
             QTreeWidgetItem *treePeer =new QTreeWidgetItem();
@@ -1548,7 +1548,7 @@ void MainWindow::drawDashboard(){
             count = indInd.size();
 
             indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indInd);
-            for(int i = 0; i <  indAmount.size(); i++){
+            for(unsigned int i = 0; i <  indAmount.size(); i++){
                 amountTypeInd += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
             }
             QTreeWidgetItem *treeInd =new QTreeWidgetItem();
@@ -1564,7 +1564,7 @@ void MainWindow::drawDashboard(){
                count = indPMember.size();
                //amount claculation
                indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPMember);
-               for(int i = 0; i <  indAmount.size(); i++){
+               for(unsigned int i = 0; i <  indAmount.size(); i++){
                    amountPeerMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
                }
              if(count){
@@ -1580,7 +1580,7 @@ void MainWindow::drawDashboard(){
                    count = indIMember.size();
                    //amount calculation
                    indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indIMember);
-                   for(int i = 0; i <  indAmount.size(); i++){
+                   for(unsigned int i = 0; i <  indAmount.size(); i++){
                        amountIndMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
                    }
                if(count){
@@ -1604,8 +1604,6 @@ void MainWindow::drawDashboard(){
     default:{}
 
     }//End Switch
-
-
 
 }
 

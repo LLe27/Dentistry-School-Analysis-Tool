@@ -49,7 +49,7 @@ vector<int> PublicationProcessing::getIndicesType(string type) {
 vector<int> PublicationProcessing::getIndicesType(string type, vector<int> indToConsider) {
     //get type ind or return empty vector
     int indType = -1;
-    for (int i=0; i<types.size(); i++) {
+    for (unsigned int i=0; i<types.size(); i++) {
         if (types.at(i)==type) {
             indType = i;
             break;
@@ -81,7 +81,7 @@ void PublicationProcessing::mergeSimilarTypes() {
      */
     string t1,t2;
     vector<int> pairs[2];
-    for (int i=0; i<types.size(); i++) {
+    for (unsigned int i=0; i<types.size(); i++) {
         //get type
         t1 = types.at(i);
         //type must have length
@@ -89,7 +89,7 @@ void PublicationProcessing::mergeSimilarTypes() {
         //consider lower case
         transform(t1.begin(),t1.end(),t1.begin(),::tolower);
 
-        for (int j=0; j<types.size(); j++) {
+        for (unsigned int j=0; j<types.size(); j++) {
             //don't compare to self
             if (i==j) continue;
             //get type
@@ -113,7 +113,7 @@ void PublicationProcessing::mergeSimilarTypes() {
      */
     vector<int> toRemove;
     int indSource, indTarget;
-    for (int i=0; i<pairs[0].size(); i++) {
+    for (unsigned int i=0; i<pairs[0].size(); i++) {
         //keep whichever name is more common
         if (typesIndices.at(pairs[0].at(i)).size() > typesIndices.at(pairs[1].at(i)).size()) {
             indSource = pairs[1].at(i);
@@ -125,7 +125,7 @@ void PublicationProcessing::mergeSimilarTypes() {
         }
 
         //append source
-        for (int j=0; j<typesIndices.at(indSource).size(); j++) {
+        for (unsigned int j=0; j<typesIndices.at(indSource).size(); j++) {
             typesIndices.at(indTarget).push_back( typesIndices.at(indSource).at(j) );
         }
 
