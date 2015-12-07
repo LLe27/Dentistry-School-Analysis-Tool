@@ -14,7 +14,7 @@ SET PATH=%PATH_TO_QT%\5.5\mingw492_32\bin;%PATH_TO_QT%\Tools\mingw492_32\bin;%PA
 SET PATH_PROJECT=%cd%\..\project\project.pro
 SET PATH_COMPILE=%cd%\compile
 SET PATH_COMPILE_EXE=%cd%\compile\release\project.exe
-SET PATH_COMPILE_DLL="%cd%\compiled exe with dll"
+SET PATH_COMPILE_DLL="%cd%\exe with dll"
 
 echo -----------------------------------------------------------------
 echo Moving to compile subfolder
