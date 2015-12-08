@@ -129,8 +129,12 @@ private slots:
      */
 
     void on_btnExpand_clicked();
-
     void on_pushButton_clicked();
+
+    /**
+     * Buttons that are able to save the current dashboard and respective graphs
+     *
+     */
 
     void saveDashboard();
     void viewDashboard();
@@ -157,14 +161,20 @@ private:
      * @param color
      */
     void PaletteSwap(QColor color);
-
     void createActions();
     void createMenus();
     void addComboBoxItems();
+
+    /**
+     * Debug Functions
+     *
+     */
     vector<int> remove_from_other(vector<int> indOther, vector<int> indStatus);
 
-
-
+    /**
+     * Initalize the Month and Year
+     *
+     */
     void initDate_Month(QComboBox *months);
     void initDate_Years(QComboBox *months);
 
