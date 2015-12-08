@@ -702,12 +702,6 @@ border-image: url(:/images/Label_Group.png);
     <addaction name="actionSaveDashboard"/>
     <addaction name="menuSave_Graph"/>
    </widget>
-   <widget class="QMenu" name="menuOptions">
-    <property name="title">
-     <string>Options</string>
-    </property>
-    <addaction name="actionPreferences"/>
-   </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
      <string>Window</string>
@@ -720,25 +714,16 @@ border-image: url(:/images/Label_Group.png);
     </widget>
     <addaction name="menuView"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="separator"/>
     <addaction name="actionContents"/>
-    <addaction name="actionIndex"/>
     <addaction name="separator"/>
-    <addaction name="actionReport_Bug"/>
    </widget>
    <addaction name="menuFIle"/>
-   <addaction name="menuOptions"/>
    <addaction name="menuWindow"/>
-   <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
