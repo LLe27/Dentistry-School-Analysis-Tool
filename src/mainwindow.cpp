@@ -1247,11 +1247,12 @@ void MainWindow::initialize(){
     s->show();
 
 
-    if(s->exec() == QDialog::Accepted){
+    if(s->exec() == QDialog::Accepted) {
         csvtype = s->getCsvType();
         if(csvtype > 0){
 
         filename = on_actionOpen_triggered().toStdString();
+
 
 
 
@@ -1288,6 +1289,7 @@ void MainWindow::initialize(){
             p = new PublicationProcessing(filename,csvtype);
             ui->treeWidget->setColumnCount(2);
             ColumnNames << " " << "Total";
+            ui->label_2->setText(QString::fromStdString("Publications"));
             break;
         //Teaching
         case(2):
@@ -1301,6 +1303,7 @@ void MainWindow::initialize(){
 
             ui->minText_1->setText(QString::number(0));
             ui->minText_2->setText(QString::number(0));
+            ui->label_2->setText(QString::fromStdString("Teaching"));
 
             //Hypens
             ui->labelHyp_1->setText("------------Hours------------");
@@ -1330,6 +1333,7 @@ void MainWindow::initialize(){
             p = new PresentationProcessing(filename,csvtype);
             ui->treeWidget->setColumnCount(2);
             ColumnNames << " " << "#of \npresentations" ;
+            ui->label_2->setText(QString::fromStdString("Presentations"));
             break;
 
         //Grants
@@ -1347,6 +1351,8 @@ void MainWindow::initialize(){
 
             ui->minText_1->setText(QString::number(0));
             ui->maxText_1->setText(QString::number(10));
+            ui->label_2->setText(QString::fromStdString("Grants"));
+
             break;
         default:
             ui->treeWidget->setColumnCount(3);

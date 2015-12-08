@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1200</width>
-    <height>720</height>
+    <height>736</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,33 +173,6 @@ border-image: url(:/images/ScatterPlot_Button_Clicked.png);
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>12</y>
-      <width>341</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>NEOTERIC</family>
-      <pointsize>25</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: white;</string>
-    </property>
-    <property name="text">
-     <string>&quot;Publications.csv&quot;</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QDateEdit" name="dateEdit">
@@ -529,7 +502,7 @@ border-image: url(:/images/Change_Button_Clicked.png);
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>610</y>
+      <y>630</y>
       <width>311</width>
       <height>22</height>
      </rect>
@@ -581,7 +554,7 @@ border-image: url(:/images/Label.png);
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>600</y>
+      <y>620</y>
       <width>345</width>
       <height>61</height>
      </rect>
@@ -645,6 +618,47 @@ border-image: url(:/images/Label_Group.png);
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>580</y>
+      <width>345</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+border-image: url(:/images/DisplayGraph.png);
+}</string>
+    </property>
+    <property name="text">
+     <string>            Sort By Faculty Member</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>label_7</zorder>
    <zorder>label_8</zorder>
@@ -656,7 +670,6 @@ border-image: url(:/images/Label_Group.png);
    <zorder>bntDisplayBar</zorder>
    <zorder>bntDisplayLine</zorder>
    <zorder>bntDisplayScatter</zorder>
-   <zorder>label_3</zorder>
    <zorder>dateEdit</zorder>
    <zorder>dateEdit_2</zorder>
    <zorder>btnDates</zorder>
@@ -674,6 +687,8 @@ border-image: url(:/images/Label_Group.png);
    <zorder>comboBox</zorder>
    <zorder>btnCollapse</zorder>
    <zorder>btnExpand</zorder>
+   <zorder>label_10</zorder>
+   <zorder>label_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -681,7 +696,7 @@ border-image: url(:/images/Label_Group.png);
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFIle">
