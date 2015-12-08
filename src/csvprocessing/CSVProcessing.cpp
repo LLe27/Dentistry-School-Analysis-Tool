@@ -9,6 +9,8 @@
 /// Constructor(s)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+//Check to see which file is going to be processed
 CSVProcessing::CSVProcessing(string filename, int csvtype)
 {
     switch(csvtype){
@@ -25,13 +27,13 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
         data = csvData.parseFunding(filename);
         break;
 
-    }
+    } //Cases for each file type
 
     //populate default index of all entries
     for (int i=0; i<(int)data.at(0).size(); i++) allInd.push_back(i);
 
     //populate date table (of y/m/d entries)
-    populateDates();
+    populateDates(); 
 
     //change all empty fields to "Unspecified" (or "0" if numeric)
     setUnspecified();
@@ -46,40 +48,41 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
 /// Public Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+//Function to call and get errors from CSV input
 vector<vector<int>> CSVProcessing::processErrors(CSVType type)
 {
     return csvData.getErrors(type);
 }
-
+//Function to change field within CSV input
 void CSVProcessing::processingChangeField(int myField, int userNumber, CSVType type, string newMsg)
 {
     csvData.changeField(myField, userNumber, type, newMsg);
 }
 
-
+//Function called to get copy of database 
 vector<vector<string>> CSVProcessing::processingGetDatabaseCopy(CSVType type)
 {
     return csvData.getDatabaseCopy(type);
 }
 
-
+//Function call to get all memberNames returned
 vector<string> CSVProcessing::getListOfMemberNames() {
     return memberNames;
 }
 
+//Function called to get indicies of all member names
 vector<int> CSVProcessing::getIndicesMemberName(string memberName) {
     return getIndicesMemberName(memberName, allInd);
 }
-
+//Function called to get indicies of all member names with vector output as well
 vector<int> CSVProcessing::getIndicesMemberName(string memberName, vector<int> indToConsider) {
     return getIndicesIntersect( getColumnMatch(COLUMN_MEMBER_NAME,memberName) , indToConsider );
 }
-
+//Get indicies of all dates within CSV input
 vector<int> CSVProcessing::getIndicesDate(int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd) {
     return getIndicesDate(dayStart,monthStart, yearStart,dayEnd,monthEnd,yearEnd,allInd);
 }
-
+//Get indicies of all dates within CSV input with vector output
 vector<int> CSVProcessing::getIndicesDate(int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd, vector<int> indToConsider) {
     vector<int> result;
     for (int i : indToConsider) {
@@ -89,6 +92,7 @@ vector<int> CSVProcessing::getIndicesDate(int dayStart, int monthStart, int year
     return result;
 }
 
+//TEST TO CONVERT INDICIES VECTOR AND INIDICES TO A STRING
 vector<string> CSVProcessing::toStringTest(vector<int> indices) {
     vector<string> result;
     string tostr;
@@ -103,6 +107,7 @@ vector<string> CSVProcessing::toStringTest(vector<int> indices) {
     return result;
 }
 
+//Date processing, to process and check valid date format
 QDate CSVProcessing::earliestDate() {
     //if there is no data, return today as earliest
     QDate today = QDate::currentDate();
@@ -139,7 +144,7 @@ QDate CSVProcessing::earliestDate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Protected Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//Get column to be parsed from within CSV data type 
 pair<vector<string>,vector<vector<int>>> CSVProcessing::getUniqueInColumn(int column) {
     vector<string> unique;
     vector<vector<int>> uniqueNum;
@@ -162,8 +167,10 @@ pair<vector<string>,vector<vector<int>>> CSVProcessing::getUniqueInColumn(int co
     }
 
     return make_pair(unique,uniqueNum);
-}
+}//Access to a specific colimn within CSV
 
+
+//Get all indicies within data set for a specific column
 vector<string> CSVProcessing::getColumnIndices(int column, vector<int> indices) {
     vector<string> sublist;
     for (int i : indices) {
@@ -173,7 +180,7 @@ vector<string> CSVProcessing::getColumnIndices(int column, vector<int> indices) 
 }
 
 
-
+//Check to see if a column matches another within data set 
 vector<int> CSVProcessing::getColumnMatch(int column, string target) {
     vector<int> indices;
     for (int i=0; i<(int)data.at(column).size(); i++) {
@@ -184,7 +191,7 @@ vector<int> CSVProcessing::getColumnMatch(int column, string target) {
     return indices;
 }
 
-
+//Check in a column contains a specific string target
 vector<int> CSVProcessing::getColumnContains(int column, string target) {
     vector<int> indices;
     string str;
@@ -196,6 +203,7 @@ vector<int> CSVProcessing::getColumnContains(int column, string target) {
     return indices;
 }
 
+//Get indicies from data set for the intersection of the column and vector 
 vector<int> CSVProcessing::getIndicesIntersect(vector<int> ind1, vector<int> ind2) {
     //find overlap
     vector<int> overlap;
@@ -219,6 +227,7 @@ vector<int> CSVProcessing::getIndicesIntersect(vector<int> ind1, vector<int> ind
     return overlap;
 }
 
+//Check if specified number is within a specific bound (within data set)
 bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
     //convert from string to double
     double numDouble = atof(numStr.c_str());
@@ -228,6 +237,7 @@ bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
         else return false;
 }
 
+//Check if specified number is within a specific bound (within grants data set)
 bool CSVProcessing::grantsNumberWithinBounds(string numStr, double min, double max) {
     //convert from string to double
     numStr.erase(numStr.begin() + 0);
@@ -253,17 +263,13 @@ void CSVProcessing::populateMemberNames() {
 bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd) {
     /*
      *
-     * After demo1, we should determine the year/month/day of each entry once upon loading. Calling this script repeatedly
+     * After demo1, have determined the year/month/day of each entry once upon loading. Calling this script repeatedly
      * during runtime is very inefficient.
      *
-     * There is very little checking in this function at present. For example 1999-31-07 would produce year 1999, month 31, day 07.
-     *
-     * It would be better if day-less entries were include only when the entire month is included, and if month-less entires were
-     * included only when the entire month is included. Add this later?
      *
      */
 
-    //get date
+    //GET DATE
     int year = dateTable[ind][0];
     int month = dateTable[ind][1];
     int day = dateTable[ind][2];
@@ -469,5 +475,5 @@ vector<int> CSVProcessing::getDate(int ind) {
 void CSVProcessing::populateDates() {
     for (int i:allInd) {
         dateTable.push_back(getDate(i));
-    }
-}
+    }// Populate all dates within the dataTable Vector to be used
+}//END OF CLASS
