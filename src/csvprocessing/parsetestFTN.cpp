@@ -67,7 +67,7 @@ vector<vector<string>> parsetestFTN::loadData(string filename) {
     
     /*
      *
-     * The actual code (this is a temp code) should use the constants from CVSProcessing(e.g, CVSProcessing::COLUMN_MEMBER_NAME).
+     * TEST CODE FOR ALL CONSTANT
      *
      */
         // Store the vectors
@@ -82,10 +82,8 @@ vector<vector<string>> parsetestFTN::loadData(string filename) {
         data.push_back(vjn_pi_bt);
         data.push_back(vtitle);
     
-    // Print the first 100 values of domain dates
-    //for (int i = 0; i < 100; i++){
-    //    cout << i << " : " << data.at(6).at(i) << "\n";
-    //}
+   
 
     return data;
 }
+//END OF CLASS
