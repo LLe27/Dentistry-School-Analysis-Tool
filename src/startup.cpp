@@ -17,22 +17,26 @@ StartUp::~StartUp()
 
 void StartUp::on_radioButton_toggled(bool checked)
 {
+    (void) checked;
     csvtype =1;
 
 }
 
 void StartUp::on_radioButton_3_toggled(bool checked)
 {
+    (void) checked;
     csvtype = 2;
 }
 
 void StartUp::on_radioButton_4_toggled(bool checked)
 {
+    (void) checked;
     csvtype = 3;
 }
 
 void StartUp::on_radioButton_2_toggled(bool checked)
 {
+    (void) checked;
     csvtype = 4;
 }
 

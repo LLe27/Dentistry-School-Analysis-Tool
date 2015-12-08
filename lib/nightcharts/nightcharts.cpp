@@ -403,6 +403,8 @@ int Nightcharts::drawLegend(QPainter *painter)
          }
         break;
     }
+    /* Warning */
+    return 1;
 }
 
 QPointF Nightcharts::GetPoint(double angle, double R1, double R2)
@@ -434,6 +436,9 @@ int Nightcharts::GetQuater(double angle)
         return 3;
     if(angle>=270 && angle<360)
         return 4;
+
+    /* Warning */
+    return 1;
 }
 
 double Nightcharts::Angle360(double angle)

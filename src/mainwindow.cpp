@@ -669,6 +669,7 @@ void MainWindow::on_bntDisplayLine_clicked()
             case 4:
             {
                 double maxY = 0;
+                (void) maxY;
                 double yearTotal = 0;
                 string status = "All Grants";
                 vector<string> types = ((GrantProcessing*)p)->getListOfTypes();
