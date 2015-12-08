@@ -92,7 +92,7 @@ vector<vector<string>> myData::getDatabaseCopy(CSVType type) //CSV Type function
 
 } //End of function
 
-vector<vector<int>> myData::getErrors(CSVType type//Part of error processing to retrieve all error information store in vector for errosr
+vector<vector<int>> myData::getErrors(CSVType type)  //Part of error processing to retrieve all error information store in vector for errosr
 {
 
     vector<vector<int>> errors; //Vector to store all errors 
