@@ -17,35 +17,31 @@ PublicationProcessing::PublicationProcessing(string filename, int csvtype) : CSV
     //populate list of types and its indices
     populateTypes();
 
-    //merge redundent types
-    //we may or may not want to run this as it will merge:
-    //FOR BETTER: "* Journal Article, Meta-Analysis, Review" into "Journal Article"
-    //FOR WORSE?: "Books Edited" into "Books"
-    //mergeSimilarTypes();
+  
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Public Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//Return all types from publications CSV in string format within a vector
 vector<string> PublicationProcessing::getListOfTypes() {
     return types;
 }
-
+//Return all indicies of statuses from publications CSV
 vector<int> PublicationProcessing::getIndicesStatus(string status) {
     return getIndicesStatus(status,allInd);
 }
-
+//Return all indicies of statuses from publications CSV, vector ouput
 vector<int> PublicationProcessing::getIndicesStatus(string status, vector<int> indToConsider) {
     //                                 in correct category          in correct date range
     return getIndicesIntersect( getColumnMatch(COLUMN_STATUS,status) , indToConsider );
 }
-
+//Return all indicies of all types from publications CSV
 vector<int> PublicationProcessing::getIndicesType(string type) {
     return getIndicesType(type,allInd);
 }
 
-//uses stored type indices
+//Return all indicies of all types from publications CSV, vector ouput
 vector<int> PublicationProcessing::getIndicesType(string type, vector<int> indToConsider) {
     //get type ind or return empty vector
     int indType = -1;
@@ -71,7 +67,7 @@ void PublicationProcessing::populateTypes() {
     pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_TYPE);
     types = uniqueType.first;
     typesIndices = uniqueType.second;
-}
+} //Populate unique type vector with all unique types from publications CSV
 
 void PublicationProcessing::mergeSimilarTypes() {
     //Note: all types are unique so either t1 is found in t2 or the opposite, but not both
@@ -109,7 +105,7 @@ void PublicationProcessing::mergeSimilarTypes() {
     }
 
     /*
-     * Do merging of types indices
+     * Merges of type indicies 
      */
     vector<int> toRemove;
     int indSource, indTarget;
@@ -147,3 +143,5 @@ void PublicationProcessing::mergeSimilarTypes() {
         types.erase(types.begin()+toRemove.at(i));
     }
 }
+
+//END OF CLASS
