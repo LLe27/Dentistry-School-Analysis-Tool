@@ -23,25 +23,24 @@ PublicationProcessing::PublicationProcessing(string filename, int csvtype) : CSV
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Public Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Return all types from publications CSV in string format within a vector
+
 vector<string> PublicationProcessing::getListOfTypes() {
     return types;
 }
-//Return all indicies of statuses from publications CSV
+
 vector<int> PublicationProcessing::getIndicesStatus(string status) {
     return getIndicesStatus(status,allInd);
 }
-//Return all indicies of statuses from publications CSV, vector ouput
+
 vector<int> PublicationProcessing::getIndicesStatus(string status, vector<int> indToConsider) {
     //                                 in correct category          in correct date range
     return getIndicesIntersect( getColumnMatch(COLUMN_STATUS,status) , indToConsider );
 }
-//Return all indicies of all types from publications CSV
+
 vector<int> PublicationProcessing::getIndicesType(string type) {
     return getIndicesType(type,allInd);
 }
 
-//Return all indicies of all types from publications CSV, vector ouput
 vector<int> PublicationProcessing::getIndicesType(string type, vector<int> indToConsider) {
     //get type ind or return empty vector
     int indType = -1;

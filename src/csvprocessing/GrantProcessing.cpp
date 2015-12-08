@@ -37,7 +37,6 @@ vector<int> GrantProcessing::getIndicesType(string type) {
     return getIndicesType(type,allInd);
 }//Return all inidicies for a specific type from grantprocessing
 
-//uses stored type indices
 vector<int> GrantProcessing::getIndicesType(string type, vector<int> indToConsider) {
     //get type ind or return empty vector
     int indType = -1;
@@ -53,35 +52,34 @@ vector<int> GrantProcessing::getIndicesType(string type, vector<int> indToConsid
     return getIndicesIntersect( typesIndices.at(indType) , indToConsider );
 }
 
-//Get indicies for all statuses in grant processing
 vector<int> GrantProcessing::getIndicesStatus(string status) {
     return getIndicesStatus(status,allInd);
 } 
-//Get indicies for all statuses in grant processing, vector output
+
 vector<int> GrantProcessing::getIndicesStatus(string status, vector<int> indToConsider) {
     return getIndicesIntersect( getColumnMatch(COLUMN_STATUS,status) , indToConsider );
 }
-//Get indicies for all peer reviews in grant processing
+
 vector<int> GrantProcessing::getIndicesPeerReviewed() {
     return getIndicesPeerReviewed(allInd);
 }
-//Get indicies for all peer reviews in grant processing, vector output
+
 vector<int> GrantProcessing::getIndicesPeerReviewed(vector<int> indToConsider) {
     return getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"True") , indToConsider );
 }
-//Get indicies for all industries in grant processing
+
 vector<int> GrantProcessing::getIndicesIndustry() {
     return getIndicesIndustry(allInd);
 }
-//Get indicies for all industries in grant processing, vector output
+
 vector<int> GrantProcessing::getIndicesIndustry(vector<int> indToConsider) {
     return getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"True") , indToConsider );
 }
-//Get indicies for all roles in grant processing
+
 vector<int> GrantProcessing::getIndicesRole(string role) {
     return getIndicesRole(role,allInd);
 }
-//Get indicies for all roles in grant processing, vector output
+
 vector<int> GrantProcessing::getIndicesRole(string role, vector<int> indToConsider) {
     //get role ind or return empty vector
     int indRole = -1;
@@ -100,7 +98,7 @@ vector<int> GrantProcessing::getIndicesRole(string role, vector<int> indToConsid
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount) {
     return getIndicesAmount(minAmount,maxAmount,allInd);
 }
-//GET AMOUNT FOR EACH GRANT 
+
 double GrantProcessing::getAmount(int index) {
     int Str_index = 0;
    string str = data.at(COLUMN_AMOUNT).at(index);
@@ -115,7 +113,7 @@ double GrantProcessing::getAmount(int index) {
 
    return atof(str.c_str());
 }
-//Checks if grant amount is within the bounds at specific indicies 
+
 vector<int> GrantProcessing::getIndicesAmount(int minAmount, int maxAmount, vector<int> indToConsider) {
     vector<int> result;
     for (int i : indToConsider) {
@@ -136,13 +134,13 @@ vector<int> GrantProcessing::getIndicesTitle(string title, vector<int> indToCons
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Fucntion to populate all the types in grant CSV, in unique type vector
+
 void GrantProcessing::populateTypes() {
     pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_TYPE);
     types = uniqueType.first;
     typesIndices = uniqueType.second;
 }
-//Fucntion to populate all the roles in grant CSV, in unique type vector
+
 void GrantProcessing::populateRoles() {
     pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_ROLE);
     roles = uniqueType.first;
