@@ -21,24 +21,24 @@ PresentationProcessing::PresentationProcessing(string filename, int csvtype) : C
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Public Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//Returns all types in string format within a vector from presenations CSV
 vector<string> PresentationProcessing::getListOfTypes() {
     return types;
 }
-
+//Get indicies of all roles within presentations CSV
 vector<int> PresentationProcessing::getIndicesRole(string role) {
     return getIndicesRole(role,allInd);
 }
-
+//Get indicies of all roles within presentations CSV, vector output
 vector<int> PresentationProcessing::getIndicesRole(string role, vector<int> indToConsider) {
     return getIndicesIntersect( getColumnMatch(COLUMN_ROLE,role) , indToConsider );
 }
-
+//Get indicies of all types within presentations CSV
 vector<int> PresentationProcessing::getIndicesType(string type) {
     return getIndicesType(type,allInd);
 }
 
-//uses stored type indices
+//Get indicies of all types within presentations CSV, vector output
 vector<int> PresentationProcessing::getIndicesType(string type, vector<int> indToConsider) {
     //get type ind or return empty vector
     int indType = -1;
@@ -62,5 +62,7 @@ void PresentationProcessing::populateTypes() {
     pair<vector<string>,vector<vector<int>>> uniqueType = getUniqueInColumn(COLUMN_TYPE);
     types = uniqueType.first;
     typesIndices = uniqueType.second;
-}
+} //Populate unique type, with all unique columns to indicate types
+
+//END OF CLASS
 
