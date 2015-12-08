@@ -1,7 +1,5 @@
 /*
  * Child to CSVProcessing. Contains query methods for publications.
- *
- * Author(s): Kevin Stubbs
  */
 #ifndef PUBLICATIONPROCESSING_H
 #define PUBLICATIONPROCESSING_H

@@ -1,7 +1,5 @@
 /*
  * Child to CSVProcessing. Contains query methods for grants.
- *
- * Author(s): Kevin Stubbs
  */
 #include "GrantProcessing.h"
 

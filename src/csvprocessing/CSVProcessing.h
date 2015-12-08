@@ -1,7 +1,5 @@
 /*
  * Parent object to PublicationProcessing, PresentationProcessing, GrantsProcessing, and TeachingProcessing.
- *
- * Author(s): Kevin Stubbs
  */
 #ifndef CSVPROCESSING_H
 #define CSVPROCESSING_H

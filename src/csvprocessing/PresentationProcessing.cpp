@@ -1,7 +1,5 @@
 /*
  * Child to CSVProcessing. Contains query methods for presentation.
- *
- * Author(s): Kevin Stubbs
  */
 #include "PresentationProcessing.h"
 
