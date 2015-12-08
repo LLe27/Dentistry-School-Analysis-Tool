@@ -1306,7 +1306,9 @@ void MainWindow::initialize(){
 
     //Read in list of Column Names to set the column Names
     ui->treeWidget->setHeaderLabels(ColumnNames);
-    ui->treeWidget->setColumnWidth(0,150);
+    ui->treeWidget->setColumnWidth(0,300);
+    ui->treeWidget->setColumnWidth(1,80);
+    ui->treeWidget->setColumnWidth(2,300);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1529,7 +1531,7 @@ void MainWindow::drawDashboard(){
             }
 
             QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
-            addTreeRoot(treeRoot,QString::fromStdString(type),QString::number(count),"$" + QString::number(amountType));
+            addTreeRoot(treeRoot,QString::fromStdString(type),QString::number(count),"$" + QString::number(amountType,'f',2));
 
             //Gets the indicies for all peer review
             indPeer = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
@@ -1540,7 +1542,7 @@ void MainWindow::drawDashboard(){
                 amountTypePeer += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
             }
             QTreeWidgetItem *treePeer =new QTreeWidgetItem();
-            addTreeRoot(treePeer,"Peer Reviewed",QString::number(count),"$" + QString::number(amountTypePeer));
+            addTreeRoot(treePeer,"Peer Reviewed",QString::number(count),"$" + QString::number(amountTypePeer,'f',2));
 
             treeRoot->addChild(treePeer);
 
@@ -1553,7 +1555,7 @@ void MainWindow::drawDashboard(){
                 amountTypeInd += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
             }
             QTreeWidgetItem *treeInd =new QTreeWidgetItem();
-            addTreeRoot(treeInd,"Industry Sponsored",QString::number(count),("$" + QString::number(amountTypeInd)));
+            addTreeRoot(treeInd,"Industry Sponsored",QString::number(count),("$" + QString::number(amountTypeInd,'f',2)));
 
             treeRoot->addChild(treeInd);
 
@@ -1573,7 +1575,7 @@ void MainWindow::drawDashboard(){
                    QTreeWidgetItem *treePeerMember =new QTreeWidgetItem();
                    treePeerMember->setText(0,QString::fromStdString(member));
                    treePeerMember->setText(1,QString::number(count));
-                   treePeerMember->setText(2,"$" + QString::number(amountPeerMember));
+                   treePeerMember->setText(2,"$" + QString::number(amountPeerMember,'f',2));
                    treePeer->addChild(treePeerMember);
             }
 
@@ -1589,7 +1591,7 @@ void MainWindow::drawDashboard(){
                    QTreeWidgetItem *treeIndMember =new QTreeWidgetItem();
                    treeIndMember->setText(0,QString::fromStdString(member));
                    treeIndMember->setText(1,QString::number(count));
-                   treeIndMember->setText(2,"$" + QString::number(amountIndMember));
+                   treeIndMember->setText(2,"$" + QString::number(amountIndMember,'f',2));
                    treeInd->addChild(treeIndMember);
                 }
             }
