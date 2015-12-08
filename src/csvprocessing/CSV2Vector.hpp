@@ -4,12 +4,12 @@
 
 using namespace std;
 
-/*TODO: These names make sense?? */
+//Publication field types 
 enum publicationField {vm_name, vp_domain, vp_status, vp_type, vs_date, vrole, vauthor, vjn_pi_bt, vtitle};
 enum CSVType {pubType, presType, teachType, fundType};
-
+//Class to create a vector for each type of CSV possible input
 class myData {
-
+//Private vectors accesible by myData
 private:
 	vector<vector<string>> *publications, *teaching, *funding, *presentations;
 
@@ -31,7 +31,7 @@ public:
     vector<vector<string >> parseFunding(string filePath);
     vector<vector<string >> parsePresentations(string filePath);
     vector<vector<string >> parsePublications(string filePath);
-
+	
 
 
     /* Invert the prased vector */
