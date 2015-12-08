@@ -883,7 +883,17 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
 
     barcustomPlot->yAxis->setRange(0, 12.1);
     barcustomPlot->yAxis->setPadding(5);
-    barcustomPlot->yAxis->setLabel("Number of Articles");
+
+    if(csvtype == 1)
+        barcustomPlot->yAxis->setLabel("Number of Publications");
+    else if(csvtype == 2)
+        barcustomPlot->yAxis->setLabel("Number of Teaching items");
+    else if(csvtype == 3)
+        barcustomPlot->yAxis->setLabel("Number of Presentations");
+    else if(csvtype == 4)
+        barcustomPlot->yAxis->setLabel("Number of Grants");
+
+
     barcustomPlot->yAxis->grid()->setSubGridVisible(true);
 
     //find the maximum y value.
@@ -909,7 +919,15 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
 
     // Set the title
     barcustomPlot->plotLayout()->insertRow(0); // inserts an empty row above the default axis rect
-    barcustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(barcustomPlot, title));
+
+    if(csvtype == 1)
+            barcustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(barcustomPlot, "Number of Publications From " + title));
+    else if(csvtype == 2)
+            barcustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(barcustomPlot, "Number of Teaching Items From " + title));
+    else if(csvtype == 3)
+            barcustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(barcustomPlot, "Number of Presentations From " + title));
+    else if(csvtype == 4)
+            barcustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(barcustomPlot, "Number of Grants From " + title));
 
     myBars->setData(xAxisPositions, yAxisData);
 
@@ -953,7 +971,15 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 
     // add title
     scattercustomPlot->plotLayout()->insertRow(0);
-    scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, title));
+
+    if(csvtype == 1)
+        scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, "Number of Publications From " + title));
+    else if(csvtype == 2)
+        scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, "Number of Teaching Items From " + title));
+    else if(csvtype == 3)
+        scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, "Number of Presentations From " + title));
+    else if(csvtype == 4)
+        scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, "Number of Grants From " + title));
 
     //set the graph to a scatter plot
     scattercustomPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
@@ -1025,7 +1051,14 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     yRangeMaximum = yMax + 2;
 
     //set the y axis label
-    scattercustomPlot->yAxis->setLabel("Number of Papers");
+    if(csvtype == 1)
+        scattercustomPlot->yAxis->setLabel("Number of Publications");
+    else if(csvtype == 2)
+        scattercustomPlot->yAxis->setLabel("Number of Teaching items");
+    else if(csvtype == 3)
+        scattercustomPlot->yAxis->setLabel("Number of Presentations");
+    else if(csvtype == 4)
+        scattercustomPlot->yAxis->setLabel("Number of Grants");
 
     //set the y axis range
     scattercustomPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
@@ -1100,7 +1133,16 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
 
     // add title
     linecustomPlot->plotLayout()->insertRow(0);
-    linecustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(linecustomPlot, title));
+
+    if(csvtype == 1)
+        linecustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(linecustomPlot, "Number of Publications From " + title));
+    else if(csvtype == 2)
+        linecustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(linecustomPlot, "Number of Teaching Items From " + title));
+    else if(csvtype == 3)
+        linecustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(linecustomPlot, "Number of Presentations From " + title));
+    else if(csvtype == 4)
+        linecustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(linecustomPlot, "Number of Grants From " + title));
+
 
     //find minimum and maximum x values.
     int xMax = xData.at(0);
@@ -1166,7 +1208,14 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     yRangeMaximum = yMax + 2;
 
     //set the y axis label
-    linecustomPlot->yAxis->setLabel("Number of Papers");
+    if(csvtype == 1)
+        linecustomPlot->yAxis->setLabel("Number of Publications");
+    else if(csvtype == 2)
+        linecustomPlot->yAxis->setLabel("Number of Teaching items");
+    else if(csvtype == 3)
+        linecustomPlot->yAxis->setLabel("Number of Presentations");
+    else if(csvtype == 4)
+        linecustomPlot->yAxis->setLabel("Number of Grants");
 
     //set the y axis range
     linecustomPlot->yAxis->setRange(yRangeMinimum, yRangeMaximum);
