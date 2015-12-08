@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>850</width>
+    <width>1200</width>
     <height>720</height>
    </rect>
   </property>
@@ -24,7 +24,7 @@ color: white;
      <rect>
       <x>430</x>
       <y>20</y>
-      <width>331</width>
+      <width>650</width>
       <height>401</height>
      </rect>
     </property>
@@ -205,7 +205,7 @@ border-image: url(:/images/ScatterPlot_Button_Clicked.png);
    <widget class="QDateEdit" name="dateEdit">
     <property name="geometry">
      <rect>
-      <x>425</x>
+      <x>605</x>
       <y>456</y>
       <width>121</width>
       <height>25</height>
@@ -232,7 +232,7 @@ border-image: url(:/images/ScatterPlot_Button_Clicked.png);
    <widget class="QDateEdit" name="dateEdit_2">
     <property name="geometry">
      <rect>
-      <x>645</x>
+      <x>825</x>
       <y>456</y>
       <width>121</width>
       <height>25</height>
@@ -249,7 +249,7 @@ border-image: url(:/images/ScatterPlot_Button_Clicked.png);
    <widget class="QPushButton" name="btnDates">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>600</x>
       <y>600</y>
       <width>366</width>
       <height>61</height>
@@ -275,7 +275,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="lblMax_1">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>880</x>
       <y>513</y>
       <width>47</width>
       <height>13</height>
@@ -295,7 +295,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="lblMax_2">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>880</x>
       <y>553</y>
       <width>47</width>
       <height>13</height>
@@ -315,7 +315,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="lblMin_1">
     <property name="geometry">
      <rect>
-      <x>424</x>
+      <x>604</x>
       <y>513</y>
       <width>47</width>
       <height>13</height>
@@ -338,7 +338,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="lblMin_2">
     <property name="geometry">
      <rect>
-      <x>424</x>
+      <x>604</x>
       <y>553</y>
       <width>47</width>
       <height>13</height>
@@ -361,7 +361,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="labelHyp_1">
     <property name="geometry">
      <rect>
-      <x>536</x>
+      <x>716</x>
       <y>510</y>
       <width>101</width>
       <height>20</height>
@@ -384,7 +384,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="labelHyp_2">
     <property name="geometry">
      <rect>
-      <x>536</x>
+      <x>716</x>
       <y>550</y>
       <width>101</width>
       <height>20</height>
@@ -407,7 +407,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLineEdit" name="maxText_1">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>820</x>
       <y>510</y>
       <width>51</width>
       <height>20</height>
@@ -417,7 +417,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLineEdit" name="maxText_2">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>820</x>
       <y>550</y>
       <width>51</width>
       <height>20</height>
@@ -427,7 +427,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLineEdit" name="minText_1">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>660</x>
       <y>510</y>
       <width>51</width>
       <height>20</height>
@@ -437,7 +437,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLineEdit" name="minText_2">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>660</x>
       <y>550</y>
       <width>51</width>
       <height>20</height>
@@ -449,7 +449,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
      <rect>
       <x>420</x>
       <y>10</y>
-      <width>381</width>
+      <width>750</width>
       <height>451</height>
      </rect>
     </property>
@@ -483,7 +483,7 @@ border-image: url(:/images/DisplayGraph.png);
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>600</x>
       <y>451</y>
       <width>141</width>
       <height>42</height>
@@ -562,7 +562,7 @@ QComboBox:on { /* shift the text when the popup opens */
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>820</x>
       <y>451</y>
       <width>141</width>
       <height>42</height>
@@ -598,7 +598,7 @@ border-image: url(:/images/DisplayGraph.png);
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>600</x>
       <y>500</y>
       <width>381</width>
       <height>111</height>
@@ -680,7 +680,7 @@ border-image: url(:/images/Label_Group.png);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>850</width>
+     <width>1200</width>
      <height>21</height>
     </rect>
    </property>
@@ -702,12 +702,6 @@ border-image: url(:/images/Label_Group.png);
     <addaction name="actionSaveDashboard"/>
     <addaction name="menuSave_Graph"/>
    </widget>
-   <widget class="QMenu" name="menuOptions">
-    <property name="title">
-     <string>Options</string>
-    </property>
-    <addaction name="actionPreferences"/>
-   </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
      <string>Window</string>
@@ -720,25 +714,16 @@ border-image: url(:/images/Label_Group.png);
     </widget>
     <addaction name="menuView"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="separator"/>
     <addaction name="actionContents"/>
-    <addaction name="actionIndex"/>
     <addaction name="separator"/>
-    <addaction name="actionReport_Bug"/>
    </widget>
    <addaction name="menuFIle"/>
-   <addaction name="menuOptions"/>
    <addaction name="menuWindow"/>
-   <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

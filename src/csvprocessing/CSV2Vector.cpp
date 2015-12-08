@@ -26,6 +26,7 @@ using namespace std;
 /// Constructor(s)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//myData fucntion structure 
 myData::myData()
 {
     publications = NULL;
@@ -39,32 +40,33 @@ myData::myData()
 /// Public Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*TODO: ONE PROBLEM, THIS BECOMES VERY VERY VERY VERY TIME CONSUMING WHEN EDITING FILE. */
+//Vector to store all parsed data, myData function name to be called upon
 vector<vector<string>> myData::invertVector(vector<vector<string>> myVector)
 {
     /* Currently, every vector is a field and users information are rows in each vector*/
     /* Transition to every vector is a user, and each field in that vector are elements of fields */
     vector<vector<string>> newVector;
 
-    for (unsigned int i = 0; i < myVector.size(); i++)
+    for (unsigned int i = 0; i < myVector.size(); i++) // For loop to go through all data and fill up vector
     {
         vector<string> currUser;
         for (unsigned int j = 0; j < myVector.at(i).size(); j++)
         {
             currUser.push_back(myVector.at(i).at(j));
         }
-        newVector.push_back(currUser);
+        newVector.push_back(currUser); //Pushing data into vector 
     }
 
-    return newVector;
+    return newVector; //Returning new data filled with CSV information
 }
+//End of function
 
 
-vector<vector<string>> myData::getDatabaseCopy(CSVType type)
-{
-    vector<vector<string>> *csvFile;
+vector<vector<string>> myData::getDatabaseCopy(CSVType type) //CSV Type function to get database copy
+{ 
+    vector<vector<string>> *csvFile; 
     vector<vector<string>> emptyVector;
-    switch(type) {
+    switch(type) { // Switch statement for all 4 possibilities/ types of CSV's possible 
 
         case pubType:
             csvFile = publications;
@@ -86,18 +88,18 @@ vector<vector<string>> myData::getDatabaseCopy(CSVType type)
 
     if (csvFile == NULL) return emptyVector;
 
-    return *csvFile;
+    return *csvFile; //Return the copy of database to be updated 
 
-}
+} //End of function
 
-vector<vector<int>> myData::getErrors(CSVType type)
+vector<vector<int>> myData::getErrors(CSVType type//Part of error processing to retrieve all error information store in vector for errosr
 {
 
-    vector<vector<int>> errors;
+    vector<vector<int>> errors; //Vector to store all errors 
 
     vector<vector<string>> *csvFile;
 
-    switch(type) {
+    switch(type) { //Switch statement for all 4 possible CSV types
 
         case pubType:
             csvFile = publications;
@@ -125,26 +127,26 @@ vector<vector<int>> myData::getErrors(CSVType type)
     for (unsigned int i = 0; i < csvFile->size(); i++)
     {
         vector<int> currUser;
-        errors.push_back(currUser);
+        errors.push_back(currUser); 
 
 
         for (unsigned int j = 0; j < csvFile->at(i).size(); j++) {
             if (csvFile->at(i).at(j).compare("") == 0) {
-                errors.at(i).push_back(j);
+                errors.at(i).push_back(j); //Nexted for loops to fill vector with all errors and indicies. Create error database
             }
         }
     }
 
 
-    return errors;
-}
+    return errors; //Return errors vector filled with all potential errors in CSV
+}//End of function
 
-void myData::changeField(int myField, int userNumber, CSVType type, string newMsg)
+void myData::changeField(int myField, int userNumber, CSVType type, string newMsg) //Change field function to insure CSV's which changed headers ar accounted for
 {
 
     vector<vector<string>> *csvFile;
 
-    switch(type) {
+    switch(type) {  //Switch statement for all 4 possible CSV types
 
         case pubType:
             csvFile = publications;
@@ -165,28 +167,28 @@ void myData::changeField(int myField, int userNumber, CSVType type, string newMs
     }
 
     if (csvFile == NULL) return;
-    csvFile->at(userNumber).at(myField) = newMsg;
-}
+    csvFile->at(userNumber).at(myField) = newMsg; //Changing field in file to match parameter 
+} //End of function
 
-bool myData::isPublications()
+bool myData::isPublications() //Check to see what type of file is inputted
 {
     if (publications != NULL) return true;
     return false;
 }
 
-bool myData::isTeaching()
+bool myData::isTeaching() //Check to see what type of file is inputted
 {
     if (teaching != NULL) return true;
     return false;
 }
 
-bool myData::isFunding()
+bool myData::isFunding() //Check to see what type of file is inputted
 {
     if (funding != NULL) return true;
     return false;
 }
 
-bool myData::isPresentations()
+bool myData::isPresentations() //Check to see what type of file is inputted
 {
     if (presentations != NULL) return true;
     return false;
@@ -208,7 +210,7 @@ bool myData::createParsePublications(string filePath)
     return true;
 }
 
-bool myData::createParseTeaching(string filePath)
+bool myData::createParseTeaching(string filePath) //Takes as input a string filepath where the database is stored and developes parsing input
 {
     teaching = new vector<vector <string>> ();
     if (teaching != NULL) return false;
@@ -216,7 +218,7 @@ bool myData::createParseTeaching(string filePath)
     return true;
 }
 
-bool myData::createParseFunding(string filePath)
+bool myData::createParseFunding(string filePath) //Takes as input a string filepath where the database is stored and developes parsing input
 {
     funding = new vector<vector <string>> ();
     if (funding != NULL) return false;
@@ -224,7 +226,7 @@ bool myData::createParseFunding(string filePath)
     return true;
 }
 
-bool myData::createParsePresentations(string filePath)
+bool myData::createParsePresentations(string filePath) //Takes as input a string filepath where the database is stored and developes parsing input
 {
     presentations = new vector<vector <string>> ();
     if (presentations != NULL) return false;
@@ -232,30 +234,12 @@ bool myData::createParsePresentations(string filePath)
     return true;
 }
 
-/*vector<vector<string >> parseTeaching(string filePath)
-{
 
-    vector<vector<string>> Data;
-    return Data;
-
-}
-vector<vector<string >> parseFunding(string filePath)
-{
-
-    vector<vector<string>> Data ;
-    return Data;
-}
-vector<vector<string >> parsePresentations(string filePath)
-{
-
-    vector<vector<string>> Data;
-    return Data;
-}*/
-
+//Presentation enum indicators, for all field present
 enum presentations_members {RecordInfo, LastModifiedUser, LastModifiedDate, ID, MemberName, PrimaryDomain, Date, Type, Area, Role, ActivityType, GeographicalScope, Host, Country, Province, City, \
                             NumberOfAttendees, MainAudience, Hours, TeachingEffectivenessScore, URL, Competitve, EducationPresentation, Remarks, FundingOrganization, Authorship, Title, RestOfCitation, \
-                           PersonalRemuneration, OtherInfo};
-
+                           PersonalRemuneration, OtherInfo}; 
+//Function to parse presentation CSV from file path and store in respective vectors
 vector<vector<string >> myData::parsePresentations(string filePath) {
 
     // If the file is in the same folder as your source code, then there is no need to include file path
@@ -321,8 +305,8 @@ vector<vector<string >> myData::parsePresentations(string filePath) {
     exit(EXIT_SUCCESS);
     #endif
 
-}
-
+} //End of fucntion
+//Function to parse teaching CSV from file path and store in respective vectors
 vector<vector<string >> myData::parseTeaching(string filePath) {
 
     // If the file is in the same folder as your source code, then there is no need to include file path
@@ -420,8 +404,8 @@ vector<vector<string >> myData::parseTeaching(string filePath) {
     exit(EXIT_SUCCESS);
     #endif
 
-}
-
+} //End of function
+//Function to parse publications CSV from file path and store in respective vectors
 vector<vector<string >> myData::parsePublications(string filePath) {
 
     /* If the file is in the same folder as your source code, then there is no need to include file path */
@@ -505,8 +489,8 @@ vector<vector<string >> myData::parsePublications(string filePath) {
     exit(EXIT_SUCCESS);
 #endif
 
-}
-
+}//End of function
+//Function to parse grants and funding CSV from file path and store in respective vectors
 vector<vector<string >> myData::parseFunding(string filepath){
 
     // Read in CSV file, igoring specific special characters
@@ -613,4 +597,6 @@ vector<vector<string >> myData::parseFunding(string filepath){
     exit(EXIT_SUCCESS);
 #endif
 
-}
+} //End of function
+
+//END OF CLASS
