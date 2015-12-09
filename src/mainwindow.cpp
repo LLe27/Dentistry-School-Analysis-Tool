@@ -1568,6 +1568,8 @@ void MainWindow::drawDashboard(){
         int count;
         double amountType,amountTypePeer,amountTypeInd,amountPeerMember,amountIndMember;
 
+        cout << indDate.size() << endl;
+
         //Gets the indices of that type and date
         for(string type : types){
             amountType = 0;

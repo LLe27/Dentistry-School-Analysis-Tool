@@ -216,6 +216,17 @@ protected:
     vector<int> getIndicesIntersect(vector<int> ind1, vector<int> ind2);
 
     /**
+     * Returns the first index after removing any overlap with the second.
+     * Does not sort.
+     *
+     * @brief getIndicesSubtract
+     * @param ind1
+     * @param ind2
+     * @return
+     */
+    vector<int> getIndicesSubtract(vector<int> ind1, vector<int> ind2);
+
+    /**
      * Accepts a string number and tests whether it is within bounds.
      * If the string is empty or non-numeric, it is not within bounds.
      * The string number that is equal to the min or max is within bounds
