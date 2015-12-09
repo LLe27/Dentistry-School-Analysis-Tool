@@ -93,6 +93,10 @@ vector<int> CSVProcessing::getIndicesMemberName(string memberName, vector<int> i
     return getIndicesIntersect( getColumnMatch(COLUMN_MEMBER_NAME,memberName) , indToConsider );
 }
 
+string CSVProcessing::getMember(int ind) {
+    return data.at(COLUMN_MEMBER_NAME).at(ind);
+}
+
 vector<int> CSVProcessing::getIndicesDate(int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd) {
     return getIndicesDate(dayStart,monthStart, yearStart,dayEnd,monthEnd,yearEnd,allInd);
 }

@@ -63,7 +63,10 @@ vector<int> GrantProcessing::getIndicesPeerReviewed() {
 }
 
 vector<int> GrantProcessing::getIndicesPeerReviewed(vector<int> indToConsider) {
-    return getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"True") , indToConsider );
+    vector<int> peer, ind;
+    peer = getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"True") , indToConsider );
+    ind = getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"True") , indToConsider );
+    return getIndicesSubtract(peer,ind);
 }
 
 vector<int> GrantProcessing::getIndicesIndustry() {
@@ -71,7 +74,34 @@ vector<int> GrantProcessing::getIndicesIndustry() {
 }
 
 vector<int> GrantProcessing::getIndicesIndustry(vector<int> indToConsider) {
-    return getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"True") , indToConsider );
+    vector<int> peer, ind;
+    peer = getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"True") , indToConsider );
+    ind = getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"True") , indToConsider );
+    return getIndicesSubtract(ind,peer);
+}
+
+vector<int> GrantProcessing::getIndicesBoth() {
+    return getIndicesBoth(allInd);
+}
+
+vector<int> GrantProcessing::getIndicesBoth(vector<int> indToConsider) {
+    vector<int> peer, ind;
+    peer = getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"True") , indToConsider );
+    ind = getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"True") , indToConsider );
+    return getIndicesIntersect(peer,ind);
+}
+
+vector<int> GrantProcessing::getIndicesNeither() {
+    return getIndicesNeither(allInd);
+}
+
+vector<int> GrantProcessing::getIndicesNeither(vector<int> indToConsider) {
+    vector<int> peer, ind, neither;
+    peer = getIndicesIntersect( getColumnMatch(COLUMN_PEER_REVIEWED,"True") , indToConsider );
+    ind = getIndicesIntersect( getColumnMatch(COLUMN_INDUSTRY,"True") , indToConsider );
+    neither = getIndicesSubtract(indToConsider,peer);
+    neither = getIndicesSubtract(neither,ind);
+    return neither;
 }
 
 vector<int> GrantProcessing::getIndicesRole(string role) {

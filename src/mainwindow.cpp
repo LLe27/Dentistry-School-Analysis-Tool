@@ -5,6 +5,7 @@
 #include "../lib/nightcharts/nightchartswidget.h"
 #include <iostream>
 #include <math.h>
+//#include <time.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -1561,105 +1562,224 @@ void MainWindow::drawDashboard(){
         }}
             break;
     case(4):{
+        //start timer
+        //clock_t timeStart = clock();
+
+        //declarations
+        vector<int> indType, indSubtype;
+        double amountAll, amountType, amountSubtype, amountEntry;
+        string nameSubtype, nameMember;
+
+        QTreeWidgetItem *treeType, *treeSubtype, *treeEntry;
+
+        //get list of types, members, and base indices (from date range)
         vector<string> types = ((GrantProcessing *)p)->getListOfTypes();
-        vector<int> indType, indAmount, indPeer, indInd, indPMember, indIMember;
         vector<string> members = p->getListOfMemberNames();
-        vector<int> indOther = indDate;
-        int count;
-        double amountType,amountTypePeer,amountTypeInd,amountPeerMember,amountIndMember;
 
-        cout << indDate.size() << endl;
+        //add top level node
+        QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
+        addTreeRoot(treeRoot,QString::fromStdString("Grants"),QString::number(indDate.size()),"n/a");
 
-        //Gets the indices of that type and date
-        for(string type : types){
-            amountType = 0;
-            amountTypePeer = 0;
-            amountTypeInd = 0;
-            amountPeerMember = 0;
-            amountIndMember = 0;
-
-            if(type == "Other") indType = indOther;
+        //add types in root
+        amountAll = 0;
+        for(string type : types) {
+            //query type in date range
+            if(type == "Other") indType = indDate;
             else indType = ((GrantProcessing *)p)->getIndicesType(type,indDate);
-            count = indType.size();
 
-            //Calculate amount
-            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indType);
-            for(unsigned int i = 0; i <  indAmount.size(); i++){
-                amountType += ((GrantProcessing*)p)->getAmount((indAmount.at(i)));
-            }
+            //initialize type node
+            treeType = new QTreeWidgetItem();
+            addTreeRoot(treeType,QString::fromStdString(type),QString::number(indType.size()),"n/a");
+            treeRoot->addChild(treeType);
 
-            QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
-            addTreeRoot(treeRoot,QString::fromStdString(type),QString::number(count),"$" + QString::number(amountType,'f',2));
-
-            //Gets the indicies for all peer review
-            indPeer = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
-            count = indPeer.size();
-
-            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPeer);
-            for(unsigned int i = 0; i <  indAmount.size(); i++){
-                amountTypePeer += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
-            }
-            QTreeWidgetItem *treePeer =new QTreeWidgetItem();
-            addTreeRoot(treePeer,"Peer Reviewed",QString::number(count),"$" + QString::number(amountTypePeer,'f',2));
-
-            treeRoot->addChild(treePeer);
-
-            //Getthe indicies for all Industry
-            indInd = ((GrantProcessing *)p)->getIndicesIndustry(indType);
-            count = indInd.size();
-
-            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indInd);
-            for(unsigned int i = 0; i <  indAmount.size(); i++){
-                amountTypeInd += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
-            }
-            QTreeWidgetItem *treeInd =new QTreeWidgetItem();
-            addTreeRoot(treeInd,"Industry Sponsored",QString::number(count),("$" + QString::number(amountTypeInd,'f',2)));
-
-            treeRoot->addChild(treeInd);
-
-            for(string member: members){
-                amountPeerMember = 0;
-                amountIndMember = 0;
-
-               indPMember = p->getIndicesMemberName(member,indPeer);
-               count = indPMember.size();
-               //amount claculation
-               indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPMember);
-               for(unsigned int i = 0; i <  indAmount.size(); i++){
-                   amountPeerMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
-               }
-             if(count){
-                 if (member.length()<1) member = "Unspecified"; //rename blank member
-                   QTreeWidgetItem *treePeerMember =new QTreeWidgetItem();
-                   treePeerMember->setText(0,QString::fromStdString(member));
-                   treePeerMember->setText(1,QString::number(count));
-                   treePeerMember->setText(2,"$" + QString::number(amountPeerMember,'f',2));
-                   treePeer->addChild(treePeerMember);
-            }
-
-                   indIMember = p->getIndicesMemberName(member,indInd);
-                   count = indIMember.size();
-                   //amount calculation
-                   indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indIMember);
-                   for(unsigned int i = 0; i <  indAmount.size(); i++){
-                       amountIndMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
-                   }
-               if(count){
-                   if (member.length()<1) member = "Unspecified"; //rename blank member
-                   QTreeWidgetItem *treeIndMember =new QTreeWidgetItem();
-                   treeIndMember->setText(0,QString::fromStdString(member));
-                   treeIndMember->setText(1,QString::number(count));
-                   treeIndMember->setText(2,"$" + QString::number(amountIndMember,'f',2));
-                   treeInd->addChild(treeIndMember);
+            //add subtypes in type in root
+            amountType = 0;
+            for (unsigned int subtype=1; subtype<=4; subtype++) {
+                //query subtype in type in date range and note subtype name
+                switch (subtype) {
+                    case 1:
+                        indSubtype = ((GrantProcessing *)p)->getIndicesBoth(indType);
+                        nameSubtype = "Both peer reviewed and industry sourced";
+                        break;
+                    case 2:
+                        indSubtype = ((GrantProcessing *)p)->getIndicesNeither(indType);
+                        nameSubtype = "Neither peer reviewed nor industry sourced";
+                        break;
+                    case 3:
+                        indSubtype = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
+                        nameSubtype = "Only peer reviewed";
+                        break;
+                    case 4:
+                        indSubtype = ((GrantProcessing *)p)->getIndicesIndustry(indType);
+                        nameSubtype = "Only industry sourced";
+                        break;
+                    default:
+                        continue;
                 }
+
+                //initialize subtype node
+                treeSubtype = new QTreeWidgetItem();
+                addTreeRoot(treeSubtype,QString::fromStdString(nameSubtype),QString::number(indSubtype.size()),"n/a");
+                treeType->addChild(treeSubtype);
+
+                //add entries in subtypes in type in root
+                amountSubtype = 0;
+                for (int i : indSubtype) {
+                    //get entry amount and member name
+                    amountEntry = ((GrantProcessing *)p)->getAmount(i);
+                    nameMember = ((GrantProcessing *)p)->getMember(i);
+
+                    //add value to subtype
+                    amountSubtype += amountEntry;
+
+                    //add node
+                    treeEntry = new QTreeWidgetItem();
+                    addTreeRoot(treeEntry,QString::fromStdString(nameMember),"","$" + QString::number(amountEntry,'f',2));
+                    treeSubtype->addChild(treeEntry);
+                }
+
+                //set subtype amount
+                treeSubtype->setText(2,"$" + QString::number(amountSubtype,'f',2));
+
+                //add amount to type
+                amountType += amountSubtype;
             }
 
+            //set type amount
+            treeType->setText(2,"$" + QString::number(amountType,'f',2));
 
-
+            //add amount to total
+            amountAll += amountType;
         }
 
+        //set total amount
+        treeRoot->setText(2,"$" + QString::number(amountAll,'f',2));
 
+        //report time elapsed (less than 1 sec for largest data set)
+        //cout << ( float(clock()-timeStart) / CLOCKS_PER_SEC ) << endl;
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// OLD METHOD
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//        vector<string> types = ((GrantProcessing *)p)->getListOfTypes();
+//        vector<int> indType, indAmount, indPeer, indBoth, indNeither, indInd, indPMember, indIMember;
+//        vector<string> members = p->getListOfMemberNames();
+//        vector<int> indOther = indDate;
+//        int count;
+//        double amountType,amountTypePeer,amountTypeInd,amountPeerMember,amountIndMember;
+//
+//        //Gets the indices of that type and date
+//        for(string type : types){
+//            amountType = 0;
+//            amountTypePeer = 0;
+//            amountTypeInd = 0;
+//            amountPeerMember = 0;
+//            amountIndMember = 0;
+//
+//            if(type == "Other") indType = indOther;
+//            else indType = ((GrantProcessing *)p)->getIndicesType(type,indDate);
+//            count = indType.size();
+//
+//            //Calculate amount
+//            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indType);
+//            for(unsigned int i = 0; i <  indAmount.size(); i++){
+//                amountType += ((GrantProcessing*)p)->getAmount((indAmount.at(i)));
+//            }
+//
+//            QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
+//            addTreeRoot(treeRoot,QString::fromStdString(type),QString::number(count),"$" + QString::number(amountType,'f',2));
+//
+//            //Get the indices for all peer review and/or industry, and neither
+//            indPeer = ((GrantProcessing *)p)->getIndicesPeerReviewed(indType);
+//            indInd = ((GrantProcessing *)p)->getIndicesIndustry(indType);
+//            indBoth = ((GrantProcessing *)p)->getIndicesBoth(indType);
+//            indNeither = ((GrantProcessing *)p)->getIndicesNeither(indType);
+//
+//            //both
+//            count = indBoth.size();
+//
+//            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indBoth);
+//            for(unsigned int i = 0; i <  indAmount.size(); i++){
+//                amountTypePeer += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
+//            }
+//            QTreeWidgetItem *treeBoth =new QTreeWidgetItem();
+//            addTreeRoot(treeBoth,"Peer Reviewed AND Industry Sourced",QString::number(count),"$" + QString::number(amountTypePeer,'f',2));
+//
+//            treeRoot->addChild(treeBoth);
+//
+//            //just peer review
+//            count = indPeer.size();
+//
+//            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPeer);
+//            for(unsigned int i = 0; i <  indAmount.size(); i++){
+//                amountTypePeer += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
+//            }
+//            QTreeWidgetItem *treePeer =new QTreeWidgetItem();
+//            addTreeRoot(treePeer,"Peer Reviewed",QString::number(count),"$" + QString::number(amountTypePeer,'f',2));
+//
+//            treeRoot->addChild(treePeer);
+//
+//            //just industry
+//            count = indInd.size();
+//
+//            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indInd);
+//            for(unsigned int i = 0; i <  indAmount.size(); i++){
+//                amountTypeInd += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
+//            }
+//            QTreeWidgetItem *treeInd =new QTreeWidgetItem();
+//            addTreeRoot(treeInd,"Industry Sponsored",QString::number(count),("$" + QString::number(amountTypeInd,'f',2)));
+//
+//            treeRoot->addChild(treeInd);
+//
+//            //neither
+//            count = indNeither.size();
+//
+//            indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indNeither);
+//            for(unsigned int i = 0; i <  indAmount.size(); i++){
+//                amountTypeInd += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
+//            }
+//            QTreeWidgetItem *treeNeither =new QTreeWidgetItem();
+//            addTreeRoot(treeNeither,"Neither",QString::number(count),("$" + QString::number(amountTypeInd,'f',2)));
+//
+//            treeRoot->addChild(treeNeither);
+//
+//            for(string member: members){
+//                amountPeerMember = 0;
+//                amountIndMember = 0;
+//
+//               indPMember = p->getIndicesMemberName(member,indPeer);
+//               count = indPMember.size();
+//               //amount claculation
+//               indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indPMember);
+//               for(unsigned int i = 0; i <  indAmount.size(); i++){
+//                   amountPeerMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
+//               }
+//             if(count){
+//                 if (member.length()<1) member = "Unspecified"; //rename blank member
+//                   QTreeWidgetItem *treePeerMember =new QTreeWidgetItem();
+//                   treePeerMember->setText(0,QString::fromStdString(member));
+//                   treePeerMember->setText(1,QString::number(count));
+//                   treePeerMember->setText(2,"$" + QString::number(amountPeerMember,'f',2));
+//                   treePeer->addChild(treePeerMember);
+//            }
+//
+//                   indIMember = p->getIndicesMemberName(member,indInd);
+//                   count = indIMember.size();
+//                   //amount calculation
+//                   indAmount = ((GrantProcessing*) p)->getIndicesAmount(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indIMember);
+//                   for(unsigned int i = 0; i <  indAmount.size(); i++){
+//                       amountIndMember += ((GrantProcessing*)p)->getAmount(indAmount.at(i));
+//                   }
+//               if(count){
+//                   if (member.length()<1) member = "Unspecified"; //rename blank member
+//                   QTreeWidgetItem *treeIndMember =new QTreeWidgetItem();
+//                   treeIndMember->setText(0,QString::fromStdString(member));
+//                   treeIndMember->setText(1,QString::number(count));
+//                   treeIndMember->setText(2,"$" + QString::number(amountIndMember,'f',2));
+//                   treeInd->addChild(treeIndMember);
+//                }
+//            }
+//        }
     }
             break;
     default:{}
@@ -1799,6 +1919,7 @@ void MainWindow::duplicateDashboard(int save)
     QTreeWidgetItem* item;
     QTreeWidgetItem* item2;
     QTreeWidgetItem* item3;
+    QTreeWidgetItem* item4;
 
     int height = 0;
 
@@ -1842,6 +1963,27 @@ void MainWindow::duplicateDashboard(int save)
                         {
                             itemnew3->setExpanded(true);
                         }
+                        if(item3->childCount() > 0)
+                        {
+                            for(int l = 0; l < item3->childCount(); l++)
+                            {
+                                item4 = item3->child(l);
+                                QTreeWidgetItem* itemnew4 = new QTreeWidgetItem(itemnew3);
+                                *itemnew4 = *item4;
+                                if(item3->isExpanded())
+                                {
+                                    height++;
+                                }
+                                if(item4->isExpanded())
+                                {
+                                    itemnew4->setExpanded(true);
+                                }
+                                if(item4->childCount() > 0)
+                                {
+
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1854,7 +1996,7 @@ void MainWindow::duplicateDashboard(int save)
         tree1->resize(700, 500);
     }
     else {
-        tree1->resize(700,height*20);
+        tree1->resize(700,(height+2)*17);
     }
 
     // Save the Dashboard
