@@ -69,6 +69,7 @@ vector<vector<int>> CSVProcessing::processErrors(CSVType type)
 void CSVProcessing::processingChangeField(int myField, int userNumber, CSVType type, string newMsg)
 {
     csvData.changeField(myField, userNumber, type, newMsg);
+    data = csvData.getDatabaseCopy(type);
 }
 
 vector<vector<string>> CSVProcessing::processingGetDatabaseCopy(CSVType type)
