@@ -1317,8 +1317,8 @@ void MainWindow::initialize(){
             ui->maxText_1->setVisible(true);
             ui->maxText_2->setVisible(true);
 
-            ui->maxText_1->setText(QString::number(100));
-            ui->maxText_2->setText(QString::number(100));
+            ui->maxText_1->setText(QString::number(10000));
+            ui->maxText_2->setText(QString::number(10000));
 
             //Min label
             ui->lblMin_1->setVisible(true);
@@ -1526,105 +1526,6 @@ void MainWindow::drawDashboard(){
         //set total amount
         treeRoot->setText(1,QString::number(hourAll,'f',2));
         treeRoot->setText(2,QString::number(studentAll,'f',2));
-
-//---------------------------------------------------------------------------------------------------------
-//I started trying to fix this but it seemed easier to start over
-//---------------------------------------------------------------------------------------------------------
-//        vector<string> members = p->getListOfMemberNames();
-//        vector<int> indProgram,indStudentHour, indProgramMember;
-//        vector<int> indOther = indDate;
-//        int hoursTotal,hoursProg,hoursMember;
-//        int students;
-//        string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
-
-//        //query items within date range which are also within student and hour ranges
-//        indStudentHour = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
-//        indStudentHour = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indStudentHour);
-//        //sum hours and students
-//        hoursTotal = 0;
-//        students = 0;
-//        for(int i : indStudentHour) {
-//            hoursTotal += ((TeachingProcessing *)p)->getHours(i);
-//            students += ((TeachingProcessing *)p)->getStudents(i);
-//        }
-
-////        indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
-////        for(unsigned int i =0;i < indHours.size(); i++){
-////            hoursTotal += ((TeachingProcessing *)p)->getHours(indHours.at(i));
-////        } // Testing to see if populates
-////        indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indDate);
-////        students = indStudents.size();
-
-//        QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
-//        addTreeRoot(treeRoot,"Teaching",QString::number(hoursTotal), QString::number(students));
-
-//        for(string program : programs){
-//            hoursProg = 0;
-//            if (program == "Other") indProgram = indStudentHour;
-//            //get the subset of indices where the paper is of the status specified and is in the date range specified.
-//            else indProgram = ((TeachingProcessing *)p)->getIndicesProgram(program,indStudentHour);
-
-//            //sum hours and students
-//            hoursProg = 0;
-//            students = 0;
-//            for(int i : indProgram) {
-//                hoursProg += ((TeachingProcessing *)p)->getHours(i);
-//                students += ((TeachingProcessing *)p)->getStudents(i);
-//            }
-
-////            indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgram);
-////            for(unsigned int i =0;i < indHours.size(); i++){
-////                hoursProg += ((TeachingProcessing *)p)->getHours(indHours.at(i));
-////            } // Testing to see if populates
-////            indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgram);
-////            students = indStudents.size();
-
-//            //remove from other
-//            //remove things from indOther so that indOther is the set of papers that are within the date range, but
-//            //do NOT have the correct status.
-//            for (int iProg : indProgram) {
-//                for (int i=indOther.size()-1; i>=0; i--) {
-//                    if (iProg==indOther.at(i)) {
-//                        indOther.erase(indOther.begin()+i);
-//                    }
-//                }
-//            }
-
-//            QTreeWidgetItem *treeProgram = new QTreeWidgetItem();
-//            addTreeRoot(treeProgram, QString::fromStdString(program), QString::number(hoursProg), QString::number(students));
-//            treeRoot->addChild(treeProgram);
-
-//            for(string member: members){
-//                hoursMember = 0;
-//                indProgramMember = p->getIndicesMemberName(member,indProgram);
-
-//                //sum hours and students
-//                hoursMember = 0;
-//                students = 0;
-//                for(int i : indProgramMember) {
-//                    hoursMember += ((TeachingProcessing *)p)->getHours(i);
-//                    students += ((TeachingProcessing *)p)->getStudents(i);
-//                }
-
-////                indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgramMember);
-////                for(unsigned int i =0;i < indHours.size(); i++){
-////                    hoursMember += ((TeachingProcessing *)p)->getHours(indHours.at(i));
-////                } // Testing to see if populates
-////                indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgramMember);
-////                students = indStudents.size();
-
-
-//                if(hoursMember){
-//                     if (member.length()<1) member = "Unspecified"; //rename blank member
-//                     QTreeWidgetItem *treeProgramMember = new QTreeWidgetItem();
-//                     treeProgramMember->setText(0,QString::fromStdString(member));
-//                     treeProgramMember->setText(1,QString::number(hoursMember));
-//                     treeProgramMember->setText(2,QString::number(students));
-//                     treeProgram->addChild(treeProgramMember);
-
-//                }
-//            }
-//       }
     }
 
             break;
@@ -1758,7 +1659,7 @@ void MainWindow::drawDashboard(){
         //set total amount
         treeRoot->setText(2,"$" + QString::number(amountAll,'f',2));
 
-        //report time elapsed (less than 1 sec for largest data set)
+        //report time elapsed (just under 1 sec for largest data set)
         //cout << ( float(clock()-timeStart) / CLOCKS_PER_SEC ) << endl;
     }
             break;
