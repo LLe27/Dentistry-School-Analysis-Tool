@@ -976,7 +976,7 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
     if(csvtype == 1)
         barcustomPlot->yAxis->setLabel("Number of Publications");
     else if(csvtype == 2)
-        barcustomPlot->yAxis->setLabel("Number of Teaching items");
+        barcustomPlot->yAxis->setLabel("Number of Hours");
     else if(csvtype == 3)
         barcustomPlot->yAxis->setLabel("Number of Presentations");
     else if(csvtype == 4)
@@ -1144,7 +1144,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     if(csvtype == 1)
         scattercustomPlot->yAxis->setLabel("Number of Publications");
     else if(csvtype == 2)
-        scattercustomPlot->yAxis->setLabel("Number of Teaching items");
+        scattercustomPlot->yAxis->setLabel("Number of Hours");
     else if(csvtype == 3)
         scattercustomPlot->yAxis->setLabel("Number of Presentations");
     else if(csvtype == 4)
@@ -1302,7 +1302,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     if(csvtype == 1)
         linecustomPlot->yAxis->setLabel("Number of Publications");
     else if(csvtype == 2)
-        linecustomPlot->yAxis->setLabel("Number of Teaching items");
+        linecustomPlot->yAxis->setLabel("Number of Hours");
     else if(csvtype == 3)
         linecustomPlot->yAxis->setLabel("Number of Presentations");
     else if(csvtype == 4)
@@ -1836,35 +1836,28 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::saveBarGraph()
 {
-    // Create graph if not created already
-    if(barcustomPlot->hasHeightForWidth()) {
-           on_bntDisplayBar_clicked();
-         barcustomPlot->close();
-    }
+    // Create graph
+    on_bntDisplayBar_clicked();
+    barcustomPlot->close();
     barcustomPlot->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
 }
 void MainWindow::savePieChart()
 {
-    if(PieChart->hasHeightForWidth()) {
-           on_bntDisplayPie_clicked();
-         PieChart->close();
-    }
+
+    on_bntDisplayPie_clicked();
+    PieChart->close();
     PieChart->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
 }
 void MainWindow::saveScatterPlot()
 {
-    if(scattercustomPlot->hasHeightForWidth()) {
-           on_bntDisplayScatter_clicked();
-         scattercustomPlot->close();
-    }
+    on_bntDisplayScatter_clicked();
+    scattercustomPlot->close();
     scattercustomPlot->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
 }
 void MainWindow::saveLineGraph()
 {
-    if(linecustomPlot->hasHeightForWidth()) {
-           on_bntDisplayLine_clicked();
-         linecustomPlot->close();
-    }
+    on_bntDisplayLine_clicked();
+    linecustomPlot->close();
     linecustomPlot->grab().save(QFileDialog::getSaveFileName(this, tr("Save File"),"C://","PNG File (*.png);;All files (*.*)"));
 }
 
