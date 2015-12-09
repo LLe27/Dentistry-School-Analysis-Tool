@@ -115,6 +115,7 @@ void MainWindow::createHelpMenu()
 {
     tree = new QTreeWidget();
     tree->setWindowTitle("Help Menu");
+    tree->setWindowIcon(QIcon(":images/shulichlogo.png"));
     tree->setColumnCount(1);
 
     QStringList headers;
@@ -141,7 +142,7 @@ void MainWindow::createHelpMenu()
     item7->setText(0, (QString)"First choose the type of CSV file you would like to\n"
                                "open (Teachings, Publications, Grants, or Presentations).\n"
                                "A FileDialog box will then pop up prompting you to choose \n"
-                               "the CSV file. Please choose the type of csv file you entered originally. \n");
+                               "the CSV file. Please choose the type of csv file you entered originally.");
 
     QTreeWidgetItem* item8 = new QTreeWidgetItem(item6);
     item8->setText(0, (QString)"If there are more than 10 errors in the CSV file, click on view->CSV Editor \n"
@@ -157,20 +158,21 @@ void MainWindow::createHelpMenu()
                                "Click on a column to order the data according to that column. \n"
                                "To expand all categories click on the big green plus sign. \n"
                                "To Collapse all columns click on the big red minus sign. \n"
-                               "To view the dashboard in a new window, click on Window->View->Dashboard");
+                               "To view the dashboard in a new window, click on Window->View->Dashboard.");
 
     item6 = new QTreeWidgetItem(item3);
     item6->setText(0, (QString)"To display a graph, first choose the proper date range and min\max \n"
                                "values, then click enter dates so that it displays the info in the dashboard. \n"
                                "Then choose the faculty name you would like to view graphs for or choose 'Total' \n"
-                               "for all authors. Then click on the icon for the graph you would like to view. \n");
+                               "for all authors. Then click on the icon for the graph you would like to view.");
 
 
     item7 = new QTreeWidgetItem(item4);
     item7->setText(0, (QString)"To save a graph as an image go to File->Save Graph, then \n"
                                "choose the graph you would like to save The graph will be saved \n"
                                "with the current settings. To save the dashboard go to File->SaveDashboard. \n"
-                               "The dashboard will be saved as is \n");
+                               "The dashboard will be saved as is. If fully exanded the dashboard will take a \n"
+                               "while to save.");
 
     tree->resize(600, 300);
 }
@@ -887,6 +889,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     window->resize(1300, height);
     window->show();
     window->setWindowTitle(title);  // Set the title of the window
+    window->setWindowIcon(QIcon(":images/shulichlogo.png"));
     window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
     window->setLayout(layout);
 //    QScrollArea(window);
@@ -960,6 +963,7 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
         xAxisLabels << barLabels.at(i).c_str();
     }
     barcustomPlot->setWindowTitle("Bar Graph");
+    barcustomPlot->setWindowIcon(QIcon(":images/shulichlogo.png"));
     barcustomPlot->xAxis->setAutoTicks(false);
     barcustomPlot->xAxis->setAutoTickLabels(false);
     barcustomPlot->xAxis->setTickVector(xAxisPositions);
@@ -1061,6 +1065,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
     // add title
     scattercustomPlot->plotLayout()->insertRow(0);
     scattercustomPlot->setWindowTitle("Scatter Plot");
+    scattercustomPlot->setWindowIcon(QIcon(":images/shulichlogo.png"));
 
     if(csvtype == 1)
         scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, "Number of Publications From " + title));
@@ -1221,6 +1226,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
 
     linecustomPlot->legend->setVisible(true);
     linecustomPlot->setWindowTitle("Line Graph");
+    linecustomPlot->setWindowIcon(QIcon(":images/shulichlogo.png"));
 
     // add title
     linecustomPlot->plotLayout()->insertRow(0);
@@ -1325,6 +1331,7 @@ void MainWindow::PaletteSwap(QColor color){
 
 void MainWindow::initialize(){
     s = new StartUp(this);
+    s->setWindowIcon(QIcon(":images/shulichlogo.png"));
 //    s->setStyleSheet("background-color:rgb(68,50,102);");
     QPalette Pal(palette());
     string filename;
@@ -1981,6 +1988,7 @@ void MainWindow::saveDashboard()
 void MainWindow::on_actionCSV_Editor_triggered()
 {
     f = new ErrorForm();
+    f->setWindowIcon(QIcon(":images/shulichlogo.png"));
     f->show();
     vector<vector<string>> bleh = p->processingGetDatabaseCopy((CSVType)csvtype);
     vector<vector<int>> index = p->processErrors((CSVType)csvtype);

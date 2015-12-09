@@ -59,5 +59,6 @@
         <file>ScatterPlot_Button.png</file>
         <file>ScatterPlot_Button_Clicked.png</file>
         <file>ScatterPlot_Button_Hover.png</file>
+        <file>shulichlogo.png</file>
     </qresource>
 </RCC>
