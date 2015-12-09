@@ -130,7 +130,7 @@ void MainWindow::createHelpMenu()
     item->setText(0, (QString)"Opening a CSV file");
     item2->setText(0, (QString)"Navigating the Dashboard");
     item3->setText(0, (QString)"Choosing a Graph");
-    item4->setText(0, (QString)"Printing");
+    item4->setText(0, (QString)"Saving");
 
     QTreeWidgetItem* item5 = new QTreeWidgetItem(item);
     item5->setText(0, (QString)"Choosing a File");
@@ -140,12 +140,12 @@ void MainWindow::createHelpMenu()
     QTreeWidgetItem* item7 = new QTreeWidgetItem(item5);
     item7->setText(0, (QString)"First choose the type of CSV file you would like to\n"
                                "open (Teachings, Publications, Grants, or Presentations).\n"
-                               "To open a CSV file, click on file->open\n"
-                               "from the menubar at the top of the window.");
+                               "A FileDialog box will then pop up prompting you to choose \n"
+                               "the CSV file. Please choose the type of csv file you entered originally. \n");
 
     QTreeWidgetItem* item8 = new QTreeWidgetItem(item6);
-    item8->setText(0, (QString)"If there are more than 10 errors in the CSV file, a separate\n"
-                               "window will pop up prompting you to fix those errors. After Fixing\n"
+    item8->setText(0, (QString)"If there are more than 10 errors in the CSV file, click on view->CSV Editor \n"
+                               "and a window will pop up highlighting those errors in red. After Fixing\n"
                                "the appropriate errors, choose the display options and then you may\n"
                                "save the changes and/or open it up in the dashboard.");
 
@@ -154,17 +154,23 @@ void MainWindow::createHelpMenu()
                                "select the date range for the records you\n"
                                "would like to view and then click 'Enter Dates'.\n"
                                "Click on the +/- buttons to expand and collapse categories.\n"
-                               "Click on a column to order the data according to that column.");
+                               "Click on a column to order the data according to that column. \n"
+                               "To expand all categories click on the big green plus sign. \n"
+                               "To Collapse all columns click on the big red minus sign. \n"
+                               "To view the dashboard in a new window, click on Window->View->Dashboard");
 
     item6 = new QTreeWidgetItem(item3);
-    item6->setText(0, (QString)"To choose a graph, first click on the 'graph configuration'\n"
-                               "button to choose your graph settings. Then click on the icon\n"
-                               "for the graph you would like to view.");
+    item6->setText(0, (QString)"To display a graph, first choose the proper date range and min\max \n"
+                               "values, then click enter dates so that it displays the info in the dashboard. \n"
+                               "Then choose the faculty name you would like to view graphs for or choose 'Total' \n"
+                               "for all authors. Then click on the icon for the graph you would like to view. \n");
+
 
     item7 = new QTreeWidgetItem(item4);
-    item7->setText(0, (QString)"To print a graph simply click on the 'print graph' button \n"
-                               "in the bottom right corner of the graph window.");
-
+    item7->setText(0, (QString)"To save a graph as an image go to File->Save Graph, then \n"
+                               "choose the graph you would like to save The graph will be saved \n"
+                               "with the current settings. To save the dashboard go to File->SaveDashboard. \n"
+                               "The dashboard will be saved as is \n");
 
     tree->resize(600, 300);
 }
@@ -214,7 +220,7 @@ void MainWindow::on_bntDisplayBar_clicked()
 
     //return as vector all of the possible types.
     vector<string> types;
-    vector<int> indOther, indStatus, indMember;
+    vector<int> indMember, indOther, indStatus, indType;
 
     // Get Faculty Member
     const QString mem = ui->comboBox->currentText();
@@ -241,16 +247,34 @@ void MainWindow::on_bntDisplayBar_clicked()
 
         case 2:
         {
+        double hourType = 0;
+        double hourEntry;
+        int index;
+        indMember = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indMember);
+        indMember = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indMember);
         types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
         indOther = indMember;
         for (string type: types) {
-            if(type != "Other")
-                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
+            if(type != "Other") indType = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
+            else indType = indOther;
 
-            // Remove indices from other that are assigned to one of the other categories
-            indOther = remove_from_other(indOther, indStatus);
-            if(type == "Other") numItems << indOther.size();
-            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type, indMember).size();
+            hourType = 0;
+            hourEntry = 0;
+
+            for (int i=(indType.size()-1); i>=0; i--) {
+                //store index (will need both i and index)
+                index = indType.at(i);
+
+                //get entry amount and member name
+                hourEntry = ((TeachingProcessing *)p)->getHours(index);
+
+                //add to type
+                hourType += hourEntry;
+
+                //remove from indOther
+                indOther.erase(indOther.begin()+i);
+            }
+            numItems << hourType;
         }break;}
 
         case 3:
@@ -262,6 +286,7 @@ void MainWindow::on_bntDisplayBar_clicked()
 
         case 4:
         {
+        indMember = ((GrantProcessing *)p)->getIndicesAmount(ui->minText_1->text().toDouble(),ui->maxText_1->text().toDouble(),indMember);
         types = ((GrantProcessing*)p)->getListOfTypes();
         for (string type: types) {
             numItems << ((GrantProcessing *)p)->getIndicesType(type,indMember).size();
@@ -303,7 +328,7 @@ void MainWindow::on_bntDisplayPie_clicked()
 
     QVector<double> numItems;
     vector<string> types;
-    vector<int> indStatus, indOther, indMember;
+    vector<int> indType, indOther, indMember;
 
     // Get Faculty Member
     const QString mem = ui->comboBox->currentText();
@@ -333,16 +358,34 @@ void MainWindow::on_bntDisplayPie_clicked()
 
         case 2:
         {
+        double hourType = 0;
+        double hourEntry;
+        int index;
+        indMember = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indMember);
+        indMember = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indMember);
         types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
         indOther = indMember;
         for (string type: types) {
-            if(type != "Other")
-                indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
+            if(type != "Other") indType = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
+            else indType = indOther;
 
-            // Remove indices from other that are assigned to one of the other categories
-            indOther = remove_from_other(indOther, indStatus);
-            if(type == "Other") numItems << indOther.size();
-            else numItems << ((TeachingProcessing *)p)->getIndicesProgram(type,indMember).size();
+            hourType = 0;
+            hourEntry = 0;
+
+            for (int i=(indType.size()-1); i>=0; i--) {
+                //store index (will need both i and index)
+                index = indType.at(i);
+
+                //get entry amount and member name
+                hourEntry = ((TeachingProcessing *)p)->getHours(index);
+
+                //add to type
+                hourType += hourEntry;
+
+                //remove from indOther
+                indOther.erase(indOther.begin()+i);
+            }
+            numItems << hourType;
         }break;}
 
         case 3:
@@ -354,6 +397,8 @@ void MainWindow::on_bntDisplayPie_clicked()
 
         case 4:
         {
+        indMember = ((GrantProcessing *)p)->getIndicesAmount(ui->minText_1->text().toDouble(),ui->maxText_1->text().toDouble(),indMember);
+
         types = ((GrantProcessing*)p)->getListOfTypes();
         for (string type: types) {
             numItems << ((GrantProcessing *)p)->getIndicesType(type,indMember).size();
@@ -403,18 +448,22 @@ void MainWindow::on_bntDisplayScatter_clicked()
     //return as vector all of the possible types.
     vector<string> types;
     vector<int> indDate2;
-    vector<int> indStatus, indOther, indMember;
+    vector<int> indType, indOther, indMember;
+
+    // For Teaching
+    double hourType = 0;
+    double hourEntry;
+    int index;
 
     // Get Faculty Member
     const QString mem = ui->comboBox->currentText();
     string member  = mem.toStdString();
 
-
-
-
     double yearTotal = 0;
     for (int i = yearStart; i <= yearEnd; i++)
     {
+        hourType = 0;
+
         // Get all Indeces for the current year
         indDate2 = p->getIndicesDate(1,1,i,31,12,i);
         // Narrow down the indeces to just show those of the member
@@ -426,6 +475,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
         else  {
             indMember = p->getIndicesMemberName(member, indDate2);
         }
+        indOther = indMember;
 
         switch(csvtype)
         {
@@ -446,18 +496,31 @@ void MainWindow::on_bntDisplayScatter_clicked()
             // Teaching
             case 2:
             {
+                // Narrow down indeces based in min/max values
+                indMember = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indMember);
+                indMember = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indMember);
 
                 xData.push_back(i);
                 yearTotal = 0;
                 types = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
-                for (string type: types) {
-                    if (type != "Other") {
-                        indStatus = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
-                    }
+                for (string type: types) {                   
+                    if(type != "Other") indType = ((TeachingProcessing*)p)->getIndicesProgram(type, indMember);
+                    else indType = indOther;
 
-                    indOther = remove_from_other(indOther, indStatus);
-                    if(type == "Other") yearTotal += indOther.size();
-                    else yearTotal += ((TeachingProcessing *)p)->getIndicesProgram(type,indMember).size();
+                    for (int i=(indType.size()-1); i>=0; i--) {
+                        //store index (will need both i and index)
+                        index = indType.at(i);
+
+                        //get entry amount and member name
+                        hourEntry = ((TeachingProcessing *)p)->getHours(index);
+
+                        //add to type
+                        hourType += hourEntry;
+
+                        //remove from indOther
+                        indOther.erase(indOther.begin()+i);
+                    }
+                    yearTotal  = hourType;
                 }
                 yData.push_back(yearTotal);
                 break;
@@ -483,7 +546,7 @@ void MainWindow::on_bntDisplayScatter_clicked()
             case 4:
             {
 
-
+                indMember = ((GrantProcessing *)p)->getIndicesAmount(ui->minText_1->text().toDouble(),ui->maxText_1->text().toDouble(),indMember);
                 types = ((GrantProcessing *)p)->getListOfTypes();
                 xData.push_back(i);
                 yearTotal = 0;
@@ -549,7 +612,12 @@ void MainWindow::on_bntDisplayLine_clicked()
 
     vector<string> statuses;
     //vector<string> types;
-    vector<int> indDate2, indStatus, indOther, indMember;
+    vector<int> indDate2, indStatus, indType, indOther, indMember;
+
+    // For teaching
+    double hourType = 0;
+    double hourEntry;
+    int index;
 
     // Get Faculty Member
     const QString mem = ui->comboBox->currentText();
@@ -565,6 +633,10 @@ void MainWindow::on_bntDisplayLine_clicked()
 
     for (int i = yearStart; i <= yearEnd; i++)
     {
+
+        hourType = 0;
+        hourEntry = 0;
+
         xData.push_back(i);
 
         // Get all Indeces for the current year
@@ -622,17 +694,31 @@ void MainWindow::on_bntDisplayLine_clicked()
                 double maxY = 0;
                 double yearTotal = 0;
                 statuses = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other"};
-
+                indMember = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indMember);
+                indMember = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indMember);
 
                 for(string status: statuses)
                 {
-                    if(status != "Other") {
-                        indStatus = ((PublicationProcessing*)p)->getIndicesStatus(status, indMember);
+                    yearTotal = 0;
+                    hourType = 0;
+                    if(status != "Other") indType = ((TeachingProcessing*)p)->getIndicesProgram(status, indMember);
+                    else indType = indOther;
+
+
+                    for (int i=(indType.size()-1); i>=0; i--) {
+                        //store index (will need both i and index)
+                        index = indType.at(i);
+
+                        //get entry amount and member name
+                        hourEntry = ((TeachingProcessing *)p)->getHours(index);
+
+                        //add to type
+                        hourType += hourEntry;
+
+                        //remove from indOther
+                        indOther.erase(indOther.begin()+i);
                     }
-                    // Remove from indOther the indeces that belong to a status
-                    indOther = remove_from_other(indOther, indStatus);
-                    if(status == "Other") yearTotal = indOther.size();
-                    else yearTotal = indStatus.size();
+                    yearTotal = hourType;
                     if (yearTotal > maxY) maxY = yearTotal; // Find maxY value
 
                     yDataMax.push_back(maxY);
@@ -669,6 +755,7 @@ void MainWindow::on_bntDisplayLine_clicked()
 
             case 4:
             {
+                indMember = ((GrantProcessing *)p)->getIndicesAmount(ui->minText_1->text().toDouble(),ui->maxText_1->text().toDouble(),indMember);
                 double maxY = 0;
                 (void) maxY;
                 double yearTotal = 0;
@@ -872,7 +959,7 @@ void MainWindow::makeBarGraph(QVector<double> yAxisData, QString title, vector<s
         xAxisPositions << i;
         xAxisLabels << barLabels.at(i).c_str();
     }
-
+    barcustomPlot->setWindowTitle("Bar Graph");
     barcustomPlot->xAxis->setAutoTicks(false);
     barcustomPlot->xAxis->setAutoTickLabels(false);
     barcustomPlot->xAxis->setTickVector(xAxisPositions);
@@ -973,6 +1060,7 @@ void MainWindow::makeScatter(QVector<double> xData, QVector<double> yData, QStri
 
     // add title
     scattercustomPlot->plotLayout()->insertRow(0);
+    scattercustomPlot->setWindowTitle("Scatter Plot");
 
     if(csvtype == 1)
         scattercustomPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(scattercustomPlot, "Number of Publications From " + title));
@@ -1132,6 +1220,7 @@ void MainWindow::makeLine(QVector<double> xData, QVector<double> yDataMax,
     }
 
     linecustomPlot->legend->setVisible(true);
+    linecustomPlot->setWindowTitle("Line Graph");
 
     // add title
     linecustomPlot->plotLayout()->insertRow(0);
@@ -1740,6 +1829,11 @@ void MainWindow::on_pushButton_clicked()
 {
     initialize();
 }
+
+///////////////////////////////////////////////////////
+// Functions to save all graphs and the dashboard
+///////////////////////////////////////////////////////
+
 void MainWindow::saveBarGraph()
 {
     // Create graph if not created already
@@ -1802,8 +1896,10 @@ void MainWindow::duplicateDashboard(int save)
     QTreeWidgetItem* item3;
     QTreeWidgetItem* item4;
 
+    // height of the duplicate dashboard
     int height = 0;
 
+    // Get all top level items
     for(int i = 0; i < ui->treeWidget->topLevelItemCount(); i++)
     {
         height++;
@@ -1816,53 +1912,44 @@ void MainWindow::duplicateDashboard(int save)
         }
         if(item->childCount() > 0)
         {
+            // Get all secondary level items
             for(int j = 0; j < item->childCount(); j++)
             {
                 item2 = item->child(j);
                 QTreeWidgetItem* itemnew2 = new QTreeWidgetItem(itemnew);
                 *itemnew2 = *item2;
-                if(item->isExpanded())
-                {
+                if(item->isExpanded()) {
                     height++;
                 }
-                if(item2->isExpanded())
-                {
+                if(item2->isExpanded()) {
                     itemnew2->setExpanded(true);
                 }
-                if(item2->childCount() > 0)
-                {
+                if(item2->childCount() > 0) {
+                    // Get all third level items
                     for(int k = 0; k < item2->childCount(); k++)
                     {
                         item3 = item2->child(k);
                         QTreeWidgetItem* itemnew3 = new QTreeWidgetItem(itemnew2);
                         *itemnew3 = *item3;
-                        if(item2->isExpanded())
-                        {
+                        if(item2->isExpanded()) {
                             height++;
                         }
-                        if(item3->isExpanded())
-                        {
+                        if(item3->isExpanded()) {
                             itemnew3->setExpanded(true);
                         }
-                        if(item3->childCount() > 0)
-                        {
+                        if(item3->childCount() > 0) {
+                            // Get all 4th level items
                             for(int l = 0; l < item3->childCount(); l++)
                             {
                                 item4 = item3->child(l);
                                 QTreeWidgetItem* itemnew4 = new QTreeWidgetItem(itemnew3);
                                 *itemnew4 = *item4;
-                                if(item3->isExpanded())
-                                {
+                                if(item3->isExpanded()) {
                                     height++;
                                 }
-                                if(item4->isExpanded())
-                                {
+                                if(item4->isExpanded()) {
                                     itemnew4->setExpanded(true);
-                                }
-                                if(item4->childCount() > 0)
-                                {
-
-                                }
+                                }                            
                             }
                         }
                     }
