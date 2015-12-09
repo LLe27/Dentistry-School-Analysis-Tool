@@ -27,15 +27,19 @@ void NightchartsWidget::paintEvent(QPaintEvent * e)
     QPainter painter;
     QFont font;
     painter.begin(this);
-    int w = (this->width() - _margin_left - 150);
-    int h = (this->height() - _margin_top - 100);
-    int size = (w<h)?w:h;
-    _chart.setCords(_margin_left, _margin_top,size, size);
+//    int w = (this->width() - _margin_left - 150);
+//    int h = (this->height() - _margin_top - 100);
+//    int size = (w<h)?w:h;
+//    _chart.setCords(_margin_left, _margin_top,size, size);
+    _chart.setCords(_margin_left, _margin_top,500, 500);
 
 
     _chart.draw(&painter);
     _chart.drawLegend(&painter);
     //painter.end();
+
+
+//    QScrollBar(Qt::Vertical, parent);
 }
 
 void NightchartsWidget::addItem(QString name, QColor color, float value)

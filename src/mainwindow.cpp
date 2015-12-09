@@ -879,22 +879,22 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 
     // Compute minimum & maximum height to show all labels
     int height=30*pieLabels.size();
-    if (height < 320) height = 320;
+    if (height < 550) height = 550;
     else if (height > 800) height = 800;
 
     // Create window
     QWidget * window = new QWidget();
-    window->resize(520, height);
+    window->resize(1300, height);
     window->show();
     window->setWindowTitle(title);  // Set the title of the window
     window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
     window->setLayout(layout);
-
+//    QScrollArea(window);
 
     PieChart = new NightchartsWidget(window);
     PieChart->clear();
     PieChart->setType(Nightcharts::Pie);//{Histogramm,Pie,DPie};
-    PieChart->resize(520, height);
+    PieChart->resize(1300, height);
 
     // Compute sum of data - to convert values to %
     double sum=0;
