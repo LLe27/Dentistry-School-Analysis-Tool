@@ -230,6 +230,19 @@ vector<int> CSVProcessing::getIndicesIntersect(vector<int> ind1, vector<int> ind
     return overlap;
 }
 
+vector<int> getIndicesSubtract(vector<int> ind1, vector<int> ind2) {
+    int j;
+    for (int i=ind1.size()-1; i>=0; i--) {
+        j = ind1.at(i);
+        for (int k : ind2) {
+            if (j==k) {
+                ind1.erase(ind1.begin()+i);
+            }
+        }
+    }
+    return ind1;
+}
+
 bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
     //convert from string to double
     double numDouble = atof(numStr.c_str());
