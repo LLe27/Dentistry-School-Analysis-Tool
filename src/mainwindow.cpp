@@ -802,7 +802,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     window->setWindowTitle(title);  // Set the title of the window
     window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
     window->setLayout(layout);
-    QScrollArea(window);
+//    QScrollArea(window);
 
     PieChart = new NightchartsWidget(window);
     PieChart->clear();
