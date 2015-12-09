@@ -796,7 +796,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
 
     // Create window
     QWidget * window = new QWidget();
-    window->resize(520, height);
+    window->resize(1300, height);
     window->show();
     window->setWindowTitle(title);  // Set the title of the window
     window->setAttribute( Qt::WA_DeleteOnClose );  // Delete the window when closed
@@ -806,7 +806,7 @@ void MainWindow::makePie(QVector<double> pieData, QString title, vector<string> 
     PieChart = new NightchartsWidget(window);
     PieChart->clear();
     PieChart->setType(Nightcharts::Pie);//{Histogramm,Pie,DPie};
-    PieChart->resize(520, height);
+    PieChart->resize(1300, height);
 
     // Compute sum of data - to convert values to %
     double sum=0;
