@@ -1456,72 +1456,175 @@ void MainWindow::drawDashboard(){
     }break;
 
     case(2):{
-        vector<string> members = p->getListOfMemberNames();
-        vector<int> indProgram,indHours, indStudents, indProgramMember;
-        vector<int> indOther = indDate;
-        int hoursTotal,hoursProg,hoursMember;
-        int students;
+        //declarations
+        vector<int> indIntitial, indOther, indType;
+        double hourAll, studentAll, hourType, studentType, hourEntry, studentEntry;
+        QTreeWidgetItem *treeType, *treeEntry;
+        int index;
+        string nameMember;
+
+        //programs to group by ("Other" will serve as catch-all for anything outside the first three)
+        //"Other" must be last on the list
         string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
 
-        indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
-        for(unsigned int i =0;i < indHours.size(); i++){
-            hoursTotal += ((TeachingProcessing *)p)->getHours(indHours.at(i));
-        } // Testing to see if populates
-        indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indDate);
-        students = indStudents.size();
+        //query items within date range which are also within student and hour ranges
+        indIntitial = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
+        indIntitial = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indIntitial);
 
+        //make a copy of indIntitial to remove from (indices for Other)
+        indOther = indIntitial;
+
+        //add top level node
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
-        addTreeRoot(treeRoot,"Teaching",QString::number(hoursTotal), QString::number(students));
+        addTreeRoot(treeRoot,QString::fromStdString("Teaching"),QString::number(0),QString::number(0));
 
-        for(string program : programs){
-            hoursProg = 0;
-            if (program == "Other") indProgram = indOther;
-            //get the subset of indices where the paper is of the status specified and is in the date range specified.
-            else indProgram = ((TeachingProcessing *)p)->getIndicesProgram(program,indDate);
+        //for types in root
+        hourAll = studentAll = 0;
+        for(string type : programs) {
+            //query type in date range
+            if(type == "Other") indType = indOther;
+            else indType = ((TeachingProcessing *)p)->getIndicesProgram(type,indIntitial);
 
-            indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgram);
-            for(unsigned int i =0;i < indHours.size(); i++){
-                hoursProg += ((TeachingProcessing *)p)->getHours(indHours.at(i));
-            } // Testing to see if populates
-            indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgram);
-            students = indStudents.size();
+            //initialize type node
+            treeType = new QTreeWidgetItem();
+            addTreeRoot(treeType,QString::fromStdString(type),QString::number(0),QString::number(0));
+            treeRoot->addChild(treeType);
 
-            //remove from other
-            //remove things from indOther so that indOther is the set of papers that are within the date range, but
-            //do NOT have the correct status.
-            for (int iProg : indProgram) {
-                for (int i=indOther.size()-1; i>=0; i--) {
-                    if (iProg==indOther.at(i)) {
-                        indOther.erase(indOther.begin()+i);
-                    }
-                }
+            //add entry in type in root
+            hourType = studentType = 0;
+            for (int i=(indType.size()-1); i>=0; i--) {
+                //store index (will need both i and index)
+                index = indType.at(i);
+
+                //get entry amount and member name
+                hourEntry = ((TeachingProcessing *)p)->getHours(index);
+                studentEntry = ((TeachingProcessing *)p)->getStudents(index);
+                nameMember = ((TeachingProcessing *)p)->getMember(index);
+
+                //add node
+                treeEntry = new QTreeWidgetItem();
+                addTreeRoot(treeEntry,QString::fromStdString(nameMember),QString::number(hourEntry,'f',2),QString::number(studentEntry,'f',2));
+                treeType->addChild(treeEntry);
+
+                //add to type
+                hourType += hourEntry;
+                studentType += studentEntry;
+
+                //remove from indOther
+                indOther.erase(indOther.begin()+i);
             }
 
-            QTreeWidgetItem *treeProgram = new QTreeWidgetItem();
-            addTreeRoot(treeProgram, QString::fromStdString(program), QString::number(hoursProg), QString::number(students));
-            treeRoot->addChild(treeProgram);
+            //set type amounts
+            treeType->setText(1,QString::number(hourType,'f',2));
+            treeType->setText(2,QString::number(studentType,'f',2));
 
-            for(string member: members){
-                hoursMember = 0;
-                indProgramMember = p->getIndicesMemberName(member,indProgram);
+            //add to total
+            hourAll += hourType;
+            studentAll += studentType;
+        }
 
-                indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgramMember);
-                for(unsigned int i =0;i < indHours.size(); i++){
-                    hoursMember += ((TeachingProcessing *)p)->getHours(indHours.at(i));
-                } // Testing to see if populates
-                indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgramMember);
-                students = indStudents.size();
-                if(hoursMember){
-                     if (member.length()<1) member = "Unspecified"; //rename blank member
-                     QTreeWidgetItem *treeProgramMember = new QTreeWidgetItem();
-                     treeProgramMember->setText(0,QString::fromStdString(member));
-                     treeProgramMember->setText(1,QString::number(hoursMember));
-                     treeProgramMember->setText(2,QString::number(students));
-                     treeProgram->addChild(treeProgramMember);
+        //set total amount
+        treeRoot->setText(1,QString::number(hourAll,'f',2));
+        treeRoot->setText(2,QString::number(studentAll,'f',2));
 
-                }
-            }
-       }
+//---------------------------------------------------------------------------------------------------------
+//I started trying to fix this but it seemed easier to start over
+//---------------------------------------------------------------------------------------------------------
+//        vector<string> members = p->getListOfMemberNames();
+//        vector<int> indProgram,indStudentHour, indProgramMember;
+//        vector<int> indOther = indDate;
+//        int hoursTotal,hoursProg,hoursMember;
+//        int students;
+//        string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
+
+//        //query items within date range which are also within student and hour ranges
+//        indStudentHour = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
+//        indStudentHour = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indStudentHour);
+//        //sum hours and students
+//        hoursTotal = 0;
+//        students = 0;
+//        for(int i : indStudentHour) {
+//            hoursTotal += ((TeachingProcessing *)p)->getHours(i);
+//            students += ((TeachingProcessing *)p)->getStudents(i);
+//        }
+
+////        indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
+////        for(unsigned int i =0;i < indHours.size(); i++){
+////            hoursTotal += ((TeachingProcessing *)p)->getHours(indHours.at(i));
+////        } // Testing to see if populates
+////        indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indDate);
+////        students = indStudents.size();
+
+//        QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
+//        addTreeRoot(treeRoot,"Teaching",QString::number(hoursTotal), QString::number(students));
+
+//        for(string program : programs){
+//            hoursProg = 0;
+//            if (program == "Other") indProgram = indStudentHour;
+//            //get the subset of indices where the paper is of the status specified and is in the date range specified.
+//            else indProgram = ((TeachingProcessing *)p)->getIndicesProgram(program,indStudentHour);
+
+//            //sum hours and students
+//            hoursProg = 0;
+//            students = 0;
+//            for(int i : indProgram) {
+//                hoursProg += ((TeachingProcessing *)p)->getHours(i);
+//                students += ((TeachingProcessing *)p)->getStudents(i);
+//            }
+
+////            indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgram);
+////            for(unsigned int i =0;i < indHours.size(); i++){
+////                hoursProg += ((TeachingProcessing *)p)->getHours(indHours.at(i));
+////            } // Testing to see if populates
+////            indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgram);
+////            students = indStudents.size();
+
+//            //remove from other
+//            //remove things from indOther so that indOther is the set of papers that are within the date range, but
+//            //do NOT have the correct status.
+//            for (int iProg : indProgram) {
+//                for (int i=indOther.size()-1; i>=0; i--) {
+//                    if (iProg==indOther.at(i)) {
+//                        indOther.erase(indOther.begin()+i);
+//                    }
+//                }
+//            }
+
+//            QTreeWidgetItem *treeProgram = new QTreeWidgetItem();
+//            addTreeRoot(treeProgram, QString::fromStdString(program), QString::number(hoursProg), QString::number(students));
+//            treeRoot->addChild(treeProgram);
+
+//            for(string member: members){
+//                hoursMember = 0;
+//                indProgramMember = p->getIndicesMemberName(member,indProgram);
+
+//                //sum hours and students
+//                hoursMember = 0;
+//                students = 0;
+//                for(int i : indProgramMember) {
+//                    hoursMember += ((TeachingProcessing *)p)->getHours(i);
+//                    students += ((TeachingProcessing *)p)->getStudents(i);
+//                }
+
+////                indHours = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indProgramMember);
+////                for(unsigned int i =0;i < indHours.size(); i++){
+////                    hoursMember += ((TeachingProcessing *)p)->getHours(indHours.at(i));
+////                } // Testing to see if populates
+////                indStudents = ((TeachingProcessing *)p)->getIndicesStudents(ui->minText_2->text().toInt(),ui->maxText_2->text().toInt(),indProgramMember);
+////                students = indStudents.size();
+
+
+//                if(hoursMember){
+//                     if (member.length()<1) member = "Unspecified"; //rename blank member
+//                     QTreeWidgetItem *treeProgramMember = new QTreeWidgetItem();
+//                     treeProgramMember->setText(0,QString::fromStdString(member));
+//                     treeProgramMember->setText(1,QString::number(hoursMember));
+//                     treeProgramMember->setText(2,QString::number(students));
+//                     treeProgram->addChild(treeProgramMember);
+
+//                }
+//            }
+//       }
     }
 
             break;
@@ -1569,12 +1672,10 @@ void MainWindow::drawDashboard(){
         vector<int> indType, indSubtype;
         double amountAll, amountType, amountSubtype, amountEntry;
         string nameSubtype, nameMember;
-
         QTreeWidgetItem *treeType, *treeSubtype, *treeEntry;
 
-        //get list of types, members, and base indices (from date range)
+        //get list of types
         vector<string> types = ((GrantProcessing *)p)->getListOfTypes();
-        vector<string> members = p->getListOfMemberNames();
 
         //query for amount range first using date range
         vector<int> indIntitial = ((GrantProcessing *)p)->getIndicesAmount(ui->minText_1->text().toDouble(),ui->maxText_1->text().toDouble(),indDate);
@@ -1587,8 +1688,7 @@ void MainWindow::drawDashboard(){
         amountAll = 0;
         for(string type : types) {
             //query type in date range
-            if(type == "Other") indType = indIntitial;
-            else indType = ((GrantProcessing *)p)->getIndicesType(type,indIntitial);
+            indType = ((GrantProcessing *)p)->getIndicesType(type,indIntitial);
 
             //initialize type node
             treeType = new QTreeWidgetItem();

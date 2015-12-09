@@ -75,10 +75,15 @@ vector<int> TeachingProcessing::getIndicesStudents(int minNumStudents, int maxNu
     return result;
 }
 
-double TeachingProcessing::getHours(int index){
+double TeachingProcessing::getHours(int index) {
      string str = data.at(COLUMN_HOURS).at(index);
      return atof(str.c_str());
 } 
+
+int TeachingProcessing::getStudents(int index) {
+    string str = data.at(COLUMN_NUMBER_STUDENTS).at(index);
+    return atoi(str.c_str());
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
