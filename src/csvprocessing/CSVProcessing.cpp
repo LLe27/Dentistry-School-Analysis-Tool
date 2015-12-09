@@ -262,9 +262,22 @@ bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
 }
 
 bool CSVProcessing::grantsNumberWithinBounds(string numStr, double min, double max) {
+    //remove $
+    //numStr.erase(numStr.begin() + 0);
+
+    //remove non-numeric
+    string newString= "";
+    char c;
+    for (int i=0; i<numStr.size(); i++) {
+        c = numStr.at(i);
+        if ((c>='0' && c<='9') || c=='.') newString += c;
+    }
+
+    //false if no numeric component
+    if (!newString.size()) return false;
+
     //convert from string to double
-    numStr.erase(numStr.begin() + 0);
-    double numDouble = atof(numStr.c_str());
+    double numDouble = atof(newString.c_str());
 
     //test bounds
     if (numDouble>=min && numDouble<=max) return true;

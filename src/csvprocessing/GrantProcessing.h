@@ -184,14 +184,15 @@ public:
     vector<int> getIndicesRole(string role, vector<int> indToConsider);
 
     /**
-     * Getter/Refiner for grant value. Considers all indecies.
+     * Getter/Refiner for grant value.
      *
      * @brief getIndicesAmount
      * @param minAmount
      * @param maxAmount
+     * @param indToConsider
      * @return
      */
-    vector<int> getIndicesAmount(int minAmount, int maxAmount);
+    vector<int> getIndicesAmount(double minAmount, double maxAmount);
 
     /**
      * Getter/Refiner for grant value. Considers specified indecies.
@@ -202,7 +203,7 @@ public:
      * @param indToConsider
      * @return
      */
-    vector<int> getIndicesAmount(int minAmount, int maxAmount, vector<int> indToConsider);
+    vector<int> getIndicesAmount(double minAmount, double maxAmount, vector<int> indToConsider);
 
     /**
      * Getter/Refiner for title. Considers all indecies.

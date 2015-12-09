@@ -1351,7 +1351,7 @@ void MainWindow::initialize(){
             ui->lblMax_1->setVisible(true);
 
             ui->minText_1->setText(QString::number(0));
-            ui->maxText_1->setText(QString::number(10));
+            ui->maxText_1->setText(QString::number(1000000000)); //new default of 1 billion
             ui->label_2->setText(QString::fromStdString("Grants"));
 
             break;
@@ -1576,16 +1576,19 @@ void MainWindow::drawDashboard(){
         vector<string> types = ((GrantProcessing *)p)->getListOfTypes();
         vector<string> members = p->getListOfMemberNames();
 
+        //query for amount range first using date range
+        vector<int> indIntitial = ((GrantProcessing *)p)->getIndicesAmount(ui->minText_1->text().toDouble(),ui->maxText_1->text().toDouble(),indDate);
+
         //add top level node
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
-        addTreeRoot(treeRoot,QString::fromStdString("Grants"),QString::number(indDate.size()),"n/a");
+        addTreeRoot(treeRoot,QString::fromStdString("Grants"),QString::number(indIntitial.size()),"n/a");
 
         //add types in root
         amountAll = 0;
         for(string type : types) {
             //query type in date range
-            if(type == "Other") indType = indDate;
-            else indType = ((GrantProcessing *)p)->getIndicesType(type,indDate);
+            if(type == "Other") indType = indIntitial;
+            else indType = ((GrantProcessing *)p)->getIndicesType(type,indIntitial);
 
             //initialize type node
             treeType = new QTreeWidgetItem();
