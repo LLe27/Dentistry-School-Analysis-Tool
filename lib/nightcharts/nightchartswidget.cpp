@@ -37,6 +37,9 @@ void NightchartsWidget::paintEvent(QPaintEvent * e)
     _chart.draw(&painter);
     _chart.drawLegend(&painter);
     //painter.end();
+
+
+//    QScrollBar(Qt::Vertical, parent);
 }
 
 void NightchartsWidget::addItem(QString name, QColor color, float value)

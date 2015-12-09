@@ -12,6 +12,7 @@
 #include "csvprocessing/TeachingProcessing.h"
 #include "errorform.h"
 #include "startup.h"
+#include <QScrollArea>
 
 #include "ui_mainwindow.h"
 #include <QFileDialog>
