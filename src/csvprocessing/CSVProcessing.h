@@ -35,8 +35,6 @@ public:
      */
     CSVProcessing(string filename, int csvtype);
 
-    //CSVProcessing(string filename);
-
     /**
      * Returns a vector<string> of all UNIQUE member names.
      *
@@ -67,9 +65,8 @@ public:
     /**
      * Returns vector<int> of indices within specified timeframe.
      *
-     * If the entry has no month, it will match all months within its year. If the entry has no day, it will match all days within its year/month.
-     *
-     * Currently, this function is not very efficient. If anyone has time, they could improve upon it.
+     * If the entry has no month, it will match all months within its year. If the entry has no day,
+     * it will match all days within its year/month.
      *
      * @brief getIndicesDate
      * @param dayStart
@@ -85,9 +82,8 @@ public:
     /**
      * Returns vector<int> of indices within specified timeframe. Considers only entries indexed by indToConsider.
      *
-     * If the entry has no month, it will match all months within its year. If the entry has no day, it will match all days within its year/month.
-     *
-     * Currently, this function is not very efficient. If anyone has time, they could improve upon it.
+     * If the entry has no month, it will match all months within its year. If the entry has no day,
+     * it will match all days within its year/month.
      *
      * @brief getIndicesDate
      * @param dayStart
@@ -121,10 +117,37 @@ public:
      */
     QDate earliestDate();
 
+    /**
+     * Calls CSV2Vector method.
+     * Changes field function to ensure CSV's which changed headers are accounted for.
+     *
+     * @brief processingChangeField
+     * @param myField
+     * @param userNumber
+     * @param type
+     * @param newMsg
+     */
     void processingChangeField(int myField, int userNumber, CSVType type, string newMsg);
-    vector<vector<string>> processingGetDatabaseCopy(CSVType type);
-    vector<vector<int>> processErrors(CSVType type);
 
+    /**
+     * Calls CSV2Vector method.
+     * CSV Type function to get database copy.
+     *
+     * @brief processingGetDatabaseCopy
+     * @param type
+     * @return
+     */
+    vector<vector<string>> processingGetDatabaseCopy(CSVType type);
+
+    /**
+     * Calls CSV2Vector method.
+     * Part of error processing to retrieve all error information store in vector for errors.
+     *
+     * @brief processErrors
+     * @param type
+     * @return
+     */
+    vector<vector<int>> processErrors(CSVType type);
 
 protected:
     /*
@@ -148,9 +171,6 @@ protected:
      * @return
      */
     pair<vector<string>,vector<vector<int>>> getUniqueInColumn(int column);
-
-
-
 
     /**
      * Returns vector of the specified indicies from the specified column.
@@ -199,7 +219,7 @@ protected:
      * Accepts a string number and tests whether it is within bounds.
      * If the string is empty or non-numeric, it is not within bounds.
      * The string number that is equal to the min or max is within bounds
-     * (i.e., boudns are inclusive).
+     * (i.e., bounds are inclusive).
      *
      * Note that empty strings and non-numeric strings are treated as zero and
      * are therefore within a range which includes zero.
@@ -209,13 +229,24 @@ protected:
      * @param min
      * @param max
      */
-
-
-
-
     bool numberWithinBounds(string numStr, double min, double max);
 
+    /**
+     * Accepts a string number and tests whether it is within bounds.
+     * If the string is empty or non-numeric, it is not within bounds.
+     * The string number that is equal to the min or max is within bounds
+     * (i.e., bounds are inclusive).
+     *
+     * Ignores the first character (designed to ignore a $).
+     *
+     * @brief grantsNumberWithinBounds
+     * @param numStr
+     * @param min
+     * @param max
+     * @return
+     */
     bool grantsNumberWithinBounds(string numStr, double min, double max);
+
 private:
     /**
      * Populates memberNames and memberNamesIndicies.

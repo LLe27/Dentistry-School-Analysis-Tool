@@ -120,7 +120,7 @@ vector<vector<int>> myData::getErrors(CSVType type)
     return errors; //Return errors vector filled with all potential errors in CSV
 }//End of function
 
-/*Change field function to insure CSV's which changed headers ar accounted for */
+/*Change field function to ensure CSV's which changed headers are accounted for */
 void myData::changeField(int myField, int userNumber, CSVType type, string newMsg)
 {
 

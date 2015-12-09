@@ -158,7 +158,7 @@ pair<vector<string>,vector<vector<int>>> CSVProcessing::getUniqueInColumn(int co
     }
 
     return make_pair(unique,uniqueNum);
-}//Access to a specific colimn within CSV
+}
 
 
 vector<string> CSVProcessing::getColumnIndices(int column, vector<int> indices) {
@@ -233,8 +233,6 @@ bool CSVProcessing::grantsNumberWithinBounds(string numStr, double min, double m
         else return false;
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,14 +244,6 @@ void CSVProcessing::populateMemberNames() {
 }
 
 bool CSVProcessing::isWithinTimeframe(int ind, int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd) {
-    /*
-     *
-     * After demo1, have determined the year/month/day of each entry once upon loading. Calling this script repeatedly
-     * during runtime is very inefficient.
-     *
-     *
-     */
-
     //GET DATE
     int year = dateTable[ind][0];
     int month = dateTable[ind][1];
@@ -460,5 +450,7 @@ vector<int> CSVProcessing::getDate(int ind) {
 void CSVProcessing::populateDates() {
     for (int i:allInd) {
         dateTable.push_back(getDate(i));
-    }// Populate all dates within the dataTable Vector to be used
-}//END OF CLASS
+    }
+}
+
+//END OF CLASS
