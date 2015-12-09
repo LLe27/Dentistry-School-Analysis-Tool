@@ -1872,3 +1872,15 @@ void MainWindow::saveDashboard()
     // duplicate the dashboard and save it
     duplicateDashboard(1);
 }
+
+void MainWindow::on_actionCSV_Editor_triggered()
+{
+    f = new ErrorForm();
+    f->show();
+    vector<vector<string>> bleh = p->processingGetDatabaseCopy((CSVType)csvtype);
+    vector<vector<int>> index = p->processErrors((CSVType)csvtype);
+    f->setErrorIndices(index);
+    f->setCSVProccessor(p);
+    f->setCSVType(csvtype);
+    f->popTable(&bleh);
+}

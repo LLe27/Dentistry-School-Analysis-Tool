@@ -123,6 +123,10 @@ public:
      */
     QDate earliestDate();
 
+    void processingChangeField(int myField, int userNumber, CSVType type, string newMsg);
+    vector<vector<string>> processingGetDatabaseCopy(CSVType type);
+    vector<vector<int>> processErrors(CSVType type);
+
 
 protected:
     /*
@@ -147,8 +151,7 @@ protected:
      */
     pair<vector<string>,vector<vector<int>>> getUniqueInColumn(int column);
 
-    void processingChangeField(int myField, int userNumber, CSVType type, string newMsg);
-    vector<vector<string>> processingGetDatabaseCopy(CSVType type);
+
 
 
     /**
@@ -209,7 +212,7 @@ protected:
      * @param max
      */
 
-    vector<vector<int>> processErrors(CSVType type);
+
 
 
     bool numberWithinBounds(string numStr, double min, double max);

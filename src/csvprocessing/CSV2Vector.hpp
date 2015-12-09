@@ -6,7 +6,7 @@ using namespace std;
 
 /* System Defines */
 enum publicationField {vm_name, vp_domain, vp_status, vp_type, vs_date, vrole, vauthor, vjn_pi_bt, vtitle};
-enum CSVType {pubType, presType, teachType, fundType};
+enum CSVType {pubType = 1, presType = 3, teachType = 2, fundType = 4};
 
 /* MyData CSV2Vector Class */
 class myData {

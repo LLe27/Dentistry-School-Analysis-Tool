@@ -10,6 +10,7 @@
 #include "csvprocessing/GrantProcessing.h"
 #include "csvprocessing/PresentationProcessing.h"
 #include "csvprocessing/TeachingProcessing.h"
+#include "errorform.h"
 #include "startup.h"
 
 #include "ui_mainwindow.h"
@@ -143,6 +144,8 @@ private slots:
     void savePieChart();
     void saveScatterPlot();
 
+    void on_actionCSV_Editor_triggered();
+
 private:
     /*
      * Commented out unused functions
@@ -247,6 +250,7 @@ private:
     vector<int> indDate;
     int csvtype;
     StartUp *s;
+    ErrorForm *f;
 };
 
 #endif // MAINWINDOW_H
