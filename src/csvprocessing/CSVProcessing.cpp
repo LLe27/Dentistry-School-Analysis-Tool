@@ -27,7 +27,11 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
     } //Cases for each file type
 
     //populate default index of all entries
-    for (int i=0; i<(int)data.at(0).size(); i++) allInd.push_back(i);
+    //fail safe: require a member name (length>0)
+    for (int i=0; i<(int)data.at(COLUMN_MEMBER_NAME).size(); i++)
+    {
+        if (data.at(COLUMN_MEMBER_NAME).at(i).size()) allInd.push_back(i);
+    }
 
     //populate date table (of y/m/d entries)
     populateDates(); 
@@ -214,7 +218,7 @@ vector<int> CSVProcessing::getIndicesIntersect(vector<int> ind1, vector<int> ind
     return overlap;
 }
 
-vector<int> getIndicesSubtract(vector<int> ind1, vector<int> ind2) {
+vector<int> CSVProcessing::getIndicesSubtract(vector<int> ind1, vector<int> ind2) {
     int j;
     for (int i=ind1.size()-1; i>=0; i--) {
         j = ind1.at(i);
