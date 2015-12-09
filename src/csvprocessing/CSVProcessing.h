@@ -66,6 +66,15 @@ public:
     vector<int> getIndicesMemberName(string memberName, vector<int> indToConsider);
 
     /**
+     * Returns member name of specified entry.
+     *
+     * @brief getMember
+     * @param ind
+     * @return
+     */
+    string getMember(int ind);
+
+    /**
      * Returns vector<int> of indices within specified timeframe.
      *
      * If the entry has no month, it will match all months within its year. If the entry has no day,

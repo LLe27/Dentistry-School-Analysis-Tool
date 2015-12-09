@@ -43,7 +43,11 @@ CSVProcessing::CSVProcessing(string filename, int csvtype)
     } //Cases for each file type
 
     //populate default index of all entries
-    for (int i=0; i<(int)data.at(0).size(); i++) allInd.push_back(i);
+    //fail safe: require a member name (length>0)
+    for (int i=0; i<(int)data.at(COLUMN_MEMBER_NAME).size(); i++)
+    {
+        if (data.at(COLUMN_MEMBER_NAME).at(i).size()) allInd.push_back(i);
+    }
 
     //populate date table (of y/m/d entries)
     populateDates(); 
@@ -69,6 +73,7 @@ vector<vector<int>> CSVProcessing::processErrors(CSVType type)
 void CSVProcessing::processingChangeField(int myField, int userNumber, CSVType type, string newMsg)
 {
     csvData.changeField(myField, userNumber, type, newMsg);
+    data = csvData.getDatabaseCopy(type);
 }
 
 vector<vector<string>> CSVProcessing::processingGetDatabaseCopy(CSVType type)
@@ -86,6 +91,10 @@ vector<int> CSVProcessing::getIndicesMemberName(string memberName) {
 
 vector<int> CSVProcessing::getIndicesMemberName(string memberName, vector<int> indToConsider) {
     return getIndicesIntersect( getColumnMatch(COLUMN_MEMBER_NAME,memberName) , indToConsider );
+}
+
+string CSVProcessing::getMember(int ind) {
+    return data.at(COLUMN_MEMBER_NAME).at(ind);
 }
 
 vector<int> CSVProcessing::getIndicesDate(int dayStart, int monthStart, int yearStart, int dayEnd, int monthEnd, int yearEnd) {
@@ -230,7 +239,7 @@ vector<int> CSVProcessing::getIndicesIntersect(vector<int> ind1, vector<int> ind
     return overlap;
 }
 
-vector<int> getIndicesSubtract(vector<int> ind1, vector<int> ind2) {
+vector<int> CSVProcessing::getIndicesSubtract(vector<int> ind1, vector<int> ind2) {
     int j;
     for (int i=ind1.size()-1; i>=0; i--) {
         j = ind1.at(i);
@@ -253,9 +262,22 @@ bool CSVProcessing::numberWithinBounds(string numStr, double min, double max) {
 }
 
 bool CSVProcessing::grantsNumberWithinBounds(string numStr, double min, double max) {
+    //remove $
+    //numStr.erase(numStr.begin() + 0);
+
+    //remove non-numeric
+    string newString= "";
+    char c;
+    for (unsigned int i=0; i<numStr.size(); i++) {
+        c = numStr.at(i);
+        if ((c>='0' && c<='9') || c=='.') newString += c;
+    }
+
+    //false if no numeric component
+    if (!newString.size()) return false;
+
     //convert from string to double
-    numStr.erase(numStr.begin() + 0);
-    double numDouble = atof(numStr.c_str());
+    double numDouble = atof(newString.c_str());
 
     //test bounds
     if (numDouble>=min && numDouble<=max) return true;

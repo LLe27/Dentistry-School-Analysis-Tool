@@ -248,10 +248,10 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="lblMax_1">
     <property name="geometry">
      <rect>
-      <x>880</x>
+      <x>896</x>
       <y>513</y>
-      <width>47</width>
-      <height>13</height>
+      <width>31</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -268,10 +268,10 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLabel" name="lblMax_2">
     <property name="geometry">
      <rect>
-      <x>880</x>
+      <x>896</x>
       <y>553</y>
-      <width>47</width>
-      <height>13</height>
+      <width>31</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -290,8 +290,8 @@ border-image: url(:/images/Enter_Button_Clicked.png);
      <rect>
       <x>604</x>
       <y>513</y>
-      <width>47</width>
-      <height>13</height>
+      <width>31</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="font">
@@ -313,8 +313,8 @@ border-image: url(:/images/Enter_Button_Clicked.png);
      <rect>
       <x>604</x>
       <y>553</y>
-      <width>47</width>
-      <height>13</height>
+      <width>31</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="font">
@@ -382,7 +382,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
      <rect>
       <x>820</x>
       <y>510</y>
-      <width>51</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
@@ -392,7 +392,7 @@ border-image: url(:/images/Enter_Button_Clicked.png);
      <rect>
       <x>820</x>
       <y>550</y>
-      <width>51</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
@@ -400,9 +400,9 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLineEdit" name="minText_1">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>510</y>
-      <width>51</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
@@ -410,9 +410,9 @@ border-image: url(:/images/Enter_Button_Clicked.png);
    <widget class="QLineEdit" name="minText_2">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>640</x>
       <y>550</y>
-      <width>51</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>

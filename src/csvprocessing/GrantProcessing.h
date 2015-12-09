@@ -89,7 +89,8 @@ public:
     vector<int> getIndicesStatus(string status, vector<int> indToConsider);
 
     /**
-     * Getter/Refiner for peer reviewed. Considers all indecies.
+     * Getter/Refiner for ONLY peer reviewed. Considers all indecies.
+     * Context: peer review and industry sourced are generally exclusive
      *
      * @brief getIndicesPeerReviewed
      * @return
@@ -97,7 +98,8 @@ public:
     vector<int> getIndicesPeerReviewed();
 
     /**
-     * Getter/Refiner for peer reviewed. Considers specified indecies.
+     * Getter/Refiner for ONLY peer reviewed. Considers specified indecies.
+     * Context: peer review and industry sourced are generally exclusive
      *
      * @brief getIndicesPeerReviewed
      * @param indToConsider
@@ -106,7 +108,8 @@ public:
     vector<int> getIndicesPeerReviewed(vector<int> indToConsider);
 
     /**
-     * Getter/Refiner for industry sourced. Considers all indecies.
+     * Getter/Refiner for ONLY industry sourced. Considers all indecies.
+     * Context: peer review and industry sourced are generally exclusive
      *
      * @brief getIndicesIndustry
      * @return
@@ -114,13 +117,52 @@ public:
     vector<int> getIndicesIndustry();
 
     /**
-     * Getter/Refiner for industry sourced. Considers specified indecies.
+     * Getter/Refiner for ONLY industry sourced. Considers specified indecies.
+     * Context: peer review and industry sourced are generally exclusive
      *
      * @brief getIndicesIndustry
      * @param indToConsider
      * @return
      */
     vector<int> getIndicesIndustry(vector<int> indToConsider);
+
+    /**
+     * Getter/Refiner for BOTH industry sourced and peer reviewed.
+     * Context: peer review and industry sourced are generally exclusive
+     *
+     * @brief getIndicesBoth
+     * @return
+     */
+    vector<int> getIndicesBoth();
+
+    /**
+     * Getter/Refiner for BOTH industry sourced and peer reviewed. Considers specified indecies.
+     * Context: peer review and industry sourced are generally exclusive
+     *
+     * @brief getIndicesBoth
+     * @param indToConsider
+     * @return
+     */
+    vector<int> getIndicesBoth(vector<int> indToConsider);
+
+    /**
+     * Getter/Refiner for NEITHER industry sourced nor peer reviewed.
+     * Context: peer review and industry sourced are generally exclusive
+     *
+     * @brief getIndicesNeither
+     * @return
+     */
+    vector<int> getIndicesNeither();
+
+    /**
+     * Getter/Refiner for NEITHER industry sourced nor peer reviewed. Considers specified indecies.
+     * Context: peer review and industry sourced are generally exclusive
+     *
+     * @brief getIndicesNeither
+     * @param indToConsider
+     * @return
+     */
+    vector<int> getIndicesNeither(vector<int> indToConsider);
 
     /**
      * Getter/Refiner for role (e.g., Collaborator). Considers all indecies.
@@ -142,14 +184,15 @@ public:
     vector<int> getIndicesRole(string role, vector<int> indToConsider);
 
     /**
-     * Getter/Refiner for grant value. Considers all indecies.
+     * Getter/Refiner for grant value.
      *
      * @brief getIndicesAmount
      * @param minAmount
      * @param maxAmount
+     * @param indToConsider
      * @return
      */
-    vector<int> getIndicesAmount(int minAmount, int maxAmount);
+    vector<int> getIndicesAmount(double minAmount, double maxAmount);
 
     /**
      * Getter/Refiner for grant value. Considers specified indecies.
@@ -160,7 +203,7 @@ public:
      * @param indToConsider
      * @return
      */
-    vector<int> getIndicesAmount(int minAmount, int maxAmount, vector<int> indToConsider);
+    vector<int> getIndicesAmount(double minAmount, double maxAmount, vector<int> indToConsider);
 
     /**
      * Getter/Refiner for title. Considers all indecies.

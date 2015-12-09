@@ -56,7 +56,7 @@ vector<vector<string>> myData::getDatabaseCopy(CSVType type)
             csvFile = teaching;
             break;
         case fundType:
-            csvFile = teaching;
+            csvFile = funding;
             break;
         default:
             /* This should not happen */
@@ -90,7 +90,7 @@ vector<vector<int>> myData::getErrors(CSVType type)
             csvFile = teaching;
             break;
         case fundType:
-            csvFile = teaching;
+            csvFile = funding;
             break;
         default:
             /* This should not happen */
@@ -138,7 +138,7 @@ void myData::changeField(int myField, int userNumber, CSVType type, string newMs
             csvFile = teaching;
             break;
         case fundType:
-            csvFile = teaching;
+            csvFile = funding;
             break;
         default:
             /* This should not happen */

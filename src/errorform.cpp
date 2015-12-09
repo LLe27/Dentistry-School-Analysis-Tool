@@ -58,8 +58,8 @@ QString ErrorForm::on_openButton_clicked()
 
 void ErrorForm::on_checkButton_clicked()
 {
-    cout <<rowError.size() << endl;
-    for(unsigned int i = 0; i < rowError.size(); i++){
+    //cout <<rowError.size() << endl;
+    for(int i = 0; i < rowError.size(); i++){
 
             //If the text at this error cell has changed
 //            cout << "row: " << rowError.at(i) << endl;
@@ -78,7 +78,7 @@ void ErrorForm::on_checkButton_clicked()
     colError.clear();
 
 
-    for(unsigned int i = 0; i < errorIndicies.size(); i++){
+    for(int i = 0; i < errorIndicies.size(); i++){
         for(int j = 0; j < ui->tableWidget->columnCount(); j++){
             if(errorIndicies.at(i).size() > 0)    {
                 if(ui->tableWidget->item(i,j)->text() == "Unspecified" || ui->tableWidget->item(i,j)->text() == ""){
@@ -108,9 +108,9 @@ void ErrorForm::popTable(vector<vector<string>> *errors){
     ui->tableWidget->setRowCount(errors->at(0).size());
     ui->tableWidget->setColumnCount(errors->size());
 
-    for(unsigned int i = 0; i < errors->size();i++){
-         cout <<"Run" <<endl;
-        for(unsigned int j = 0; j < errors->at(i).size(); j++){
+    for(int i = 0; i < errors->size();i++){
+         //cout <<"Run" <<endl;
+        for(int j = 0; j < errors->at(i).size(); j++){
             string input;
             input = errors->at(i).at(j);
             ui->tableWidget->setItem(j,i,new QTableWidgetItem(QString::fromStdString(input)));
@@ -123,9 +123,9 @@ void ErrorForm::popTable(vector<vector<string>> *errors){
         }
     }
 
-    cout << errorIndicies.size() << endl;
+    //cout << errorIndicies.size() << endl;
 
-    for(unsigned int i = 0; i < errorIndicies.size(); i++){
+    for(int i = 0; i < errorIndicies.size(); i++){
         for(int j = 0; j < ui->tableWidget->columnCount(); j++){
             if(errorIndicies.at(i).size() > 0)    {
                 if(ui->tableWidget->item(i,j)->text() == "Unspecified" || ui->tableWidget->item(i,j)->text() == ""){

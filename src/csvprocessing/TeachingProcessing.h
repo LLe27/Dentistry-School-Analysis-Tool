@@ -116,7 +116,23 @@ public:
      */
     vector<int> getIndicesStudents(int minNumStudents, int maxNumStudents, vector<int> indToConsider);
 
+    /**
+     * Return number of hours from entry at specified index.
+     *
+     * @brief getHours
+     * @param index
+     * @return
+     */
     double getHours(int index);
+
+    /**
+     * Return number of students from entry at specified index.
+     *
+     * @brief getStudents
+     * @param index
+     * @return
+     */
+    int getStudents(int index);
 
 private:
     /**
