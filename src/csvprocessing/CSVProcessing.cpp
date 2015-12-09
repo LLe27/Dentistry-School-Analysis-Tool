@@ -3,10 +3,26 @@
  */
 #include "CSVProcessing.h"
 
+
+void CSVProcessing::UpdateProcessing(int type)
+{
+        CSVType i = (CSVType)type;
+        data = csvData.getDatabaseCopy(i);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Constructor(s)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+int CSVProcessing::checkType()
+{
+    if (csvData.isPublications()) return 1;
+    else if (csvData.isPresentations()) return 2;
+    else if (csvData.isTeaching()) return 3;
+    else if (csvData.isFunding()) return 4;
+
+    return 0;
+}
 
 CSVProcessing::CSVProcessing(string filename, int csvtype)
 {
