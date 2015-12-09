@@ -1659,7 +1659,8 @@ void MainWindow::drawDashboard(){
         //cout << ( float(clock()-timeStart) / CLOCKS_PER_SEC ) << endl;
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// OLD METHOD
+// OLD METHOD (does not list all entries, several non-zero values incorrectly display as $0)
+// I started fixing this method before deciding to rewrite so this is not identical to its initial state.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //        vector<string> types = ((GrantProcessing *)p)->getListOfTypes();
 //        vector<int> indType, indAmount, indPeer, indBoth, indNeither, indInd, indPMember, indIMember;
@@ -1996,7 +1997,7 @@ void MainWindow::duplicateDashboard(int save)
         tree1->resize(700, 500);
     }
     else {
-        tree1->resize(700,(height+2)*17);
+        tree1->resize(700,(height+2)*18); //not exact, but pretty close (tree1->fontMetrics().height() is worse)
     }
 
     // Save the Dashboard

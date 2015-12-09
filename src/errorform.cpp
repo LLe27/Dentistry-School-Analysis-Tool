@@ -58,7 +58,7 @@ QString ErrorForm::on_openButton_clicked()
 
 void ErrorForm::on_checkButton_clicked()
 {
-    cout <<rowError.size() << endl;
+    //cout <<rowError.size() << endl;
     for(int i = 0; i < rowError.size(); i++){
 
             //If the text at this error cell has changed
@@ -109,7 +109,7 @@ void ErrorForm::popTable(vector<vector<string>> *errors){
     ui->tableWidget->setColumnCount(errors->size());
 
     for(int i = 0; i < errors->size();i++){
-         cout <<"Run" <<endl;
+         //cout <<"Run" <<endl;
         for(int j = 0; j < errors->at(i).size(); j++){
             string input;
             input = errors->at(i).at(j);
@@ -123,7 +123,7 @@ void ErrorForm::popTable(vector<vector<string>> *errors){
         }
     }
 
-    cout << errorIndicies.size() << endl;
+    //cout << errorIndicies.size() << endl;
 
     for(int i = 0; i < errorIndicies.size(); i++){
         for(int j = 0; j < ui->tableWidget->columnCount(); j++){
