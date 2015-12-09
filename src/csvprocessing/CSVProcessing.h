@@ -35,6 +35,9 @@ public:
      */
     CSVProcessing(string filename, int csvtype);
 
+    void UpdateProcessing(int type);
+    int checkType();
+
     /**
      * Returns a vector<string> of all UNIQUE member names.
      *
