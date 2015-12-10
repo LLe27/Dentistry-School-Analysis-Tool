@@ -1618,6 +1618,9 @@ void MainWindow::drawDashboard(){
                         studentEntry = ((TeachingProcessing *)p)->getStudents(i);
                         title = ((TeachingProcessing *)p)->getTitle(i);
 
+                        //default title
+                        if (title.size()<=1) title = "Unspecified";
+
                         //add node
                         treeEntry = new QTreeWidgetItem();
                         addTreeRoot(treeEntry,QString::fromStdString(title),QString::number(hourEntry,'f',2),QString::number(studentEntry,'f',2));
@@ -1955,6 +1958,7 @@ void MainWindow::duplicateDashboard(int save)
     QTreeWidgetItem* item2;
     QTreeWidgetItem* item3;
     QTreeWidgetItem* item4;
+    QTreeWidgetItem* item5;
 
     // height of the duplicate dashboard
     int height = 0;
@@ -2009,7 +2013,23 @@ void MainWindow::duplicateDashboard(int save)
                                 }
                                 if(item4->isExpanded()) {
                                     itemnew4->setExpanded(true);
-                                }                            
+                                }
+
+                                if(item4->childCount() > 0) {
+                                    // Get all 5th level items
+                                    for(int m = 0; m < item4->childCount(); m++)
+                                    {
+                                        item5 = item4->child(m);
+                                        QTreeWidgetItem* itemnew5 = new QTreeWidgetItem(itemnew4);
+                                        *itemnew5 = *item5;
+                                        if(item4->isExpanded()) {
+                                            height++;
+                                        }
+                                        if(item5->isExpanded()) {
+                                            itemnew5->setExpanded(true);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
