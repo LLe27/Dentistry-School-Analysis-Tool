@@ -235,6 +235,15 @@ public:
      */
     double getAmount(int index);
 
+    /**
+     * Return title of entry at specified index.
+     *
+     * @brief getTitle
+     * @param index
+     * @return
+     */
+    string getTitle(int index);
+
 private:
     /**
      * Populates types and typesIndices.

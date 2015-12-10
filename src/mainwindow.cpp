@@ -1667,7 +1667,7 @@ void MainWindow::drawDashboard(){
         vector<int> indType, indTypeMember;
         vector<string> members = p->getListOfMemberNames();
         vector<int> indOther = indDate;
-        int count;
+        int count, countMember;
 
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
         addTreeRoot(treeRoot,"Presentations", QString::number(indDate.size()));
@@ -1683,14 +1683,16 @@ void MainWindow::drawDashboard(){
 
             if(count){
                 for(string member : members){
+                    cout << type << "|" << member << endl;
                     indTypeMember = p->getIndicesMemberName(member,indType);
                     if(member.length()<1) type = "Unspecified";
-                    count = indTypeMember.size();
+                    countMember = indTypeMember.size();
+                    cout << "\t" << countMember << endl;
 
-                    if(count){
+                    if(countMember){
                         QTreeWidgetItem *treeItem = new QTreeWidgetItem();
                         treeItem->setText(0,QString::fromStdString(member));
-                        treeItem->setText(1,QString::number(count));
+                        treeItem->setText(1,QString::number(countMember));
                         treeBranch->addChild(treeItem);
                     }
                 }
@@ -1703,16 +1705,19 @@ void MainWindow::drawDashboard(){
         //clock_t timeStart = clock();
 
         //declarations
-        vector<int> indType, indSubtype;
-        double amountAll, amountType, amountSubtype, amountEntry;
-        string nameSubtype, nameMember;
-        QTreeWidgetItem *treeType, *treeSubtype, *treeEntry;
+        vector<int> indType, indSubtype, indMember;
+        double amountAll, amountType, amountSubtype, amountMember, amountEntry;
+        string nameSubtype, title;
+        QTreeWidgetItem *treeType, *treeSubtype, *treeMember, *treeEntry;
 
         //get list of types
         vector<string> types = ((GrantProcessing *)p)->getListOfTypes();
 
         //query for amount range first using date range
         vector<int> indIntitial = ((GrantProcessing *)p)->getIndicesAmount(ui->minText_1->text().toDouble(),ui->maxText_1->text().toDouble(),indDate);
+
+        //list of members
+        vector<string> members = p->getListOfMemberNames();
 
         //add top level node
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
@@ -1759,20 +1764,38 @@ void MainWindow::drawDashboard(){
                 addTreeRoot(treeSubtype,QString::fromStdString(nameSubtype),QString::number(indSubtype.size()),"n/a");
                 treeType->addChild(treeSubtype);
 
-                //add entries in subtypes in type in root
+                //add member in subtype in type in root
                 amountSubtype = 0;
-                for (int i : indSubtype) {
-                    //get entry amount and member name
-                    amountEntry = ((GrantProcessing *)p)->getAmount(i);
-                    nameMember = ((GrantProcessing *)p)->getMember(i);
+                for (string member : members) {
+                    indMember = p->getIndicesMemberName(member,indSubtype);
+                    if (indMember.size()) {
+                        //add node
+                        treeMember = new QTreeWidgetItem();
+                        addTreeRoot(treeMember,QString::fromStdString(member),QString::number(indMember.size()),QString::number(0));
+                        treeSubtype->addChild(treeMember);
 
-                    //add value to subtype
-                    amountSubtype += amountEntry;
+                        //add entry in member in subtype in type in root
+                        amountMember = 0;
+                        for (int i : indMember) {
+                            //get amount and title
+                            amountEntry = ((GrantProcessing *)p)->getAmount(i);
+                            title = ((GrantProcessing *)p)->getTitle(i);
 
-                    //add node
-                    treeEntry = new QTreeWidgetItem();
-                    addTreeRoot(treeEntry,QString::fromStdString(nameMember),"","$" + QString::number(amountEntry,'f',2));
-                    treeSubtype->addChild(treeEntry);
+                            //add node
+                            treeEntry = new QTreeWidgetItem();
+                            addTreeRoot(treeEntry,QString::fromStdString(title),QString::number(1),QString::number(amountEntry,'f',2));
+                            treeMember->addChild(treeEntry);
+
+                            //add to member
+                            amountMember += amountEntry;
+                        }
+
+                        //set member amounts
+                        treeMember->setText(2,QString::number(amountMember,'f',2));
+
+                        //add to subtype
+                        amountSubtype += amountMember;
+                    }
                 }
 
                 //set subtype amount
