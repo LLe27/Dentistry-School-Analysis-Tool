@@ -76,6 +76,15 @@ public:
      */
     vector<int> getIndicesType(string type, vector<int> indToConsider);
 
+    /**
+     * Return title of specified entry.
+     *
+     * @brief getTitle
+     * @param index
+     * @return
+     */
+    string getTitle(int index);
+
 private:
     /**
      * Populates types and typesIndices.

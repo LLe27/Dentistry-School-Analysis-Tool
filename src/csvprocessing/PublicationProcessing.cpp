@@ -54,7 +54,9 @@ vector<int> PublicationProcessing::getIndicesType(string type, vector<int> indTo
     return getIndicesIntersect( typesIndices.at(indType) , indToConsider );
 }
 
-
+string PublicationProcessing::getTitle(int index) {
+    return data.at(COLUMN_TITLE).at(index);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Private Functions

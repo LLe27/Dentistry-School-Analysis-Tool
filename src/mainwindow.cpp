@@ -161,7 +161,7 @@ void MainWindow::createHelpMenu()
                                "To view the dashboard in a new window, click on Window->View->Dashboard.");
 
     item6 = new QTreeWidgetItem(item3);
-    item6->setText(0, (QString)"To display a graph, first choose the proper date range and min\max \n"
+    item6->setText(0, (QString)"To display a graph, first choose the proper date range and min\\max \n"
                                "values, then click enter dates so that it displays the info in the dashboard. \n"
                                "Then choose the faculty name you would like to view graphs for or choose 'Total' \n"
                                "for all authors. Then click on the icon for the graph you would like to view.");
@@ -1490,11 +1490,12 @@ void MainWindow::drawDashboard(){
     switch(csvtype){
         case(1):{
         vector<string> types = ((PublicationProcessing *)p)->getListOfTypes();
-        string statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
+        string title, statuses[] = {"Published","Accepted / In Press","Submitted","Other"};
         vector<int> indStatus, indStatusType, indStatusTypeMember;
         vector<int> indOther = indDate;
         vector<string> members = p->getListOfMemberNames();
         int count;
+        QTreeWidgetItem *treeBranch, *treeItem, *treeChild, *treeTitle;
 
         QTreeWidgetItem *treeRoot = new QTreeWidgetItem(ui->treeWidget);
         addTreeRoot(treeRoot,"Publications", QString::number(indDate.size()));
@@ -1506,7 +1507,7 @@ void MainWindow::drawDashboard(){
             else indStatus = ((PublicationProcessing *)p)->getIndicesStatus(status,indDate);
             count = indStatus.size();
 
-            QTreeWidgetItem *treeBranch = new QTreeWidgetItem();
+            treeBranch = new QTreeWidgetItem();
             treeRoot->addChild(treeBranch);
               addTreeRoot(treeBranch,QString::fromStdString(status),QString::number(count));
 
@@ -1527,7 +1528,7 @@ void MainWindow::drawDashboard(){
                     if (type.length()<1) type = "Unspecified"; // rename the blank type
                     count = indStatusType.size();
                     if (count) {
-                        QTreeWidgetItem *treeItem = new QTreeWidgetItem();
+                        treeItem = new QTreeWidgetItem();
                         treeBranch->addChild(treeItem);
                         addTreeRoot(treeItem,QString::fromStdString(type),QString::number(count));
 
@@ -1537,10 +1538,19 @@ void MainWindow::drawDashboard(){
                             count = indStatusTypeMember.size();
                             if (count) {
                                 if (member.length()<1) member = "Unspecified"; //rename blank member
-                               QTreeWidgetItem *treeChild = new QTreeWidgetItem();
+                               treeChild = new QTreeWidgetItem();
                                treeItem->addChild(treeChild);
                                treeChild->setText(0,QString::fromStdString(member));
                                treeChild -> setText(1,QString::number(count));
+
+                               for (int i : indStatusTypeMember) {
+                                   title = ((PublicationProcessing *)p)->getTitle(i);
+                                   if (title.size()<=1) title = "Unspecified";
+                                   treeTitle = new QTreeWidgetItem();
+                                   treeChild->addChild(treeTitle);
+                                   treeTitle->setText(0,QString::fromStdString(title));
+                               }
+
                             }
                         }
                     }
