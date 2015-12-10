@@ -1566,7 +1566,6 @@ void MainWindow::drawDashboard(){
         vector<int> indIntitial, indOther, indType, indMember;
         double hourAll, studentAll, hourType, studentType, hourMember, studentMember, hourEntry, studentEntry;
         QTreeWidgetItem *treeType, *treeMember, *treeEntry;
-        int index;
         string title;
 
         //programs to group by ("Other" will serve as catch-all for anything outside the first three)
@@ -1629,7 +1628,7 @@ void MainWindow::drawDashboard(){
                         studentMember += studentEntry;
 
                         //remove index i from indOther
-                        for (int j = 0; j<indOther.size(); j++) {
+                        for (unsigned int j = 0; j<indOther.size(); j++) {
                             if (i==indOther.at(j)) {
                                 indOther.erase(indOther.begin()+j);
                                 break;
