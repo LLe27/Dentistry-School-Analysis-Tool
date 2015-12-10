@@ -35,7 +35,20 @@ public:
      */
     CSVProcessing(string filename, int csvtype);
 
+    /**
+     * Updates preprocessing.
+     *
+     * @brief UpdateProcessing
+     * @param type
+     */
     void UpdateProcessing(int type);
+
+    /**
+     * Return type.
+     *
+     * @brief checkType
+     * @return
+     */
     int checkType();
 
     /**

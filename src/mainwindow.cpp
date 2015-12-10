@@ -1563,15 +1563,18 @@ void MainWindow::drawDashboard(){
 
     case(2):{
         //declarations
-        vector<int> indIntitial, indOther, indType;
-        double hourAll, studentAll, hourType, studentType, hourEntry, studentEntry;
-        QTreeWidgetItem *treeType, *treeEntry;
+        vector<int> indIntitial, indOther, indType, indMember;
+        double hourAll, studentAll, hourType, studentType, hourMember, studentMember, hourEntry, studentEntry;
+        QTreeWidgetItem *treeType, *treeMember, *treeEntry;
         int index;
-        string nameMember;
+        string title;
 
         //programs to group by ("Other" will serve as catch-all for anything outside the first three)
         //"Other" must be last on the list
         string programs[] = {"Postgraduate Medical Education","Continuing Medical Education", "Undergraduate Medical Education", "Other" };
+
+        //get names of members
+        vector<string> members = p->getListOfMemberNames();
 
         //query items within date range which are also within student and hour ranges
         indIntitial = ((TeachingProcessing *)p)->getIndicesHours(ui->minText_1->text().toInt(),ui->maxText_1->text().toInt(),indDate);
@@ -1596,28 +1599,53 @@ void MainWindow::drawDashboard(){
             addTreeRoot(treeType,QString::fromStdString(type),QString::number(0),QString::number(0));
             treeRoot->addChild(treeType);
 
-            //add entry in type in root
+            //add member in type in root
             hourType = studentType = 0;
-            for (int i=(indType.size()-1); i>=0; i--) {
-                //store index (will need both i and index)
-                index = indType.at(i);
+            for (string member : members) {
+                indMember = p->getIndicesMemberName(member,indType);
+                if (indMember.size()) {
 
-                //get entry amount and member name
-                hourEntry = ((TeachingProcessing *)p)->getHours(index);
-                studentEntry = ((TeachingProcessing *)p)->getStudents(index);
-                nameMember = ((TeachingProcessing *)p)->getMember(index);
+                    //add node
+                    treeMember = new QTreeWidgetItem();
+                    addTreeRoot(treeMember,QString::fromStdString(member),QString::number(0),QString::number(0));
+                    treeType->addChild(treeMember);
 
-                //add node
-                treeEntry = new QTreeWidgetItem();
-                addTreeRoot(treeEntry,QString::fromStdString(nameMember),QString::number(hourEntry,'f',2),QString::number(studentEntry,'f',2));
-                treeType->addChild(treeEntry);
+                    //add entry in member in type in root
+                    hourMember = studentMember = 0;
+                    for (int i : indMember) {
 
-                //add to type
-                hourType += hourEntry;
-                studentType += studentEntry;
+                        //get entry hours, students, and title
+                        hourEntry = ((TeachingProcessing *)p)->getHours(i);
+                        studentEntry = ((TeachingProcessing *)p)->getStudents(i);
+                        title = ((TeachingProcessing *)p)->getTitle(i);
 
-                //remove from indOther
-                indOther.erase(indOther.begin()+i);
+                        //add node
+                        treeEntry = new QTreeWidgetItem();
+                        addTreeRoot(treeEntry,QString::fromStdString(title),QString::number(hourEntry,'f',2),QString::number(studentEntry,'f',2));
+                        treeMember->addChild(treeEntry);
+
+                        //add to member
+                        hourMember += hourEntry;
+                        studentMember += studentEntry;
+
+                        //remove index i from indOther
+                        for (int j = 0; j<indOther.size(); j++) {
+                            if (i==indOther.at(j)) {
+                                indOther.erase(indOther.begin()+j);
+                                break;
+                            }
+                        }
+                    }
+
+                    //set member amounts
+                    treeMember->setText(1,QString::number(hourMember,'f',2));
+                    treeMember->setText(2,QString::number(studentMember,'f',2));
+
+                    //add to type
+                    hourType += hourMember;
+                    studentType += studentMember;
+
+                }
             }
 
             //set type amounts

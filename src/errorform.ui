@@ -94,7 +94,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>&quot;Publications.csv&quot;</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

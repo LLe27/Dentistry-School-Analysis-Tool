@@ -19,6 +19,7 @@ public:
     static const int COLUMN_HOURS = 3;
     static const int COLUMN_NUMBER_STUDENTS = 4;
     static const int COLUMN_COURSE_TYPE = 5;
+    static const int COLUMN_TITLE = 6;
 
     /**
      * Constructor.
@@ -133,6 +134,15 @@ public:
      * @return
      */
     int getStudents(int index);
+
+    /**
+     * Returns title of entry at specified index.
+     *
+     * @brief getTitle
+     * @param index
+     * @return
+     */
+    string getTitle(int index);
 
 private:
     /**
